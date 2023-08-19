@@ -12,8 +12,14 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import aboutData from 'data/about.data';
 import resumeData from 'data/resume.data';
+import projectsData from 'data/projects.data';
+import ProjectDetails from 'containers/ProjectDetails';
+import { useLocation, useRoutes } from 'react-router-dom';
+import contactData from 'data/contact.data';
 function App() {
 	const [data, setData] = useState(null);
+	const [selectedProject, setSelectedProject] = useState(null)
+
 
 	useEffect(() => {
 		getData();
@@ -23,8 +29,18 @@ function App() {
 			profile: profileData,
 			about: aboutData,
 			resume: resumeData,
+			projects: projectsData,
+			contacts: contactData
 		});
 	};
+
+	const handleChangePage = (item) => {
+		if (selectedProject == null && item == null) {
+		} else {
+			setSelectedProject(item)
+		}
+	}
+
 
 	if (!data) {
 		return (
@@ -43,14 +59,15 @@ function App() {
 					data-animation-in='fadeInLeft'
 					data-animation-out='fadeOutLeft'
 				>
-					<Navbar />
+					<Navbar handleChangePage={handleChangePage} />
 					<Profile data={data.profile} />
 					<About data={data.about} />
 
 					<Resume data={data.resume} />
-					<Projects />
+					<Projects data={data.projects} handleChangePage={handleChangePage} />
+					{selectedProject && <ProjectDetails data={selectedProject} />}
 					<Blogs />
-					<Contacts />
+					<Contacts data={data.contacts} />
 				</div>
 			</div>
 

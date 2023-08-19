@@ -1,7 +1,7 @@
 import navbarData from 'data/navbar.data';
 import React from 'react';
 
-const Navbar = () => {
+const Navbar = ({ handleChangePage }) => {
 	return (
 		<header className='header'>
 			<div className='profile'>
@@ -17,8 +17,12 @@ const Navbar = () => {
 			<div className='top-menu'>
 				<ul>
 					{navbarData.map((item, index) => (
-						<li key={index} className={index === 0 ? 'active' : ''}>
-							<a href={item.path}>
+						<li
+							onClick={() => handleChangePage(null)}
+							key={index} className={index === 0 ? 'active' : ''}>
+							<a
+
+								href={item.path}>
 								<span className={item.icon} />
 								<span className='link'>{item.title}</span>
 							</a>

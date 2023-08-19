@@ -11,17 +11,17 @@ export default [
 	},
 	{
 		path: '#works-card',
-		icon: 'icon ion-paintbrush',
+		icon: 'icon fa fa-code',
 		title: 'Projects',
 	},
-	{
-		path: '#blog-card',
-		icon: 'icon ion-chatbox-working',
-		title: 'Blogs',
-	},
+	// {
+	// 	path: '#blog-card',
+	// 	icon: 'icon ion-chatbox-working',
+	// 	title: 'Blogs',
+	// },
 	{
 		path: '#contacts-card',
-		icon: 'icon ion-at',
+		icon: 'icon fa fa-envelope-o',
 		title: 'Contact',
 	},
 ];
