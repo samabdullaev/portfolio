@@ -30,9 +30,7 @@ const Blogs = ()=>{
                   <a href="blog-post-new.html" className="name">By spite about do of allow</a>
                   <div className="text">
                     <p>
-                      Ex audire suavitate has, ei quodsi tacimates sapientem
-                      sed, pri zril ubique ut. Te cule tation munere
-                      noluisse. Enim torquatos…
+                      Hello World
                     </p>
                   </div>
                 </div>
