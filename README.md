@@ -1,3 +1,13 @@
+# React Portfolio Website Template
+
+Welcome to React Portfolio – a versatile website for developers and non-developers alike. This platform is designed to showcase a diverse range of projects and creative endeavors, making technology accessible and engaging for everyone.
+
+## Features
+
+- **User-Friendly Interface**: Explore a seamless blend of cutting-edge design and easy navigation.
+- **Interactive Showcase**: Engage with interactive features that highlight coding projects and creative initiatives.
+- **Inclusive Design**: Tailored for developers and non-developers, fostering a space for curiosity and exploration.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
