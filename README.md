@@ -1,4 +1,4 @@
-# React Portfolio Website Template
+# React Portfolio Website
 
 Welcome to React Portfolio – a versatile website for developers and non-developers alike. This platform is designed to showcase a diverse range of projects and creative endeavors, making technology accessible and engaging for everyone.
 
