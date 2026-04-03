@@ -48,9 +48,5 @@ screenshots/
 # pnpm
 pnpm-lock.yaml
 
-# sanity
-sanity/node_modules/
-sanity/dist/
-sanity/.sanity/
-sanity/.next/
-sanity/package-lock.json
+# site reference (removed)
+/site/
