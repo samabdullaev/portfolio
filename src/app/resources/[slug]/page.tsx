@@ -1,30 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import resources from "@/data/resources.json";
+import { sanityFetch } from "@/lib/sanity";
 import "@/app/project-detail.css";
 
-interface ResourceItem {
-  name: string;
-  desc: string | null;
-  url: string;
-}
-
-interface ResourceSection {
-  label: string;
-  items: ResourceItem[];
-}
-
-interface Resource {
-  slug: string;
-  title: string;
-  sectionLabel: string;
-  gradient: string[];
-  items: ResourceItem[];
-  sections?: ResourceSection[];
-}
-
-export function generateStaticParams() {
-  return (resources as Resource[]).map((r) => ({ slug: r.slug }));
+export async function generateStaticParams() {
+  const all = await sanityFetch<{ slug: { current: string } }[]>(
+    `*[_type == "resourceCategory"]{ slug }`,
+  );
+  return all.map((r) => ({ slug: r.slug.current }));
 }
 
 export async function generateMetadata({
@@ -33,7 +16,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const resource = (resources as Resource[]).find((r) => r.slug === slug);
+  const resource = await sanityFetch<{ title: string } | null>(
+    `*[_type == "resourceCategory" && slug.current == $slug][0]{ title }`,
+    { slug },
+  );
   if (!resource) return {};
   return {
     title: `${resource.title} — Resources — Sam Abdullaev`,
@@ -59,7 +45,7 @@ function ExternalLinkIcon() {
   );
 }
 
-function ResourceItemList({ items }: { items: ResourceItem[] }) {
+function ResourceItemList({ items }: { items: { _key: string; name: string; desc: string | null; url: string }[] }) {
   return (
     <ul className="resource-list">
       {items.map((item) => (
@@ -83,11 +69,25 @@ export default async function ResourceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const resource = (resources as Resource[]).find((r) => r.slug === slug);
+  const resource = await sanityFetch<{
+    title: string;
+    sectionLabel: string;
+    gradientFrom: string;
+    gradientTo: string;
+    items: { _key: string; name: string; desc: string | null; url: string }[];
+    sections: { _key: string; label: string; items: { _key: string; name: string; desc: string | null; url: string }[] }[] | null;
+  } | null>(
+    `*[_type == "resourceCategory" && slug.current == $slug][0]{
+      title, sectionLabel, gradientFrom, gradientTo,
+      items[]{ _key, name, desc, url },
+      sections[]{ _key, label, items[]{ _key, name, desc, url } }
+    }`,
+    { slug },
+  );
 
   if (!resource) notFound();
 
-  const gradientStyle = `linear-gradient(135deg, ${resource.gradient[0]}, ${resource.gradient[1]})`;
+  const gradientStyle = `linear-gradient(135deg, ${resource.gradientFrom}, ${resource.gradientTo})`;
 
   return (
     <main>

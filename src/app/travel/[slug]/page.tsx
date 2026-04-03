@@ -1,36 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import travel from "@/data/travel.json";
+import { sanityFetch } from "@/lib/sanity";
 import "@/app/project-detail.css";
 
-interface TravelSection {
-  title: string;
-  items: string[];
-}
-
-interface PlaceEntry {
-  city: string;
-  places: string[];
-}
-
-interface TravelOverview {
-  citiesVisited: string[];
-  accommodation: string[];
-}
-
-interface TravelDestination {
-  slug: string;
-  title: string;
-  flag: string;
-  image: string;
-  overview: TravelOverview | null;
-  placesToTravel: PlaceEntry[] | null;
-  personalTips: string[] | null;
-  sections?: TravelSection[];
-}
-
-export function generateStaticParams() {
-  return (travel as TravelDestination[]).map((d) => ({ slug: d.slug }));
+export async function generateStaticParams() {
+  const all = await sanityFetch<{ slug: { current: string } }[]>(
+    `*[_type == "travelDestination"]{ slug }`,
+  );
+  return all.map((d) => ({ slug: d.slug.current }));
 }
 
 export async function generateMetadata({
@@ -39,7 +16,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const dest = (travel as TravelDestination[]).find((d) => d.slug === slug);
+  const dest = await sanityFetch<{ title: string } | null>(
+    `*[_type == "travelDestination" && slug.current == $slug][0]{ title }`,
+    { slug },
+  );
   if (!dest) return {};
   return {
     title: `${dest.title} — Travel — Sam Abdullaev`,
@@ -52,7 +32,22 @@ export default async function TravelDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const dest = (travel as TravelDestination[]).find((d) => d.slug === slug);
+  const dest = await sanityFetch<{
+    title: string;
+    flag: string;
+    thumbnail: { asset: { url: string } } | null;
+    overview: { citiesVisited: string[]; accommodation: string[] } | null;
+    placesToTravel: { _key: string; city: string; places: string[] }[] | null;
+    personalTips: string[] | null;
+    sections: { _key: string; title: string; items: string[] }[] | null;
+  } | null>(
+    `*[_type == "travelDestination" && slug.current == $slug][0]{
+      title, flag, thumbnail{ asset->{ url } },
+      overview, placesToTravel[]{ _key, city, places },
+      personalTips, sections[]{ _key, title, items }
+    }`,
+    { slug },
+  );
 
   if (!dest) notFound();
 
@@ -82,7 +77,7 @@ export default async function TravelDetailPage({
 
         <div className="project-gallery">
           <div className="project-gallery-main">
-            <img src={dest.image} alt={dest.title} />
+            <img src={dest.thumbnail?.asset?.url} alt={dest.title} />
           </div>
         </div>
 

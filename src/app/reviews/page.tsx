@@ -1,9 +1,21 @@
 import Link from "next/link";
-import "./reviews.css";
+import { sanityFetch } from "@/lib/sanity";
+import { SanitySlug } from "@/lib/sanity-types";
 
-const years = [2025, 2024, 2023, 2022, 2021] as const;
+interface ReviewCard {
+  year: number;
+  slug: SanitySlug;
+  gradientFrom: string;
+  gradientTo: string;
+}
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const reviews = await sanityFetch<ReviewCard[]>(
+    `*[_type == "yearlyReview"] | order(year desc){
+      year, slug, gradientFrom, gradientTo
+    }`,
+  );
+
   return (
     <main className="hub-page">
       <div className="hub-header">
@@ -12,16 +24,21 @@ export default function ReviewsPage() {
       </div>
 
       <div className="card-grid always-visible">
-        {years.map((year) => (
-          <div className="hub-card" key={year}>
-            <Link href={`/reviews/${year}`}>
+        {reviews.map((r) => (
+          <div className="hub-card" key={r.year}>
+            <Link href={`/reviews/${r.slug.current}`}>
               <div className="hub-card-inner">
                 <div className="hub-card-thumb">
-                  <div className={`hub-card-thumb-img year-${year}`} />
-                  <div className="hub-card-year">{year}</div>
+                  <div
+                    className="hub-card-thumb-img"
+                    style={{
+                      background: `linear-gradient(135deg, ${r.gradientFrom}, ${r.gradientTo})`,
+                    }}
+                  />
+                  <div className="hub-card-year">{r.year}</div>
                 </div>
                 <div className="hub-card-content">
-                  <h3>{year}</h3>
+                  <h3>{r.year}</h3>
                 </div>
               </div>
             </Link>

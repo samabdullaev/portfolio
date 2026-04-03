@@ -1,6 +1,21 @@
+import { sanityFetch } from "@/lib/sanity";
+import { SanitySlug, SanityImage } from "@/lib/sanity-types";
 import HubCard from "@/components/ui/HubCard";
 
-export default function TravelPage() {
+interface TravelCard {
+  title: string;
+  slug: SanitySlug;
+  flag: string;
+  thumbnail: SanityImage | null;
+}
+
+export default async function TravelPage() {
+  const destinations = await sanityFetch<TravelCard[]>(
+    `*[_type == "travelDestination"] | order(order asc){
+      title, slug, flag, thumbnail{ asset->{ url } }
+    }`,
+  );
+
   return (
     <main className="hub-page">
       <div className="hub-header">
@@ -9,61 +24,14 @@ export default function TravelPage() {
       </div>
 
       <div className="card-grid always-visible">
-        <HubCard
-          href="/travel/travel-tips"
-          title="Travel Tips"
-          thumbnail="/assets/travel/travel%20tips.png"
-        />
-        <HubCard
-          href="/travel/uzbekistan"
-          title="Uzbekistan 🇺🇿"
-          thumbnail="/assets/travel/uzbekistan.png"
-        />
-        <HubCard
-          href="/travel/uk"
-          title="United Kingdom 🇬🇧"
-          thumbnail="/assets/travel/uk.png"
-        />
-        <HubCard
-          href="/travel/turkey"
-          title="Turkey 🇹🇷"
-          thumbnail="/assets/travel/turkey.png"
-        />
-        <HubCard
-          href="/travel/canada"
-          title="Canada 🇨🇦"
-          thumbnail="/assets/travel/canada.png"
-        />
-        <HubCard
-          href="/travel/hungary"
-          title="Hungary 🇭🇺"
-          thumbnail="/assets/travel/hungary.png"
-        />
-        <HubCard
-          href="/travel/france"
-          title="France 🇫🇷"
-          thumbnail="/assets/travel/france.png"
-        />
-        <HubCard
-          href="/travel/belgium"
-          title="Belgium 🇧🇪"
-          thumbnail="/assets/travel/belgium.png"
-        />
-        <HubCard
-          href="/travel/netherlands"
-          title="Netherlands 🇳🇱"
-          thumbnail="/assets/travel/netherlands.png"
-        />
-        <HubCard
-          href="/travel/spain"
-          title="Spain 🇪🇸"
-          thumbnail="/assets/travel/spain.png"
-        />
-        <HubCard
-          href="/travel/switzerland"
-          title="Switzerland 🇨🇭"
-          thumbnail="/assets/travel/switzerland.png"
-        />
+        {destinations.map((d) => (
+          <HubCard
+            key={d.slug.current}
+            href={`/travel/${d.slug.current}`}
+            title={`${d.title}${d.flag ? ` ${d.flag}` : ""}`}
+            thumbnail={d.thumbnail?.asset?.url}
+          />
+        ))}
       </div>
     </main>
   );

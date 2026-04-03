@@ -1,23 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import reviews from "@/data/reviews.json";
+import { sanityFetch } from "@/lib/sanity";
 import Gallery from "@/components/ui/Gallery";
 import "@/app/project-detail.css";
 
-interface ReviewSection {
-  title: string;
-  items: string[];
-}
-
-interface Review {
-  slug: string;
-  year: number;
-  gradient: string[];
-  sections: ReviewSection[];
-}
-
-export function generateStaticParams() {
-  return (reviews as Review[]).map((r) => ({ year: r.slug }));
+export async function generateStaticParams() {
+  const all = await sanityFetch<{ slug: { current: string } }[]>(
+    `*[_type == "yearlyReview"]{ slug }`,
+  );
+  return all.map((r) => ({ year: r.slug.current }));
 }
 
 export async function generateMetadata({
@@ -26,7 +17,10 @@ export async function generateMetadata({
   params: Promise<{ year: string }>;
 }) {
   const { year } = await params;
-  const review = (reviews as Review[]).find((r) => r.slug === year);
+  const review = await sanityFetch<{ year: number } | null>(
+    `*[_type == "yearlyReview" && slug.current == $year][0]{ year }`,
+    { year },
+  );
   if (!review) return {};
   return {
     title: `${review.year} Yearly Review — Sam Abdullaev`,
@@ -39,11 +33,22 @@ export default async function ReviewDetailPage({
   params: Promise<{ year: string }>;
 }) {
   const { year } = await params;
-  const review = (reviews as Review[]).find((r) => r.slug === year);
+  const review = await sanityFetch<{
+    year: number;
+    gradientFrom: string;
+    gradientTo: string;
+    sections: { _key: string; title: string; items: string[] }[];
+  } | null>(
+    `*[_type == "yearlyReview" && slug.current == $year][0]{
+      year, gradientFrom, gradientTo,
+      sections[]{ _key, title, items }
+    }`,
+    { year },
+  );
 
   if (!review) notFound();
 
-  const gradientValue = `linear-gradient(135deg, ${review.gradient[0]}, ${review.gradient[1]})`;
+  const gradientValue = `linear-gradient(135deg, ${review.gradientFrom}, ${review.gradientTo})`;
 
   const galleryItems = [
     { type: "gradient" as const, src: gradientValue },
