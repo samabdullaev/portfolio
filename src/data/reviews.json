@@ -1,0 +1,662 @@
+[
+  {
+    "slug": "2021",
+    "year": 2021,
+    "gradient": ["#4285F4", "#EA4335"],
+    "sections": [
+      {
+        "title": "overview",
+        "items": [
+          "Transition from school to university",
+          "Moved to the UK and started university life",
+          "Began journey in programming and tech"
+        ]
+      },
+      {
+        "title": "March 2021",
+        "items": [
+          "Scored 1110 in SAT",
+          "Continued preparation for university applications"
+        ]
+      },
+      {
+        "title": "May 2021",
+        "items": [
+          "Graduated from school with Gold Medal"
+        ]
+      },
+      {
+        "title": "June – August 2021",
+        "items": [
+          "Completed university application process",
+          "Prepared for moving abroad"
+        ]
+      },
+      {
+        "title": "September 2021",
+        "items": [
+          "Moved to Hatfield, UK",
+          "Started studies at University of Hertfordshire",
+          "Began adapting to a new environment and student life"
+        ]
+      },
+      {
+        "title": "October 2021",
+        "items": [
+          "Started 1st year of university",
+          "Began learning: Python, SQL, C, Academic Writing, Research skills"
+        ]
+      },
+      {
+        "title": "November 2021",
+        "items": [
+          "Created LinkedIn account",
+          "Started building professional online presence"
+        ]
+      },
+      {
+        "title": "December 2021",
+        "items": [
+          "Joined LiveTalks TV Telegram channel",
+          "Started solving problems on LeetCode",
+          "Began consistent practice in programming"
+        ]
+      },
+      {
+        "title": "October 2021 – May 2022 (Ongoing Progress)",
+        "items": [
+          "Maintained strong academic performance (4.38 GPA)",
+          "Completed 100 Days of Code – Python (Day 30)",
+          "Completed CS50P (almost complete)",
+          "Completed CS50 (half completed)"
+        ]
+      },
+      {
+        "title": "key takeaways",
+        "items": [
+          "Moving abroad builds independence and adaptability",
+          "Consistency in learning is more important than intensity",
+          "Starting early with platforms like GitHub, LinkedIn, and LeetCode is valuable",
+          "Strong foundations in programming set up future growth"
+        ]
+      },
+      {
+        "title": "focus for next year",
+        "items": [
+          "Complete remaining courses (CS50P, CS50)",
+          "Improve problem-solving skills",
+          "Build and publish projects on GitHub",
+          "Continue academic excellence"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "2022",
+    "year": 2022,
+    "gradient": ["#FBBC05", "#EA4335"],
+    "sections": [
+      {
+        "title": "overview",
+        "items": [
+          "Continued university journey with strong academic performance",
+          "Focused on building technical skills, certifications, and hackathon experience",
+          "Became more active in competitions, extracurriculars, and career platforms"
+        ]
+      },
+      {
+        "title": "January 2022",
+        "items": [
+          "Created GitHub account",
+          "Started organizing and sharing code/projects"
+        ]
+      },
+      {
+        "title": "February – March 2022",
+        "items": [
+          "Continued university studies",
+          "Progressed in programming foundations (Python, SQL, C)",
+          "Continued self-learning alongside coursework"
+        ]
+      },
+      {
+        "title": "April 2022",
+        "items": [
+          "Started LinkedIn Learning courses (part of 29 completed by November)",
+          "Focused on improving technical and professional skills"
+        ]
+      },
+      {
+        "title": "May 2022",
+        "items": [
+          "Traveled to Uzbekistan",
+          "Completed 1st year of university with 4.38 GPA"
+        ]
+      },
+      {
+        "title": "June – July 2022",
+        "items": [
+          "Passed PCEP (Certified Entry-Level Python Programmer)",
+          "Passed PCAP (Certified Associate Python Programmer)"
+        ]
+      },
+      {
+        "title": "August 2022",
+        "items": [
+          "Completed 4 courses on Coursera",
+          "Created Handshake account (career platform)"
+        ]
+      },
+      {
+        "title": "September 2022",
+        "items": [
+          "Started solving problems on HackerRank",
+          "Began Go Herts Award application",
+          "Ranked Top 400 in Meta Global Hackathon"
+        ]
+      },
+      {
+        "title": "October 2022",
+        "items": [
+          "Participated in Code for Good Hackathon (JP Morgan)",
+          "Started Taekwondo & Table Tennis at university"
+        ]
+      },
+      {
+        "title": "November 2022",
+        "items": [
+          "Completed 5 courses on Forage",
+          "Participated in Autumn BUCS Championship (Taekwondo)",
+          "Completed total of 29 LinkedIn Learning courses"
+        ]
+      },
+      {
+        "title": "December 2022",
+        "items": [
+          "Won UniHack 2022 – Tech Track",
+          "Received High Achiever Award (2021/22 Academic Year) at University of Hertfordshire"
+        ]
+      },
+      {
+        "title": "ongoing learning (throughout the year)",
+        "items": [
+          "100 Days of Code – Python (Day 30)",
+          "CS50P (almost complete)",
+          "CS50 (half completed)"
+        ]
+      },
+      {
+        "title": "key takeaways",
+        "items": [
+          "Certifications (PCEP, PCAP) helped validate programming skills",
+          "Hackathons and competitions accelerated real-world experience",
+          "Consistency across multiple platforms (LinkedIn Learning, Forage, HackerRank) built strong foundations",
+          "Balancing academics, coding, and extracurriculars is achievable with discipline"
+        ]
+      },
+      {
+        "title": "focus for next year",
+        "items": [
+          "Build more real-world projects",
+          "Deepen problem-solving skills (HackerRank / LeetCode)",
+          "Participate in more hackathons and competitions",
+          "Continue combining academics with practical experience"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "2023",
+    "year": 2023,
+    "gradient": ["#34A853", "#4285F4"],
+    "sections": [
+      {
+        "title": "overview",
+        "items": [
+          "One of the most transformative years: study abroad, internships, travel, and achievements",
+          "Combined academics, real-world experience, and personal growth",
+          "Key themes: international exposure, consistency, and building real projects"
+        ]
+      },
+      {
+        "title": "January 2023",
+        "items": [
+          "Completed Springpod course",
+          "Applied for Study Abroad program",
+          "Finished 1st semester at University of Hertfordshire"
+        ]
+      },
+      {
+        "title": "February 2023",
+        "items": [
+          "Launched portfolio website",
+          "Published first article on Medium",
+          "Won 2 silver medals in Winter BUCS Taekwondo Championship"
+        ]
+      },
+      {
+        "title": "March 2023",
+        "items": [
+          "Won 1 gold, 1 silver, 1 bronze in Spring BUCS Taekwondo Championship",
+          "Continued academic and personal development"
+        ]
+      },
+      {
+        "title": "April 2023",
+        "items": [
+          "Joined Actible Inc. as a Frontend Developer Intern",
+          "Faced and managed health issue (finger)"
+        ]
+      },
+      {
+        "title": "March – May 2023",
+        "items": [
+          "Joined ProjectSet masterclasses"
+        ]
+      },
+      {
+        "title": "May 2023",
+        "items": [
+          "Participated in Taekwondo grading & sparring competition",
+          "Got admitted to Concordia University (Exchange Program)"
+        ]
+      },
+      {
+        "title": "June 2023",
+        "items": [
+          "Attended ProjectSet Skills Bootcamp",
+          "Traveled across the UK (3 weeks, 10 cities) with father",
+          "Achieved Gold Go Herts Award at University of Hertfordshire",
+          "CAQ approved (Canada)",
+          "Applied for Canada Study Permit and submitted passport",
+          "Finished Frontend Developer Internship at Actible Inc."
+        ]
+      },
+      {
+        "title": "July 2023",
+        "items": [
+          "Completed Internship Experience UK 2023",
+          "Traveled across UK (1 week) & Turkey (1 week) with mother",
+          "Started working as Frontend Developer at Cloud Initiatives Inc. and Storeling Co.",
+          "Returned to Uzbekistan"
+        ]
+      },
+      {
+        "title": "August 2023",
+        "items": [
+          "Built React projects",
+          "Collaborated with Sayyod brother",
+          "Searched for accommodation in Canada"
+        ]
+      },
+      {
+        "title": "September 2023",
+        "items": [
+          "Moved to Canada (Montreal)",
+          "Visited relatives",
+          "Started studying at Concordia University",
+          "Moved into Campus1 MTL"
+        ]
+      },
+      {
+        "title": "October 2023",
+        "items": [
+          "Finished internship at Cloud Initiatives Inc.",
+          "Participated in EducationUSA Fair",
+          "Started posting LeetCode solutions",
+          "Earned SQL badge (LeetCode)",
+          "Volunteered at Concordia Open House",
+          "Published 3 Medium articles"
+        ]
+      },
+      {
+        "title": "November 2023",
+        "items": [
+          "Spent 45+ hours on ecommerce project",
+          "Completed 1 LeetCode Explore Card",
+          "Attended Build Stuff 2023 Conference",
+          "Published 1 Medium article"
+        ]
+      },
+      {
+        "title": "December 2023",
+        "items": [
+          "Earned Harvard SQL & Python Certificates",
+          "Earned 4 LeetCode badges",
+          "Completed 1 LeetCode Explore Card",
+          "Started Telegram channel to help school students",
+          "Hosted 1st webinar",
+          "Published 1 Medium article",
+          "Completed 1st semester abroad (Canada)",
+          "Brother moved to Canada with family"
+        ]
+      },
+      {
+        "title": "academic year (Oct 2022 – May 2023)",
+        "items": [
+          "Completed 2nd year with 4.19 GPA",
+          "Learned: HTML, CSS, JavaScript, Algorithms & Data Structures, Artificial Intelligence, Arduino, C, SQL, Operating Systems (Cisco), Java"
+        ]
+      },
+      {
+        "title": "ongoing activities (throughout the year)",
+        "items": [
+          "Participated in events via Handshake (Sep 2022 – May 2023)",
+          "Continued LeetCode practice and learning",
+          "Consistently wrote and shared knowledge via Medium"
+        ]
+      },
+      {
+        "title": "key takeaways",
+        "items": [
+          "Real-world experience (internships + freelance) is as important as academics",
+          "Travel and studying abroad significantly expand perspective",
+          "Consistency in content creation (Medium, LeetCode, teaching) builds long-term value",
+          "Balancing multiple areas (study, work, sports, travel) is possible with discipline"
+        ]
+      },
+      {
+        "title": "focus for next year",
+        "items": [
+          "Continue building impactful projects (e.g., ecommerce and beyond)",
+          "Grow technical depth in full-stack development",
+          "Stay consistent with content creation and teaching",
+          "Expand professional experience in tech roles"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "2024",
+    "year": 2024,
+    "gradient": ["#EA4335", "#FBBC05"],
+    "sections": [
+      {
+        "title": "overview",
+        "items": [
+          "A year focused on consistency, discipline, and steady growth",
+          "Balanced academics, part-time work, and personal development",
+          "Key theme: small steps every day lead to long-term progress"
+        ]
+      },
+      {
+        "title": "January – July 2024",
+        "items": [
+          "Continued exchange program at Concordia University (Canada)",
+          "Maintained consistent practice on LeetCode and GitHub",
+          "Organized 5+ events to guide school students",
+          "Published monthly updates on LinkedIn (part of 12 total in the year)",
+          "Secured 4th place in Hacknovation 2024 (Uzbekistan)"
+        ]
+      },
+      {
+        "title": "August 2024",
+        "items": [
+          "Started working part-time at Cloud Initiatives Inc.",
+          "Began contributing to CourseMatix project (education platform)",
+          "Participated in daily standup meetings",
+          "Learned GitLab workflows and version control practices",
+          "Created branches & pull requests (PRs) for structured development",
+          "Built skeleton loaders for better UX",
+          "Worked with React components (React Select, Tailwind DateRangePicker)",
+          "Solved CSS conflict issue by adjusting Tailwind file order"
+        ]
+      },
+      {
+        "title": "September 2024",
+        "items": [
+          "Continued work on CourseMatix",
+          "Debugged performance issues (e.g., react-apexcharts)",
+          "Used Chrome DevTools Lighthouse for optimization",
+          "Learned TypeScript basics",
+          "Worked with APIs and integrations",
+          "Improved UI components and overall frontend quality"
+        ]
+      },
+      {
+        "title": "October 2024",
+        "items": [
+          "Focused on refining frontend development skills",
+          "Deployed project to production (mid-October)",
+          "Fixed student detail page layouts",
+          "Redesigned student info sections (UX improvements)",
+          "Implemented custom color system for maintainability",
+          "Cleaned up unused code and files"
+        ]
+      },
+      {
+        "title": "November 2024",
+        "items": [
+          "Started building MVP for a new project",
+          "Technologies & Tools: Next.js, TypeScript, Shadcn UI",
+          "Used Slack for team communication",
+          "Used Figma & Lucidchart for design and architecture",
+          "Used Postman for API testing"
+        ]
+      },
+      {
+        "title": "December 2024",
+        "items": [
+          "Developed sports web app MVP (U.S. market)",
+          "Core features: team creation & invitations, match scheduling & gameplay flow, event management, discovering live matches nearby",
+          "Completed Phase 1 (MVP delivery)",
+          "Started UAT testing and refinements"
+        ]
+      },
+      {
+        "title": "key lessons from senior developers",
+        "items": [
+          "Prioritize solutions over blame — focus on progress",
+          "Focus on high-impact features, avoid over-engineering",
+          "Stay patient, ask clear questions, and communicate well"
+        ]
+      },
+      {
+        "title": "academic progress",
+        "items": [
+          "Completed 1-year exchange program (Concordia University)",
+          "Started final year in Artificial Intelligence at University of Hertfordshire"
+        ]
+      },
+      {
+        "title": "ongoing activities (throughout the year)",
+        "items": [
+          "Daily consistency in LeetCode problem solving and GitHub contributions",
+          "Published 12 LinkedIn monthly updates",
+          "Continued mentoring and guiding students"
+        ]
+      },
+      {
+        "title": "key takeaways",
+        "items": [
+          "Consistency beats intensity — small daily progress compounds",
+          "Real-world development is about communication, prioritization, and teamwork",
+          "Debugging and problem-solving are core to becoming a strong developer",
+          "Teaching others reinforces your own understanding"
+        ]
+      },
+      {
+        "title": "focus for next year",
+        "items": [
+          "Keep showing up every day with consistency",
+          "Build more scalable, production-level projects",
+          "Strengthen full-stack and system design skills",
+          "Continue growing towards top tech opportunities (e.g., Google)"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "2025",
+    "year": 2025,
+    "gradient": ["#4285F4", "#34A853"],
+    "sections": [
+      {
+        "title": "overview",
+        "items": [
+          "A year focused on execution, job search, and real-world experience",
+          "Balanced final year of university, projects, and high-volume applications",
+          "Key theme: consistency under pressure"
+        ]
+      },
+      {
+        "title": "January 2025",
+        "items": [
+          "Continued final year at university",
+          "Worked part-time (~50+ hrs across weeks)",
+          "Submitted exams and assignments",
+          "Posted actively on LinkedIn",
+          "Finished 1st semester"
+        ]
+      },
+      {
+        "title": "February 2025",
+        "items": [
+          "Attended university classes",
+          "Applied to 24+ graduate roles",
+          "Completed online assessments (e.g., Citadel, Experian, Amazon)",
+          "Competed in Taekwondo competition",
+          "Published Medium article",
+          "Visited careers center for CV/LinkedIn review"
+        ]
+      },
+      {
+        "title": "March 2025",
+        "items": [
+          "Continued university classes and assignments",
+          "Applied to graduate/full-time roles",
+          "Published Medium + LinkedIn article",
+          "Traveled in London",
+          "Competed in Taekwondo competition"
+        ]
+      },
+      {
+        "title": "April 2025",
+        "items": [
+          "Submitted assignments and prepared for exams",
+          "Attended university classes",
+          "Got referral for Software Engineer role (Ravelin)",
+          "Published LinkedIn monthly article",
+          "Published Medium article",
+          "Explored tools: Magic UI, Shadcn, Featurebase"
+        ]
+      },
+      {
+        "title": "May 2025",
+        "items": [
+          "Finished all university coursework",
+          "Started AI Product Engineer course",
+          "Worked on personal projects (50+ hrs)",
+          "Worked on Actyble project (~20+ hrs)",
+          "Applied to 100+ jobs (peak application period)",
+          "Continued daily job search + research"
+        ]
+      },
+      {
+        "title": "June 2025",
+        "items": [
+          "Attended London Tech Week and CS50 Hackathon at Meta (London)",
+          "Practiced system design (5+ applications)",
+          "Applied to 100+ jobs",
+          "Networked with university graduates and Uzbek students",
+          "Applied to international opportunities (e.g., Japan internships)"
+        ]
+      },
+      {
+        "title": "July 2025",
+        "items": [
+          "Worked on projects with Sayyod (~100+ hrs total)",
+          "Started President Tech Award project",
+          "Bought personal domain: samabdullaev.com",
+          "Registered for graduation",
+          "Published LinkedIn monthly article",
+          "Applied for AI Talent Registry (AICA)"
+        ]
+      },
+      {
+        "title": "August 2025",
+        "items": [
+          "Achieved First Class degree result",
+          "Prepared Graduate Visa application",
+          "Published 7+ Medium articles (project series) and LinkedIn monthly article",
+          "Applied to 100+ jobs",
+          "Had phone calls with recruiters",
+          "Applied to Yandex ML School Uzbekistan",
+          "Tailored CV/LinkedIn for frontend + AI roles"
+        ]
+      },
+      {
+        "title": "September 2025",
+        "items": [
+          "Continued job search and networking",
+          "Attended meetings with students in the UK",
+          "Visited teachers",
+          "Focused on personal matters and health (dentist visits)"
+        ]
+      },
+      {
+        "title": "October 2025",
+        "items": [
+          "Applied to 80+ jobs",
+          "Worked on Actyble project (~30 hrs) and UzTech Devs project (~25 hrs total)",
+          "Published LinkedIn monthly article",
+          "Managed health appointments (hospital, dentist)"
+        ]
+      },
+      {
+        "title": "November 2025",
+        "items": [
+          "Applied for Schengen Visa",
+          "Applied to 50+ jobs",
+          "Worked on Shirin project (~20 hrs) and Megatour (~10 hrs)",
+          "Continued freelance/project-based work",
+          "Traveled to Tashkent"
+        ]
+      },
+      {
+        "title": "December 2025",
+        "items": [
+          "Published LinkedIn monthly article",
+          "Continued job search and project work",
+          "Maintained consistency despite fewer visible milestones"
+        ]
+      },
+      {
+        "title": "academic milestone",
+        "items": [
+          "Completed final year of Artificial Intelligence degree",
+          "Achieved First Class Honours"
+        ]
+      },
+      {
+        "title": "ongoing activities (throughout the year)",
+        "items": [
+          "High-volume job applications (hundreds across the year)",
+          "Consistent LinkedIn monthly posts",
+          "Continued Medium writing (project-based content)",
+          "Regular project development (frontend + AI)",
+          "Networking with recruiters, graduates, and students"
+        ]
+      },
+      {
+        "title": "key takeaways",
+        "items": [
+          "Job search requires volume, patience, and resilience",
+          "Real growth comes from building + applying simultaneously",
+          "Networking and referrals significantly increase opportunities",
+          "Consistency matters even when results are delayed",
+          "Health and balance are critical during intense periods"
+        ]
+      },
+      {
+        "title": "focus for next year",
+        "items": [
+          "Secure a full-time role in tech (Frontend / AI)",
+          "Continue building high-impact, real-world projects",
+          "Strengthen system design and advanced engineering skills",
+          "Stay consistent with content creation and personal branding"
+        ]
+      }
+    ]
+  }
+]

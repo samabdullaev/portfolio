@@ -1,4 +1,3 @@
-import CardGrid from "@/components/ui/CardGrid";
 import HubCard from "@/components/ui/HubCard";
 
 const personalProjects = [
@@ -122,7 +121,7 @@ export default function ProjectsPage() {
         <div className="section-header">
           <h2>Personal</h2>
         </div>
-        <CardGrid>
+        <div className="card-grid always-visible">
           {personalProjects.map((project) => (
             <HubCard
               key={project.href}
@@ -132,14 +131,14 @@ export default function ProjectsPage() {
               thumbnail={project.thumbnail}
             />
           ))}
-        </CardGrid>
+        </div>
       </div>
 
       <div className="topic-section">
         <div className="section-header">
           <h2>Freelance</h2>
         </div>
-        <CardGrid>
+        <div className="card-grid always-visible">
           {freelanceProjects.map((project) => (
             <HubCard
               key={project.href}
@@ -149,14 +148,14 @@ export default function ProjectsPage() {
               thumbnail={project.thumbnail}
             />
           ))}
-        </CardGrid>
+        </div>
       </div>
 
       <div className="topic-section">
         <div className="section-header">
           <h2>Hackathon</h2>
         </div>
-        <CardGrid>
+        <div className="card-grid always-visible">
           {hackathonProjects.map((project) => (
             <HubCard
               key={project.href}
@@ -166,7 +165,7 @@ export default function ProjectsPage() {
               thumbnail={project.thumbnail}
             />
           ))}
-        </CardGrid>
+        </div>
       </div>
     </main>
   );

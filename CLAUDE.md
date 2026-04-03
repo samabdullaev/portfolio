@@ -7,7 +7,7 @@
 | **Owner** | Sam Abdullaev — Frontend Software Engineer |
 | **Purpose** | Personal portfolio showcasing projects, blog, travel, certificates, mentorship, and more |
 | **Current State** | Static HTML/CSS/JS site in `site/` (50 HTML files, 9 CSS files, 150+ assets) |
-| **Target State** | Next.js app (this repo) + Sanity CMS (separate repo) |
+| **Target State** | Next.js app (this repo) + JSON data files + API routes (Sanity deferred) |
 | **Tech Stack** | Next.js 16.2, React 19, TypeScript, Tailwind v4, Sanity |
 | **Design** | Light (#fff7f3) / Dark (#171717) theming, Inter font, responsive (5 breakpoints) |
 
@@ -131,27 +131,43 @@ site/
 ### App Router Structure
 
 ```
-src/app/
-├── layout.tsx                         ← Root layout: Navbar, Footer, ThemeProvider
-├── page.tsx                           ← Home (hero)
-├── about/page.tsx                     ← About
-├── blog/page.tsx                      ← Blog hub
-├── projects/
-│   ├── page.tsx                       ← Projects hub
-│   └── [slug]/page.tsx                ← Project detail
-├── journey/page.tsx                   ← Journey hub
-├── resources/
-│   ├── page.tsx                       ← Resources hub
-│   └── [slug]/page.tsx                ← Resource detail
-├── certificates/page.tsx              ← Certificates hub
-├── travel/
-│   ├── page.tsx                       ← Travel hub
-│   └── [slug]/page.tsx                ← Travel detail
-├── reviews/
-│   ├── page.tsx                       ← Reviews hub
-│   └── [year]/page.tsx                ← Review detail
-├── mentorship/page.tsx                ← Mentorship hub
-└── globals.css                        ← Tailwind + CSS variables
+src/
+├── app/
+│   ├── layout.tsx                     ← Root layout: Navbar, Footer, ThemeProvider
+│   ├── page.tsx                       ← Home (hero)
+│   ├── globals.css                    ← Tailwind + CSS variables + all shared styles
+│   ├── project-detail.css             ← Detail page styles (project, resource, travel, review)
+│   ├── about/page.tsx                 ← About
+│   ├── blog/page.tsx                  ← Blog hub
+│   ├── projects/
+│   │   ├── page.tsx                   ← Projects hub
+│   │   └── [slug]/page.tsx            ← Project detail
+│   ├── journey/page.tsx               ← Journey hub
+│   ├── resources/
+│   │   ├── page.tsx                   ← Resources hub
+│   │   └── [slug]/page.tsx            ← Resource detail
+│   ├── certificates/
+│   │   ├── page.tsx                   ← Certificates hub (grouped by issuer)
+│   │   └── certificates.css           ← Certificate modal styles
+│   ├── travel/
+│   │   ├── page.tsx                   ← Travel hub
+│   │   └── [slug]/page.tsx            ← Travel detail
+│   ├── reviews/
+│   │   ├── page.tsx                   ← Reviews hub
+│   │   ├── reviews.css                ← Year gradient styles
+│   │   └── [year]/page.tsx            ← Review detail
+│   ├── mentorship/page.tsx            ← Mentorship hub
+│   └── api/                           ← API routes (JSON data endpoints)
+│       ├── projects/[slug]/route.ts
+│       ├── resources/[slug]/route.ts
+│       ├── travel/[slug]/route.ts
+│       └── reviews/[year]/route.ts
+├── data/                              ← JSON data files (source of truth until Sanity)
+│   ├── projects.json                  ← 14 projects
+│   ├── resources.json                 ← 11 resource categories
+│   ├── travel.json                    ← 11 destinations
+│   └── reviews.json                   ← 5 yearly reviews
+└── components/                        ← (see Shared Components below)
 ```
 
 ### Shared Components
@@ -163,13 +179,13 @@ src/components/
 │   └── Footer.tsx                     ← Copyright footer
 ├── ui/
 │   ├── ThemeProvider.tsx              ← Dark/light mode context + localStorage
-│   ├── CardGrid.tsx                   ← Reusable grid with "Show all" expansion
+│   ├── TopicSection.tsx               ← Section with header + card grid + Show All/Show Less
+│   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
-│   ├── Modal.tsx                      ← Shared modal (Escape, click-outside)
 │   ├── Gallery.tsx                    ← Main image + thumbnail strip + video modal
+│   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
-│   ├── SocialTile.tsx                 ← Icon tile with brand-color hover
-│   └── FilterBar.tsx                  ← Pill-style filter buttons (certificates)
+│   └── SocialTile.tsx                 ← Icon tile with brand-color hover
 └── sections/
     ├── HeroSection.tsx                ← Home page hero
     ├── AboutSection.tsx               ← Bio with photo + expand buttons
@@ -204,76 +220,4 @@ src/components/
 
 ## Task List
 
-### Phase 1: Foundation
-- [x] Replace existing `globals.css` with portfolio design system (CSS variables, Inter font, light/dark tokens)
-- [x] Create `ThemeProvider.tsx` — client component with `localStorage` + system preference detection
-- [x] Create `Navbar.tsx` — sticky nav, logo link, dropdown menus (Writing/Life/Learning), active states, theme toggle, mobile responsive with fixed dropdowns
-- [x] Create `Footer.tsx` — centered copyright text
-- [x] Update `layout.tsx` — wrap children with ThemeProvider, Navbar, Footer; flex column with `min-height: 100dvh`
-- [x] Set up Tailwind v4 theme tokens to match CSS variables (colors, fonts, breakpoints)
-
-### Phase 2: Home & About Pages (CMS-driven)
-- [x] Create `src/app/page.tsx` — hero section: profile photo, name, title, location, social tiles, resume download, CTA button
-- [x] Create `SocialTile.tsx` — icon tile with brand-color hover (LinkedIn blue, GitHub neutral, Medium neutral)
-- [x] Create `src/app/about/page.tsx` — about page with bio, contributions, hobbies
-- [x] Create about-row layout — side-by-side (text left, sticky photo right), mobile stacks photo first
-- [x] Create `ExpandText.tsx` — paragraph with inline expand button, fade-in animation for hidden content
-- [x] Create `ContributionsGrid.tsx` — 2-column grid of linked cards with emoji + title + description
-- [x] Create `HobbiesList.tsx` — flex-wrap pill list with emoji + label
-
-### Phase 3: Hub Pages
-- [x] Create `CardGrid.tsx` — reusable grid (4 → 2 → 1 col) with "Show all / Show less" toggle, configurable initial count
-- [x] Create `HubCard.tsx` — thumbnail (16:9) + title + optional subtitle/meta
-- [x] Create `src/app/projects/page.tsx` — 3 category sections (Personal/Freelance/Hackathon), each with CardGrid
-- [x] Create `src/app/blog/page.tsx` — 4 series sections with CardGrid. Articles link to external Medium URLs
-- [x] Create `src/app/journey/page.tsx` — year-grouped sections with CardGrid. Cards link to LinkedIn
-- [x] Create `src/app/resources/page.tsx` — category-grouped sections with CardGrid
-- [x] Create `src/app/certificates/page.tsx` — filterable grid + modal viewer
-- [x] Create `FilterBar.tsx` — pill-style filter buttons with active state (inline in certificates)
-- [x] Create certificate `Modal.tsx` — image viewer overlay with title, date, close on Escape/click-outside (inline in certificates)
-- [x] Create `src/app/travel/page.tsx` — country card grid with thumbnails
-- [x] Create `src/app/reviews/page.tsx` — year cards with gradient backgrounds
-- [x] Create `src/app/mentorship/page.tsx` — article card grid
-
-### Phase 4: Detail Pages
-- [ ] Create `src/app/projects/[slug]/page.tsx` — back link, category badge, gallery, about, features, tech pills, metadata, links. Fetch from Sanity by slug
-- [ ] Create `Gallery.tsx` — main image display + thumbnail strip, click to swap. Support video thumbnails
-- [ ] Create video modal — iframe overlay, autoplay on open, close on Escape/click-outside/close button
-- [ ] Create `src/app/resources/[slug]/page.tsx` — back link, title, description, resource list with external links. Fetch from Sanity
-- [ ] Create `src/app/travel/[slug]/page.tsx` — back link, country header, gallery, content sections. Fetch from Sanity
-- [ ] Create `src/app/reviews/[year]/page.tsx` — back link, year title, review content. Fetch from Sanity
-- [ ] Generate static params for all detail routes using `generateStaticParams()`
-
-### Phase 5: Sanity Setup (separate repo)
-- [ ] Initialize Sanity project with Studio
-- [ ] Create schema: `homePage` (singleton) — name, title, subtitle, location, profileImage, socials, resumeFile, ctaLinks
-- [ ] Create schema: `aboutPage` (singleton) — profileImage, bioParagraphs, contributions, hobbies
-- [ ] Create schema: `project` — all fields from mapping above
-- [ ] Create schema: `blogSeries` + `blogArticle`
-- [ ] Create schema: `resourceCategory`
-- [ ] Create schema: `certificate`
-- [ ] Create schema: `travelDestination`
-- [ ] Create schema: `yearlyReview`
-- [ ] Create schema: `journeyUpdate`
-- [ ] Create schema: `mentorshipArticle`
-- [ ] Create schema: `siteSettings` (singleton)
-- [ ] Populate all content from static site into Sanity
-
-### Phase 6: Sanity Integration (this repo)
-- [ ] Install `next-sanity` and `@sanity/image-url` packages
-- [ ] Create `src/lib/sanity/client.ts` — Sanity client configuration
-- [ ] Create `src/lib/sanity/queries.ts` — GROQ queries for each page
-- [ ] Create `src/lib/sanity/image.ts` — image URL builder helper
-- [ ] Wire up all pages to fetch from Sanity instead of hardcoded data
-- [ ] Migrate static images from `site/assets/` to Sanity CDN
-- [ ] Set up ISR or on-demand revalidation for content updates
-
-### Phase 7: Polish & Deploy
-- [ ] Add `<head>` metadata + OG images for all pages
-- [ ] Add `next/image` optimization for all images
-- [ ] Lazy-load offscreen card grids and images
-- [ ] Test full light/dark mode across all pages
-- [ ] Test responsive layout at all 5 breakpoints
-- [ ] Run Lighthouse audit and fix performance issues
-- [ ] Configure deployment (Vercel)
-- [ ] Set up Sanity webhook for on-demand revalidation
+See [PLAN.md](./PLAN.md) for the full task list with progress tracking.

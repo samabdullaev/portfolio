@@ -1,4 +1,3 @@
-import CardGrid from "@/components/ui/CardGrid";
 import HubCard from "@/components/ui/HubCard";
 
 export default function TravelPage() {
@@ -9,7 +8,7 @@ export default function TravelPage() {
         <p className="hub-subtitle">Countries and places I&apos;ve explored</p>
       </div>
 
-      <CardGrid>
+      <div className="card-grid always-visible">
         <HubCard
           href="/travel/travel-tips"
           title="Travel Tips"
@@ -65,7 +64,7 @@ export default function TravelPage() {
           title="Switzerland 🇨🇭"
           thumbnail="/assets/travel/switzerland.png"
         />
-      </CardGrid>
+      </div>
     </main>
   );
 }

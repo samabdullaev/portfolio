@@ -1,4 +1,4 @@
-import CardGrid from "@/components/ui/CardGrid";
+import TopicSection from "@/components/ui/TopicSection";
 import HubCard from "@/components/ui/HubCard";
 
 const year2026 = {
@@ -182,29 +182,24 @@ export default function JourneyPage() {
   return (
     <main className="hub-page">
       <div className="hub-header">
-        <h1>Journey</h1>
+        <h1>My Journey</h1>
         <p className="hub-subtitle">
           Monthly updates on my professional growth — published on LinkedIn
         </p>
       </div>
 
       {allYears.map((yearData) => (
-        <div key={yearData.year} className="topic-section">
-          <div className="section-header">
-            <h2>{yearData.year}</h2>
-          </div>
-          <CardGrid>
-            {yearData.entries.map((entry) => (
-              <HubCard
-                key={entry.href}
-                href={entry.href}
-                title={entry.title}
-                thumbnail={entry.thumbnail}
-                external
-              />
-            ))}
-          </CardGrid>
-        </div>
+        <TopicSection key={yearData.year} title={yearData.year}>
+          {yearData.entries.map((entry) => (
+            <HubCard
+              key={entry.href}
+              href={entry.href}
+              title={entry.title}
+              thumbnail={entry.thumbnail}
+              external
+            />
+          ))}
+        </TopicSection>
       ))}
     </main>
   );

@@ -1,4 +1,3 @@
-import CardGrid from "@/components/ui/CardGrid";
 import HubCard from "@/components/ui/HubCard";
 
 export default function ResourcesPage() {
@@ -9,9 +8,11 @@ export default function ResourcesPage() {
         <p className="hub-subtitle">Tools, platforms, and libraries I use and recommend</p>
       </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">Tools</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>Tools</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://postspark.app/"
             title="PostSpark"
@@ -40,12 +41,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Whimsical.jpg"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">Apps</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>Apps</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://quran.com/"
             title="Quran.com"
@@ -81,12 +84,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Carbon.png"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">SaaS</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>SaaS</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://www.featurebase.app/"
             title="Featurebase"
@@ -101,12 +106,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Mintlify.jpg"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">UI Libraries</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>UI Libraries</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://ui.shadcn.com/"
             title="Shadcn"
@@ -156,12 +163,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Spline.jpg"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">Dev Platforms</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>Dev Platforms</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://v0.dev/"
             title="v0"
@@ -183,12 +192,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Lovable.jpg"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">No-code Tools</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>No-code Tools</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="https://www.framer.com/"
             title="Framer"
@@ -203,12 +214,14 @@ export default function ResourcesPage() {
             thumbnail="/assets/resources/Canva.jpg"
             external
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">Playbooks</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>Playbooks</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="/resources/interview-prep"
             title="Interview Prep"
@@ -251,12 +264,14 @@ export default function ResourcesPage() {
             subtitle="Awesome Shadcn UI, Maker Skill Trees"
             thumbnail="/assets/resources/GitHub.jpg"
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
 
-      <section className="topic-section">
-        <h2 className="section-header">Personal</h2>
-        <CardGrid>
+      <div className="topic-section">
+        <div className="section-header">
+          <h2>Personal</h2>
+        </div>
+        <div className="card-grid always-visible">
           <HubCard
             href="/resources/telegram-channels"
             title="Telegram Channels"
@@ -281,8 +296,8 @@ export default function ResourcesPage() {
             subtitle="Tahrirchi, Pythagora 2.0, TopKadr"
             thumbnail="/assets/resources/Demos%20&%20Showcases.jpg"
           />
-        </CardGrid>
-      </section>
+        </div>
+      </div>
     </main>
   );
 }

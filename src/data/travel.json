@@ -1,0 +1,676 @@
+[
+  {
+    "slug": "travel-tips",
+    "title": "Travel Tips",
+    "flag": "📝",
+    "image": "/assets/travel/travel tips.png",
+    "overview": null,
+    "placesToTravel": null,
+    "personalTips": null,
+    "sections": [
+      {
+        "title": "before travelling",
+        "items": [
+          "Create a Google Docs plan with places to visit and activities to do.",
+          "Ask AI tools (e.g., ChatGPT, Gemini) about your destination 1 day before and during the journey.",
+          "Plan souvenirs in advance - think about what each close person would appreciate."
+        ]
+      },
+      {
+        "title": "packing & preparation",
+        "items": [
+          "Add your contact details inside your luggage in case it gets lost.",
+          "Take a photo of your luggage tag/card before travel.",
+          "Pack essentials so you can easily access documents, money, and devices."
+        ]
+      },
+      {
+        "title": "planning & navigation",
+        "items": [
+          "Ask hotel staff first if you need help - they often give the best local advice.",
+          "Stay flexible and adjust plans based on time, weather, and energy."
+        ]
+      },
+      {
+        "title": "tech & convenience",
+        "items": [
+          "Connect your phone/laptop to hotel TVs using screen sharing or cables.",
+          "Use your phone to quickly check routes, places, and nearby spots."
+        ]
+      },
+      {
+        "title": "food & experiences",
+        "items": [
+          "Try the local cuisine (if halal or suitable for you).",
+          "Explore markets, local streets, and cultural spots beyond main attractions."
+        ]
+      },
+      {
+        "title": "capturing memories",
+        "items": [
+          "Take at least one good photo or video at every place you visit.",
+          "Record short videos and talk about the place for better memories later.",
+          "Use iPhone Photos (or similar tools) to auto-generate memory videos during the trip."
+        ]
+      },
+      {
+        "title": "staying connected",
+        "items": [
+          "Create a Telegram group (or similar) to share photos/videos if traveling with others.",
+          "Share daily updates with family (photos, videos, and key experiences).",
+          "Call family or close people at least once while in a new place."
+        ]
+      },
+      {
+        "title": "after travelling",
+        "items": [
+          "Create a final memory video combining your trip in chronological order.",
+          "Organize and store your photos/videos for easy access later.",
+          "Reflect on places visited and note what you'd do differently next time."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "uzbekistan",
+    "title": "Uzbekistan",
+    "flag": "🇺🇿",
+    "image": "/assets/travel/uzbekistan.png",
+    "overview": {
+      "citiesVisited": [
+        "Tashkent",
+        "Samarkand",
+        "Bukhara",
+        "Khiva",
+        "Fergana",
+        "Nukus",
+        "Termez",
+        "Andijan",
+        "Namangan",
+        "Karakalpakstan",
+        "Navoi",
+        "Surkhandarya",
+        "Jizzakh",
+        "Kashkadarya",
+        "Syrdarya"
+      ],
+      "accommodation": [
+        "Local hotels",
+        "guesthouses",
+        "family stays"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Tashkent (Capital & Modern City)",
+        "places": [
+          "Chorsu Bazaar – traditional market with local crafts and food",
+          "Khast Imam Complex – religious and cultural landmark",
+          "Amir Timur Square – central city square with statues and gardens",
+          "Tashkent Metro – ornate stations with unique architecture",
+          "Alisher Navoi Opera & Ballet Theater – cultural performances"
+        ]
+      },
+      {
+        "city": "Samarkand (Silk Road Jewel)",
+        "places": [
+          "Registan Square – iconic madrassas with intricate tilework",
+          "Gur-e-Amir Mausoleum – tomb of Timur (Tamerlane)",
+          "Bibi-Khanym Mosque – historic grand mosque",
+          "Shah-i-Zinda Necropolis – stunning mausoleum ensemble",
+          "Ulugh Beg Observatory – medieval astronomical site",
+          "Siab Bazaar – traditional market near Registan",
+          "Afrosiab Museum – ancient Silk Road artifacts"
+        ]
+      },
+      {
+        "city": "Bukhara (Historic Silk Road City)",
+        "places": [
+          "Ark Fortress – citadel with museums and panoramic views",
+          "Poi Kalyan Minaret & Mosque – iconic minaret and mosque complex",
+          "Lyabi-Hauz Ensemble – ponds, historic buildings, and cafes",
+          "Samanid Mausoleum – ancient architectural marvel",
+          "Chor-Minor – charming four-towered madrasa",
+          "Bolo Hauz Mosque – wooden-columned mosque",
+          "Magoki-Attari Mosque – one of the oldest mosques in Bukhara"
+        ]
+      },
+      {
+        "city": "Khiva (Walled City & Open-Air Museum)",
+        "places": [
+          "Itchan Kala – UNESCO walled city with preserved madrasas",
+          "Kunya-Ark Fortress – historic citadel",
+          "Pahlavan Mahmud Mausoleum – cultural landmark",
+          "Tash Khauli Palace – ornate royal palace",
+          "Islam Khoja Minaret & Museum – tallest minaret in Khiva",
+          "Juma Mosque – famous for its wooden columns",
+          "Tosh-Hovli Palace – intricately decorated noble residence"
+        ]
+      },
+      {
+        "city": "Fergana Valley & Eastern Uzbekistan",
+        "places": [
+          "Rishtan – pottery and ceramics village",
+          "Margilan – Yodgorlik Silk Factory and traditional silk bazaar",
+          "Kokand – Khudayar Khan Palace and historic mosques",
+          "Andijan – Babur Museum, local bazaars, and historical sites",
+          "Namangan – Khodja Zayniddin Mausoleum, local markets",
+          "Fergana city – regional cultural centers and parks"
+        ]
+      },
+      {
+        "city": "Western & Southern Regions",
+        "places": [
+          "Nukus – Savitsky Museum of Art (avant-garde collection)",
+          "Karakalpakstan – Muynak (Aral Sea ship graveyard)",
+          "Termez – Buddhist and Islamic historical ruins, Fayaz Tepe",
+          "Navoi – Kyzylkum Desert landscapes, mining towns",
+          "Bukhara region – ancient caravanserais like Rabati Malik",
+          "Surkhandarya – mountain villages, Boysun landscapes, and natural springs",
+          "Jizzakh – Sayram Su River and mountain excursions",
+          "Kashkadarya – Kitab Reserve and Zarafshan Valley",
+          "Syrdarya – historic fortresses, Zarafshan River exploration"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Uzbekistan is best explored region by region; trains and shared taxis are convenient.",
+      "Stay hydrated and carry sun protection when visiting deserts or open-air sites.",
+      "Try local cuisine in every city: plov, shashlik, samsa, lagman, and traditional bread.",
+      "Visit bazaars early in the day for authentic experience and better selection.",
+      "Respect local customs, especially when visiting mosques and madrasas.",
+      "Allocate 1–2 days per major city for relaxed sightseeing.",
+      "Capture both historic architecture and the vibrant street life for a full experience."
+    ]
+  },
+  {
+    "slug": "uk",
+    "title": "United Kingdom",
+    "flag": "🇬🇧",
+    "image": "/assets/travel/uk.png",
+    "overview": {
+      "citiesVisited": [
+        "Edinburgh",
+        "Belfast",
+        "Liverpool",
+        "Manchester",
+        "Cambridge",
+        "Hatfield",
+        "London",
+        "Cardiff"
+      ],
+      "accommodation": [
+        "Britannia Hotels",
+        "Tune Hotel Liverpool",
+        "Crystal Hotel Cambridge",
+        "ETAP Belfast",
+        "College Lane Campus Hatfield"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Edinburgh",
+        "places": [
+          "Edinburgh Castle",
+          "Camera Obscura & World of Illusions",
+          "Edinburgh Zoo",
+          "University of Edinburgh",
+          "National Museum of Scotland"
+        ]
+      },
+      {
+        "city": "Belfast",
+        "places": [
+          "Titanic Belfast",
+          "Crumlin Road Gaol",
+          "St George's Market",
+          "C.S. Lewis Square",
+          "Ulster Museum",
+          "Botanic Gardens"
+        ]
+      },
+      {
+        "city": "Liverpool",
+        "places": [
+          "Royal Albert Dock",
+          "Tate Liverpool",
+          "Maritime Museum & International Slavery Museum",
+          "Museum of Liverpool",
+          "Liverpool One Shopping Complex",
+          "Anfield – Liverpool FC Stadium Tour"
+        ]
+      },
+      {
+        "city": "Manchester",
+        "places": [
+          "Museum of Science and Industry",
+          "National Football Museum",
+          "Manchester City & Manchester United Stadium Tours"
+        ]
+      },
+      {
+        "city": "Cambridge",
+        "places": [
+          "The Fitzwilliam Museum",
+          "Mathematical Bridge",
+          "The Backs",
+          "University of Cambridge"
+        ]
+      },
+      {
+        "city": "Hatfield",
+        "places": [
+          "University of Hertfordshire – College Lane Campus",
+          "De Havilland Campus",
+          "The Galleria"
+        ]
+      },
+      {
+        "city": "London",
+        "places": [
+          "Houses of Parliament & Big Ben",
+          "River cruise + London Eye",
+          "Sea Life London",
+          "The Shard",
+          "Tower Bridge + Tower of London",
+          "Sky garden + The Garden at 120",
+          "30 St Mary Axe (The Gherkin)",
+          "Buckingham Palace",
+          "Hyde Park",
+          "Natural History Museum",
+          "Victoria and Albert Museum",
+          "Trafalgar Square & National Gallery",
+          "Chinatown",
+          "British Museum",
+          "Madame Tussauds Museum",
+          "King's Cross + St. Pancras stations",
+          "The Sherlock Holmes museum",
+          "Frameless Immersive Art Experience",
+          "Disney Store",
+          "Regent's Park + London Zoo + Queen Mary's Rose Gardens",
+          "Uber boat",
+          "Double decker bus",
+          "O2 Arena - Sky Walk",
+          "Cable Car (O2 → \"Royal Docks\")",
+          "Canary Wharf + Canary Wharf Roof Garden + Jubilee Park",
+          "Greenwich Park",
+          "Emirates/Stamford/Wembley Stadium Tour"
+        ]
+      },
+      {
+        "city": "Cardiff",
+        "places": [
+          "Principality Stadium",
+          "Cardiff Castle",
+          "National Museum Cardiff",
+          "Roath Park",
+          "Bute Park"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Walk in parks, along rivers, and historic streets for a relaxed view of the city.",
+      "Explore local markets for food and souvenirs (e.g., St George's Market in Belfast).",
+      "Take stadium or museum tours if you enjoy sports or history.",
+      "Use public transport (train, bus) between cities for efficiency.",
+      "Focus on permanent exhibits in museums; many are free to enter.",
+      "Wear comfortable walking shoes—most attractions involve walking.",
+      "Try local cafes, street food, and shopping areas in each city.",
+      "Allocate at least half a day per major attraction to avoid rushing."
+    ]
+  },
+  {
+    "slug": "turkey",
+    "title": "Turkey",
+    "flag": "🇹🇷",
+    "image": "/assets/travel/turkey.png",
+    "overview": {
+      "citiesVisited": [
+        "Istanbul"
+      ],
+      "accommodation": [
+        "Vicenza Hotel"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Istanbul",
+        "places": [
+          "Hagia Sophia (Ayasofya)",
+          "Basilica Cistern",
+          "Sultanahmet Mosque (Blue Mosque)",
+          "Binbirdirek Cistern",
+          "Grand Bazaar",
+          "Laleli Pazarı & Kemal Paşa Street",
+          "Ordu Caddesi (shopping street)",
+          "Yenikapı Şehir Parkı"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Stay in the Sultanahmet area for easy access to most historic attractions.",
+      "Take your time in bazaars and shopping streets—bargaining is part of the experience.",
+      "Visit Hagia Sophia and Basilica Cistern in the morning to avoid crowds.",
+      "Enjoy local restaurants for Turkish cuisine; street food is a great option for lunch.",
+      "Walk in Yenikapı Şehir Parkı or near the Bosphorus for a relaxed view of the city.",
+      "Use taxis or hotel shuttles to reach farther areas, especially with luggage.",
+      "Allocate at least half a day for major attractions like Hagia Sophia, Basilica Cistern, and the Grand Bazaar.",
+      "Don't forget to try Turkish tea and sweets while exploring local shops."
+    ]
+  },
+  {
+    "slug": "canada",
+    "title": "Canada",
+    "flag": "🇨🇦",
+    "image": "/assets/travel/canada.png",
+    "overview": {
+      "citiesVisited": [
+        "Montreal",
+        "Toronto"
+      ],
+      "accommodation": [
+        "Campus1 Montreal"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Montreal",
+        "places": [
+          "Old Montreal (Vieux-Montréal)",
+          "Notre-Dame Basilica",
+          "Old Port (Vieux-Port)",
+          "Mount Royal Park (Parc du Mont-Royal)",
+          "Montreal Museum of Fine Arts",
+          "Jean-Talon Market & Atwater Market",
+          "Saint Joseph's Oratory",
+          "Montreal Biodome",
+          "Plateau Mont-Royal (colorful streets and cafés)",
+          "Lachine Canal (walk or bike along the waterfront)",
+          "The Biosphere, Environment Museum",
+          "Mount Royal"
+        ]
+      },
+      {
+        "city": "Toronto",
+        "places": [
+          "Niagara Falls",
+          "CN Tower",
+          "Royal Ontario Museum (ROM)",
+          "Ripley's Aquarium of Canada",
+          "Distillery Historic District",
+          "St. Lawrence Market",
+          "Toronto Islands",
+          "Kensington Market",
+          "Casa Loma",
+          "High Park",
+          "Harbourfront Centre & Toronto Waterfront"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Walk or bike around Mount Royal and Plateau Mont-Royal for stunning city views and vibrant streets.",
+      "Visit the Montreal Underground City when the weather isn't ideal; it's also great for shopping and food.",
+      "Try local specialties like poutine, bagels, and smoked meat in Montreal.",
+      "Plan your Toronto visits around CN Tower, Royal Ontario Museum, and Toronto Islands for a full city experience.",
+      "Take a day trip to Niagara Falls; include Clifton Hill for entertainment if you enjoy touristy spots.",
+      "Take the ferry to Toronto Islands for a quick escape from the city.",
+      "Use public transport (Metro in Montreal, TTC in Toronto) to move around efficiently.",
+      "Explore markets and food halls for local cuisine and souvenirs.",
+      "Allocate at least half a day for major attractions like Notre-Dame Basilica, Mount Royal, CN Tower, and Royal Ontario Museum.",
+      "Layer clothing as weather can change quickly in both cities."
+    ]
+  },
+  {
+    "slug": "hungary",
+    "title": "Hungary",
+    "flag": "🇭🇺",
+    "image": "/assets/travel/hungary.png",
+    "overview": {
+      "citiesVisited": [
+        "Budapest"
+      ],
+      "accommodation": [
+        "A22 Hotel Gyál"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Budapest",
+        "places": [
+          "Buda Castle & Castle Hill",
+          "Fisherman's Bastion (Halászbástya)",
+          "Matthias Church",
+          "Parliament Building (Országház)",
+          "St. Stephen's Basilica",
+          "Chain Bridge (Széchenyi Lánchíd)",
+          "Heroes' Square (Hősök tere)",
+          "Széchenyi Thermal Bath & Gellért Thermal Bath",
+          "Danube River Promenade & Cruises",
+          "Central Market Hall (Nagy Vásárcsarnok)",
+          "Great Synagogue & Jewish Quarter",
+          "Margaret Island (Margitsziget) – parks, walking, and cycling",
+          "Budapest Eye (Ferris Wheel)",
+          "Liberty Statue & Gellért Hill viewpoints"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Walk across the Chain Bridge and explore both Buda and Pest sides of the city.",
+      "Visit thermal baths to experience traditional Hungarian spa culture.",
+      "Explore Castle Hill and Fisherman's Bastion in the morning to avoid crowds.",
+      "Take a Danube river cruise at sunset for iconic city views.",
+      "Try Hungarian dishes like goulash, langos, chimney cake, and local pastries.",
+      "Use the Budapest Metro and trams to move efficiently around the city.",
+      "Bring comfortable shoes; many streets in the historic center are cobblestone.",
+      "Allocate at least half a day for major attractions like Buda Castle, Parliament, and Heroes' Square."
+    ]
+  },
+  {
+    "slug": "france",
+    "title": "France",
+    "flag": "🇫🇷",
+    "image": "/assets/travel/france.png",
+    "overview": {
+      "citiesVisited": [
+        "Paris"
+      ],
+      "accommodation": [
+        "Hampton By Hilton Paris Charles De Gaulle Airport",
+        "Executive Hotel Paris Gennevilliers"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Paris",
+        "places": [
+          "Eiffel Tower & Champ de Mars",
+          "Jardins du Trocadéro",
+          "Arc de Triomphe",
+          "Louvre Museum",
+          "Tuileries Garden",
+          "Élysée Palace",
+          "Seine River & Bridges (optional: river cruise)",
+          "Montmartre & Sacré-Cœur (if visited in other trips)",
+          "Notre-Dame Cathedral (exterior, restoration ongoing)",
+          "Musée d'Orsay (optional)",
+          "Champs-Élysées shopping street",
+          "Latin Quarter & Saint-Germain-des-Prés (cafés and streets)"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Book Eiffel Tower tickets in advance to avoid long queues.",
+      "Walk between major landmarks when possible; Paris is very walkable and streets are scenic.",
+      "Use metro or RER trains for longer distances, like between the airport and city center.",
+      "Explore nearby gardens (Trocadéro, Tuileries) for relaxing breaks between attractions.",
+      "Try French cafés, pastries, and local food near your attractions.",
+      "Keep a small day bag for water, snacks, and essentials—many Paris streets are cobblestone.",
+      "Allocate half to a full day for each major attraction (Louvre, Eiffel Tower, Arc de Triomphe) to enjoy without rushing."
+    ]
+  },
+  {
+    "slug": "spain",
+    "title": "Spain",
+    "flag": "🇪🇸",
+    "image": "/assets/travel/spain.png",
+    "overview": {
+      "citiesVisited": [
+        "Madrid"
+      ],
+      "accommodation": [
+        "Hospedium Hotel Los Condes"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Madrid",
+        "places": [
+          "Santiago Bernabéu Stadium – home of Real Madrid, including stadium tour",
+          "Prado Museum – world-class art museum",
+          "Madrid City Tour – highlights of central Madrid (Route 1)",
+          "360º Rooftop Bar – panoramic city views",
+          "Local neighborhoods – explore streets near Google Madrid Office and hotel for cafes, shopping, and local culture"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Book Santiago Bernabéu Stadium tours in advance, especially on match days.",
+      "Prado Museum requires at least 2–3 hours to appreciate its collection.",
+      "Walking is the best way to explore Madrid's historic streets and plazas.",
+      "Try local tapas bars for quick meals between sightseeing.",
+      "Rooftop bars provide excellent sunset or evening city views.",
+      "Use metro or short taxis for efficient travel between attractions, especially if time is limited."
+    ]
+  },
+  {
+    "slug": "switzerland",
+    "title": "Switzerland",
+    "flag": "🇨🇭",
+    "image": "/assets/travel/switzerland.png",
+    "overview": {
+      "citiesVisited": [
+        "Interlaken",
+        "Lauterbrunnen",
+        "Murren",
+        "Grindelwald",
+        "Zurich"
+      ],
+      "accommodation": [
+        "Hotel Central Continental",
+        "Holiday Inn Express Munich North by IHG",
+        "ibis Bregenz"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Interlaken & Surroundings",
+        "places": [
+          "Lauterbrunnen Valley – scenic walks, waterfalls, and stunning alpine views",
+          "Mürren – car-free mountain village accessible by cable car, ideal for panoramic views and hiking",
+          "Grindelwald – mountain village with trails, cable cars, and alpine charm"
+        ]
+      },
+      {
+        "city": "Zurich",
+        "places": [
+          "Zurich HB – central station and nearby city highlights for walking and exploring"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Swiss trains are efficient and scenic; book routes like Lauterbrunnen → Murren → Grindelwald in advance for smoother travel.",
+      "Carry a small backpack with snacks and water when doing multiple mountain trips in a day.",
+      "Murren and Grindelwald are perfect for short hikes; even casual walks offer breathtaking alpine views.",
+      "Interlaken has many local shops and restaurants—try regional Swiss food like rösti or fondue.",
+      "Keep some cash in CHF, as some smaller villages may not accept cards."
+    ]
+  },
+  {
+    "slug": "netherlands",
+    "title": "Netherlands",
+    "flag": "🇳🇱",
+    "image": "/assets/travel/netherlands.png",
+    "overview": {
+      "citiesVisited": [
+        "Amsterdam"
+      ],
+      "accommodation": [
+        "Holiday Inn Express Amsterdam"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Amsterdam",
+        "places": [
+          "Dam Square – Royal Palace & National Monument",
+          "Magna Plaza – historic shopping center",
+          "Jordaan District – charming streets, cafes, and boutique shops",
+          "Anne Frank House – museum dedicated to Anne Frank",
+          "Westerkerk (Western Church) – iconic 17th-century church",
+          "Canal Cruise – explore Amsterdam's canals from the water",
+          "NEMO Science Museum – interactive science exhibits",
+          "Rijksmuseum – Dutch national art museum",
+          "Van Gogh Museum – world's largest collection of Van Gogh paintings",
+          "Vondelpark – city park for walks or cycling",
+          "A'DAM Lookout (Over the Edge) – panoramic city views and swing experience",
+          "EYE Film Museum – modern architecture & film exhibits",
+          "Amsterdam-Noord – trendy neighborhood across the IJ river",
+          "AJAX Stadium Tour (Johan Cruyff Arena) – football stadium tour"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Buy tickets for Anne Frank House and A'DAM Lookout in advance to avoid long queues.",
+      "Walking or cycling is the best way to explore central Amsterdam and Jordaan.",
+      "Canal cruises are great for orientation and photography.",
+      "Museums like Rijksmuseum and Van Gogh Museum require 2–3 hours each; plan accordingly.",
+      "Explore Amsterdam-Noord for a quieter, modern vibe away from the tourist crowds.",
+      "Vondelpark is ideal for a relaxing break between museum visits.",
+      "Public transport (train, metro) is convenient for reaching outer neighborhoods or airport transfers."
+    ]
+  },
+  {
+    "slug": "belgium",
+    "title": "Belgium",
+    "flag": "🇧🇪",
+    "image": "/assets/travel/belgium.png",
+    "overview": {
+      "citiesVisited": [
+        "Brussels"
+      ],
+      "accommodation": [
+        "Hotel Aviation Brussels",
+        "Holiday Inn Express Brussels"
+      ]
+    },
+    "placesToTravel": [
+      {
+        "city": "Brussels",
+        "places": [
+          "European Commission & Parc du Cinquantenaire + Triumphal Arch",
+          "Autoworld (classic cars museum)",
+          "Parc Léopold",
+          "Parlamentarium (European Parliament visitor center)",
+          "The View (panoramic viewpoint)",
+          "Manneken Pis",
+          "Mont des Arts",
+          "Royal Palace of Brussels",
+          "Parc de Bruxelles",
+          "Grand Place (main square)",
+          "Brussels City Museum",
+          "Royal Saint-Hubert Galleries",
+          "St. Michael & St. Gudula Cathedral",
+          "Bourse (Stock Exchange building)"
+        ]
+      }
+    ],
+    "personalTips": [
+      "Most central attractions are walkable from Grand Place—wear comfortable shoes.",
+      "Try local Belgian specialties: waffles, chocolate, and frites from street vendors.",
+      "Parc du Cinquantenaire and Mont des Arts are perfect for photos and relaxed walks.",
+      "For museums like Autoworld or Parlamentarium, allocate 1–2 hours each.",
+      "Brussels metro is convenient for reaching European Commission or farther spots.",
+      "Explore Royal Saint-Hubert Galleries for shopping or indoor sightseeing on rainy days."
+    ]
+  }
+]
