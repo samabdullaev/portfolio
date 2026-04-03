@@ -5,6 +5,10 @@ import './projects.seeder.js'
 import './resources.seeder.js'
 import './travel.seeder.js'
 import './reviews.seeder.js'
+import './blog.seeder.js'
+import './journey.seeder.js'
+import './certificates.seeder.js'
+import './mentorship.seeder.js'
 
 const client = getClient()
 const args = process.argv.slice(2)

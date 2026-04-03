@@ -1,24 +1,42 @@
-import CardGrid from "@/components/ui/CardGrid";
+import { sanityFetch } from "@/lib/sanity";
 import HubCard from "@/components/ui/HubCard";
 
-export default function MentorshipPage() {
+interface MentorshipArticle {
+  _id: string;
+  title: string;
+  task: string;
+  date: string;
+  externalUrl: string;
+}
+
+export default async function MentorshipPage() {
+  const articles = await sanityFetch<MentorshipArticle[]>(
+    `*[_type == "mentorshipArticle"] | order(order asc){
+      _id, title, task, date, externalUrl
+    }`,
+  );
+
   return (
     <main className="hub-page">
       <div className="hub-header">
         <h1>Mentorship</h1>
-        <p className="hub-subtitle">Guidance articles from university to career — published on Publink</p>
+        <p className="hub-subtitle">
+          Guidance articles from university to career — published on Publink
+        </p>
       </div>
 
-      <CardGrid>
-        <HubCard
-          href="https://publink.uz/education/universitetingizni-qanchalik-yaxshi-bilasiz"
-          title="Universitetingizni qanchalik yaxshi bilasiz?"
-          tag="Task 1"
-          meta="Mar 18, 2026"
-          thumbnail="/assets/mentorship/Publink%20-%20Article%201%20Cover%20Image.jpg"
-          external
-        />
-      </CardGrid>
+      <div className="card-grid always-visible">
+        {articles.map((a) => (
+          <HubCard
+            key={a._id}
+            href={a.externalUrl}
+            title={a.title}
+            tag={a.task}
+            meta={a.date}
+            external
+          />
+        ))}
+      </div>
     </main>
   );
 }

@@ -1,194 +1,28 @@
+import { sanityFetch } from "@/lib/sanity";
 import TopicSection from "@/components/ui/TopicSection";
 import HubCard from "@/components/ui/HubCard";
 
-const series1 = {
-  title: "Concept to Launch: Build SvelteKit & Sanity Website",
-  articles: [
-    {
-      title: "How I Improved My Skills and Workflow in One Project",
-      tag: "Part 10",
-      meta: "Aug 11, 2025",
-      thumbnail: "/assets/blog/part10.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-e0f7460a79a0",
-    },
-    {
-      title: "How I Tested and Delivered the Project to the Client",
-      tag: "Part 9",
-      meta: "Aug 10, 2025",
-      thumbnail: "/assets/blog/part09.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-51a6b18d1c62",
-    },
-    {
-      title: "How I Deployed the Website and Configured the Domain",
-      tag: "Part 8",
-      meta: "Aug 9, 2025",
-      thumbnail: "/assets/blog/part08.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-fe6f345c33e7",
-    },
-    {
-      title: "How I Integrated Telegram for Instant Alerts",
-      tag: "Part 7",
-      meta: "Aug 8, 2025",
-      thumbnail: "/assets/blog/part07.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-96e6848a6ad8",
-    },
-    {
-      title: "How I Integrated Sanity and Structured the CMS",
-      tag: "Part 6",
-      meta: "Aug 7, 2025",
-      thumbnail: "/assets/blog/part06.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-c5f8dfb35369",
-    },
-    {
-      title: "How I Used Props to Make Components Dynamic",
-      tag: "Part 5",
-      meta: "Aug 6, 2025",
-      thumbnail: "/assets/blog/part05.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-3a74d03b10ef",
-    },
-    {
-      title: "How I Built Reusable Components for a Modular UI",
-      tag: "Part 4",
-      meta: "Aug 5, 2025",
-      thumbnail: "/assets/blog/part04.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-8462179a07d7",
-    },
-    {
-      title: "How I Set Up the Repo and Development Environment",
-      tag: "Part 3",
-      meta: "Aug 4, 2025",
-      thumbnail: "/assets/blog/part03.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-6f2369c50234",
-    },
-    {
-      title: "How I Turned a Template into a Prototype",
-      tag: "Part 2",
-      meta: "Aug 3, 2025",
-      thumbnail: "/assets/blog/part02.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-2bc1fe9b3540",
-    },
-    {
-      title: "How I Planned the Project and Picked the Stack",
-      tag: "Part 1",
-      meta: "Aug 2, 2025",
-      thumbnail: "/assets/blog/part01.png",
-      href: "https://samabdullaev.medium.com/build-a-sanity-cms-powered-sveltekit-website-1eeb10ef2ded",
-    },
-  ],
-};
+interface BlogArticle {
+  _id: string;
+  title: string;
+  partNumber: number;
+  date: string;
+  externalUrl: string;
+}
 
-const series2 = {
-  title: "My Study Abroad Journey from UK to Canada",
-  articles: [
-    {
-      title: "Life in Canada",
-      tag: "Part 4",
-      meta: "Apr 20, 2025",
-      thumbnail: "/assets/blog/life-in-canada.png",
-      href: "https://samabdullaev.medium.com/life-in-canada-df91389dd0bc",
-    },
-    {
-      title: "Preparing for Student Life in Canada",
-      tag: "Part 3",
-      meta: "Feb 27, 2025",
-      thumbnail: "/assets/blog/preparing-canada.png",
-      href: "https://samabdullaev.medium.com/preparing-for-student-life-in-canada-c12b770c55cf",
-    },
-    {
-      title: "How I Got My Canadian Visa",
-      tag: "Part 2",
-      meta: "Feb 9, 2025",
-      thumbnail: "/assets/blog/canadian-visa.png",
-      href: "https://samabdullaev.medium.com/how-i-got-my-canadian-visa-644e3c828937",
-    },
-    {
-      title: "How I Applied to Study in Canada",
-      tag: "Part 1",
-      meta: "Jul 23, 2024",
-      thumbnail: "/assets/blog/applied-canada.png",
-      href: "https://samabdullaev.medium.com/how-i-applied-to-study-in-canada-3db47c5e2afc",
-    },
-  ],
-};
+interface BlogSeries {
+  title: string;
+  articles: BlogArticle[];
+}
 
-const series3 = {
-  title: "Professional Development Guide",
-  articles: [
-    {
-      title: "My Hackathon Journey: Lessons Learned",
-      tag: "Part 3",
-      meta: "Mar 4, 2024",
-      thumbnail: "/assets/blog/hackathon.png",
-      href: "https://samabdullaev.medium.com/my-hackathon-journey-lessons-learned-8501b5a362ce",
-    },
-    {
-      title: "Your Ultimate LinkedIn Guide",
-      tag: "Part 2",
-      meta: "Mar 1, 2024",
-      thumbnail: "/assets/blog/linkedin-guide.png",
-      href: "https://samabdullaev.medium.com/your-ultimate-linkedin-guide-09c8167ce528",
-    },
-    {
-      title: "My Coding Journey: Online Learning Platforms That I Use",
-      tag: "Part 1",
-      meta: "Nov 20, 2023",
-      thumbnail: "/assets/blog/coding-journey.png",
-      href: "https://samabdullaev.medium.com/my-coding-journey-online-learning-platforms-that-i-use-f6c15501a94",
-    },
-  ],
-};
+export default async function BlogPage() {
+  const series = await sanityFetch<BlogSeries[]>(
+    `*[_type == "blogSeries"] | order(order asc){
+      title,
+      articles[]->{ _id, title, partNumber, date, externalUrl }
+    }`,
+  );
 
-const series4 = {
-  title: "Studying in the UK: A Comprehensive Guide",
-  articles: [
-    {
-      title: "My UK Student Accommodation Journey",
-      tag: "Part 6",
-      meta: "Jan 28, 2024",
-      thumbnail: "/assets/blog/accommodation.png",
-      href: "https://samabdullaev.medium.com/my-uk-student-accommodation-journey-8a8817a9a49f",
-    },
-    {
-      title: "My First Academic Year in the UK",
-      tag: "Part 5",
-      meta: "Dec 8, 2023",
-      thumbnail: "/assets/blog/academic-year.jpeg",
-      href: "https://samabdullaev.medium.com/my-first-academic-year-in-the-uk-3ff026beb3e6",
-    },
-    {
-      title: "My First Year Abroad in the UK",
-      tag: "Part 4",
-      meta: "Oct 27, 2023",
-      thumbnail: "/assets/blog/first-year.jpg",
-      href: "https://samabdullaev.medium.com/my-first-year-abroad-in-the-uk-15dc475748f1",
-    },
-    {
-      title: "UK Post-Arrival Essentials and Tips",
-      tag: "Part 3",
-      meta: "Oct 23, 2023",
-      thumbnail: "/assets/blog/post-arrival.png",
-      href: "https://samabdullaev.medium.com/uk-post-arrival-essentials-and-tips-11e1e9c6854c",
-    },
-    {
-      title: "UK VISA Application Procedure and Pre-Arrival Tips",
-      tag: "Part 2",
-      meta: "Oct 20, 2023",
-      thumbnail: "/assets/blog/visa-tips.png",
-      href: "https://samabdullaev.medium.com/uk-visa-application-procedure-and-pre-arrival-tips-6de31ddc1219",
-    },
-    {
-      title: "Guide to Become an International Student in the UK",
-      tag: "Part 1",
-      meta: "Feb 8, 2023",
-      thumbnail: "/assets/blog/international-student.png",
-      href: "https://samabdullaev.medium.com/guide-to-become-an-international-student-in-the-uk-b903ec53a790",
-    },
-  ],
-};
-
-const allSeries = [series1, series2, series3, series4];
-
-export default function BlogPage() {
   return (
     <main className="hub-page">
       <div className="hub-header">
@@ -199,16 +33,15 @@ export default function BlogPage() {
         </p>
       </div>
 
-      {allSeries.map((series) => (
-        <TopicSection key={series.title} title={series.title}>
-          {series.articles.map((article) => (
+      {series.map((s) => (
+        <TopicSection key={s.title} title={s.title}>
+          {s.articles.map((article) => (
             <HubCard
-              key={article.href}
-              href={article.href}
+              key={article._id}
+              href={article.externalUrl}
               title={article.title}
-              tag={article.tag}
-              meta={article.meta}
-              thumbnail={article.thumbnail}
+              tag={`Part ${article.partNumber}`}
+              meta={article.date}
               external
             />
           ))}
