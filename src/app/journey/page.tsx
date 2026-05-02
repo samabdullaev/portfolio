@@ -7,12 +7,13 @@ interface JourneyUpdate {
   title: string;
   year: number;
   linkedInUrl: string;
+  thumbnail: { asset: { url: string } } | null;
 }
 
 export default async function JourneyPage() {
   const updates = await sanityFetch<JourneyUpdate[]>(
     `*[_type == "journeyUpdate"] | order(order asc){
-      _id, title, year, linkedInUrl
+      _id, title, year, linkedInUrl, thumbnail{ asset->{ url } }
     }`,
   );
 
@@ -41,6 +42,7 @@ export default async function JourneyPage() {
               key={entry._id}
               href={entry.linkedInUrl}
               title={entry.title}
+              thumbnail={entry.thumbnail?.asset?.url}
               external
             />
           ))}

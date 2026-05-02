@@ -7,12 +7,13 @@ interface MentorshipArticle {
   task: string;
   date: string;
   externalUrl: string;
+  thumbnail: { asset: { url: string } } | null;
 }
 
 export default async function MentorshipPage() {
   const articles = await sanityFetch<MentorshipArticle[]>(
     `*[_type == "mentorshipArticle"] | order(order asc){
-      _id, title, task, date, externalUrl
+      _id, title, task, date, externalUrl, thumbnail{ asset->{ url } }
     }`,
   );
 
@@ -33,6 +34,7 @@ export default async function MentorshipPage() {
             title={a.title}
             tag={a.task}
             meta={a.date}
+            thumbnail={a.thumbnail?.asset?.url}
             external
           />
         ))}
