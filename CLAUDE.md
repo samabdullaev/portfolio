@@ -6,8 +6,8 @@
 |-------|-------|
 | **Owner** | Sam Abdullaev — Frontend Software Engineer |
 | **Purpose** | Personal portfolio showcasing projects, blog, travel, certificates, mentorship, and more |
-| **Current State** | Static HTML/CSS/JS site in `site/` (50 HTML files, 9 CSS files, 150+ assets) |
-| **Target State** | Next.js app (this repo) + JSON data files + API routes (Sanity deferred) |
+| **State** | Next.js app fully wired to Sanity CMS for content (home, about, projects, blog, journey, resources, travel, reviews, certificates, mentorship). The original static HTML reference site has been removed. |
+| **Sanity Studio** | Separate repo at `../portfolio-sanity` (project ID `p43tljnq`, dataset `production`). Schemas, seeders, and Studio config live there. |
 | **Tech Stack** | Next.js 16.2, React 19, TypeScript, Tailwind v4, Sanity |
 | **Design** | Light (#faf8f4) / Dark (#171717) theming, Inter font, responsive (5 breakpoints) |
 
@@ -135,19 +135,21 @@ site/
 ```
 src/
 ├── app/
-│   ├── layout.tsx                     ← Root layout: Navbar, Footer, ThemeProvider
-│   ├── page.tsx                       ← Home (hero)
-│   ├── globals.css                    ← Tailwind + CSS variables + all shared styles
+│   ├── layout.tsx                     ← Root layout: Navbar, Footer, ThemeProvider, viewport theme-color
+│   ├── page.tsx                       ← Home (Sanity-driven hero from `homePage` singleton)
+│   ├── globals.css                    ← Tailwind + CSS variables + shared styles + navbar/drawer styles
 │   ├── project-detail.css             ← Detail page styles (project, resource, travel, review)
-│   ├── about/page.tsx                 ← About
+│   ├── favicon.ico, icon.svg, icon.png, apple-icon.png ← Favicon kit
+│   ├── manifest.webmanifest           ← PWA manifest
+│   ├── about/page.tsx + about.css     ← About (Sanity `aboutPage` singleton)
 │   ├── blog/page.tsx                  ← Blog hub
 │   ├── projects/
 │   │   ├── page.tsx                   ← Projects hub
 │   │   └── [slug]/page.tsx            ← Project detail
 │   ├── journey/page.tsx               ← Journey hub
 │   ├── resources/
-│   │   ├── page.tsx                   ← Resources hub
-│   │   └── [slug]/page.tsx            ← Resource detail
+│   │   ├── page.tsx                   ← Resources hub (fetches `resourceTopic` with refs to `resource` | `resourceCategory`)
+│   │   └── [slug]/page.tsx            ← Resource Category detail (only built for `resourceCategory` slugs; `resource` items link external)
 │   ├── certificates/
 │   │   ├── page.tsx                   ← Certificates hub (grouped by issuer)
 │   │   └── certificates.css           ← Certificate modal styles
@@ -158,17 +160,10 @@ src/
 │   │   ├── page.tsx                   ← Reviews hub
 │   │   ├── reviews.css                ← Year gradient styles
 │   │   └── [year]/page.tsx            ← Review detail
-│   ├── mentorship/page.tsx            ← Mentorship hub
-│   └── api/                           ← API routes (JSON data endpoints)
-│       ├── projects/[slug]/route.ts
-│       ├── resources/[slug]/route.ts
-│       ├── travel/[slug]/route.ts
-│       └── reviews/[year]/route.ts
-├── data/                              ← JSON data files (source of truth until Sanity)
-│   ├── projects.json                  ← 14 projects
-│   ├── resources.json                 ← 11 resource categories
-│   ├── travel.json                    ← 11 destinations
-│   └── reviews.json                   ← 5 yearly reviews
+│   └── mentorship/page.tsx            ← Mentorship hub
+├── lib/
+│   ├── sanity.ts                      ← Sanity client + `sanityFetch` helper
+│   └── sanity-types.ts                ← Shared TypeScript shapes for Sanity responses
 └── components/                        ← (see Shared Components below)
 ```
 
@@ -177,7 +172,7 @@ src/
 ```
 src/components/
 ├── layout/
-│   ├── Navbar.tsx                     ← Sticky nav with dropdowns, theme toggle
+│   ├── Navbar.tsx                     ← Sticky transparent navbar with backdrop blur, inline SA monogram, dropdowns, theme toggle, mobile drawer
 │   └── Footer.tsx                     ← Copyright footer
 ├── ui/
 │   ├── ThemeProvider.tsx              ← Dark/light mode context + localStorage
@@ -189,10 +184,8 @@ src/components/
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
 │   └── SocialTile.tsx                 ← Icon tile with brand-color hover
 └── sections/
-    ├── HeroSection.tsx                ← Home page hero
-    ├── AboutSection.tsx               ← Bio with photo + expand buttons
-    ├── ContributionsGrid.tsx          ← Linked contribution cards
-    └── HobbiesList.tsx                ← Hobby pills
+    ├── ContributionsGrid.tsx          ← Linked contribution cards (props from `aboutPage.contributions`)
+    └── HobbiesList.tsx                ← Hobby pills (props from `aboutPage.hobbies`)
 ```
 
 ---
@@ -210,7 +203,9 @@ src/components/
 | `project` | Portfolio project | `title`, `slug`, `category` (personal/freelance/hackathon), `description`, `about`, `features[]`, `techStack[]`, `gallery[]` {type, image/videoUrl}, `metadata` {year, timeline, role}, `links[]` {label, url}, `thumbnail`, `order` |
 | `blogSeries` | Blog series grouping | `title`, `slug`, `partCount`, `articles[]` → ref `blogArticle`, `order` |
 | `blogArticle` | Individual blog post | `title`, `slug`, `subtitle`, `date`, `externalUrl`, `thumbnail`, `partNumber` |
-| `resourceCategory` | Resource grouping | `title`, `slug`, `description`, `thumbnail`, `icon`, `items[]` {name, description, url}, `order` |
+| `resource` | Single external resource (tool/app/library) shown as a hub card with no detail page | `title`, `slug`, `subtitle`, `thumbnail`, `externalUrl` |
+| `resourceCategory` | Curated category with its own detail page on `/resources/{slug}` | `title`, `slug`, `subtitle`, `thumbnail`, `sectionLabel`, `items[]` {name, desc, url}, `sections[]` {label, items[]} |
+| `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks). Holds an ordered array of references that can target either `resource` or `resourceCategory` | `title`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
 | `certificate` | Certificate entry | `title`, `issuer`, `date`, `category`, `image`, `verifyUrl` |
 | `travelDestination` | Travel country/location | `title`, `slug`, `thumbnail`, `flagEmoji`, `gallery[]`, `sections[]` {title, content}, `order` |
 | `yearlyReview` | Yearly review | `year`, `slug`, `gradientColors` {from, to}, `sections[]` {title, content} |

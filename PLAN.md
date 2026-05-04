@@ -52,15 +52,18 @@
 - [x] Create `src/app/reviews/[year]/page.tsx` — back link, year title, review content
 - [x] Generate static params for all detail routes using `generateStaticParams()`
 
-## Phase 5: Sanity Setup (separate repo — deferred)
-- [ ] Initialize Sanity project with Studio
-- [ ] Create all document type schemas
-- [ ] Populate all content from static site into Sanity
+## Phase 5: Sanity Setup (separate repo `../portfolio-sanity`)
+- [x] Initialize Sanity project with Studio (project ID `p43tljnq`, dataset `production`)
+- [x] Create all document type schemas (homePage, aboutPage, siteSettings, project, blogSeries, blogArticle, resource, resourceCategory, resourceTopic, certificate, travelDestination, yearlyReview, journeyUpdate, mentorshipArticle)
+- [x] Build seeder system (`pnpm seed up/down [name]`)
+- [x] Populate all content from static site into Sanity (text + image uploads)
+- [x] Migrate Resources hub to mixed-type model: `resource` (external links) + `resourceCategory` (curated detail pages) referenced by `resourceTopic` (hub groupings)
 
-## Phase 6: Sanity Integration (this repo — deferred)
-- [ ] Install `next-sanity` and `@sanity/image-url` packages
-- [ ] Create Sanity client, GROQ queries, image helpers
-- [ ] Wire up all pages to fetch from Sanity instead of JSON files
+## Phase 6: Sanity Integration (this repo)
+- [x] Add `@sanity/client` + create `src/lib/sanity.ts` with `sanityFetch` helper
+- [x] Add `src/lib/sanity-types.ts` with manual TypeScript shapes
+- [x] Wire up all pages to fetch from Sanity (home, about, projects, blog, journey, resources, travel, reviews, certificates, mentorship)
+- [x] Remove `src/data/` JSON files and `src/app/api/` routes
 - [ ] Set up ISR or on-demand revalidation
 
 ## Phase 7: Polish & Deploy

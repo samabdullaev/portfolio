@@ -1,19 +1,14 @@
-const hobbies = [
-  { emoji: "✍️", label: "Writing" },
-  { emoji: "🚶", label: "Walking" },
-  { emoji: "♟️", label: "Playing Chess" },
-  { emoji: "🧩", label: "Puzzle Games" },
-  { emoji: "🤝", label: "Volunteering" },
-  { emoji: "🥋", label: "Taekwondo" },
-  { emoji: "🏓", label: "Ping-Pong" },
-  { emoji: "✈️", label: "Travelling" },
-];
+interface HobbyItem {
+  _key: string;
+  emoji: string;
+  label: string;
+}
 
-export default function HobbiesList() {
+export default function HobbiesList({ items }: { items: HobbyItem[] }) {
   return (
     <div className="hobbies-list">
-      {hobbies.map((item) => (
-        <div key={item.label} className="hobby-pill">
+      {items.map((item) => (
+        <div key={item._key} className="hobby-pill">
           <span className="hobby-emoji">{item.emoji}</span> {item.label}
         </div>
       ))}

@@ -93,15 +93,38 @@ export interface SanityResourceSection {
   items: SanityResourceItem[];
 }
 
-export interface SanityResourceCategory {
+// Single external resource (e.g. PostSpark, TickTick)
+export interface SanityResource {
+  _id: string;
+  _type: "resource";
   title: string;
   slug: SanitySlug;
-  sectionLabel: string;
-  gradientFrom: string;
-  gradientTo: string;
+  subtitle: string | null;
+  thumbnail: SanityImage;
+  externalUrl: string;
+}
+
+// Curated category with a detail page (e.g. Interview Prep, Newsletters)
+export interface SanityResourceCategory {
+  _id: string;
+  _type: "resourceCategory";
+  title: string;
+  slug: SanitySlug;
+  subtitle: string | null;
+  thumbnail: SanityImage;
+  sectionLabel: string | null;
   items: SanityResourceItem[];
   sections: SanityResourceSection[] | null;
+}
+
+// A topic-card item is either a Resource or a ResourceCategory (discriminated by _type)
+export type SanityResourceTopicItem = SanityResource | SanityResourceCategory;
+
+export interface SanityResourceTopic {
+  _id: string;
+  title: string;
   order: number;
+  items: SanityResourceTopicItem[];
 }
 
 // Certificate

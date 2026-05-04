@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
+import { SanityImage } from "@/lib/sanity-types";
 import "@/app/project-detail.css";
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const all = await sanityFetch<{ slug: { current: string } }[]>(
@@ -71,14 +74,14 @@ export default async function ResourceDetailPage({
   const { slug } = await params;
   const resource = await sanityFetch<{
     title: string;
-    sectionLabel: string;
-    gradientFrom: string;
-    gradientTo: string;
+    sectionLabel: string | null;
+    thumbnail: SanityImage;
     items: { _key: string; name: string; desc: string | null; url: string }[];
     sections: { _key: string; label: string; items: { _key: string; name: string; desc: string | null; url: string }[] }[] | null;
   } | null>(
     `*[_type == "resourceCategory" && slug.current == $slug][0]{
-      title, sectionLabel, gradientFrom, gradientTo,
+      title, sectionLabel,
+      thumbnail{ asset->{ url } },
       items[]{ _key, name, desc, url },
       sections[]{ _key, label, items[]{ _key, name, desc, url } }
     }`,
@@ -86,8 +89,6 @@ export default async function ResourceDetailPage({
   );
 
   if (!resource) notFound();
-
-  const gradientStyle = `linear-gradient(135deg, ${resource.gradientFrom}, ${resource.gradientTo})`;
 
   return (
     <main>
@@ -113,23 +114,8 @@ export default async function ResourceDetailPage({
 
         <div className="project-gallery">
           <div className="project-gallery-main">
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "16/9",
-                borderRadius: "12px",
-                background: gradientStyle,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "42px",
-                fontWeight: 800,
-                color: "#fff",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              {resource.title}
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={resource.thumbnail.asset.url} alt={resource.title} />
           </div>
         </div>
 

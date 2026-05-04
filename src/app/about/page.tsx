@@ -1,18 +1,22 @@
-import Image from "next/image";
 import "./about.css";
+import { sanityFetch } from "@/lib/sanity";
+import { SanityAboutPage } from "@/lib/sanity-types";
 import ExpandText from "@/components/ui/ExpandText";
 import ContributionsGrid from "@/components/sections/ContributionsGrid";
 import HobbiesList from "@/components/sections/HobbiesList";
 
-const bioParagraphs = [
-  { summary: "I am a Frontend Software Engineer based in the UK, with 2+ years of experience building scalable and user-focused web applications.", expanded: " I have worked with startups and SMEs across ed-tech, e-commerce, and SaaS, helping design and develop fast, accessible, and performance-optimized interfaces." },
-  { summary: "I graduated with First Class Honours in Computer Science (Artificial Intelligence) from the University of Hertfordshire, and spent a year at Concordia University in Montreal as part of an exchange program.", expanded: " My academic background, combined with hands-on industry experience, has given me a strong foundation in both engineering principles and real-world product development." },
-  { summary: "Over the years, I have worked with technologies including JavaScript, TypeScript, React, Next.js, and modern UI frameworks.", expanded: " I focus on building clean, maintainable code and creating seamless user experiences, with an increasing interest in integrating AI into frontend applications to build smarter and more personalized products." },
-  { summary: "I enjoy working on challenging problems and learning by building.", expanded: " I have actively participated in hackathons, placing Top 4 in Hacknovation 2024, winning UniHack 2022, and ranking in the Top 400 globally in the Meta Global Hackathon. Alongside this, I write technical blogs on Medium and LeetCode, and regularly share my learning journey and progress on LinkedIn." },
-  { summary: "I'm driven by continuous growth and enjoy working on products that have real impact.", expanded: " My long-term goal is to become a Software Engineer at Google, and I'm consistently working towards that through building, learning, and pushing my limits." },
-];
+export default async function AboutPage() {
+  const about = await sanityFetch<SanityAboutPage | null>(
+    `*[_id == "aboutPage"][0]{
+      profileImage{ asset->{ url } },
+      bioParagraphs[]{ _key, summary, expandedText },
+      contributions[]{ _key, emoji, title, description, url },
+      hobbies[]{ _key, emoji, label }
+    }`,
+  );
 
-export default function AboutPage() {
+  if (!about) return null;
+
   return (
     <section className="hub-page">
       <div className="hub-header">
@@ -23,26 +27,38 @@ export default function AboutPage() {
       <div className="about-section">
         <h2 className="about-section-title">About</h2>
         <div className="about-row">
-          <div className="about-photo">
-            <Image src="/assets/profile.jpeg" alt="Sam Abdullaev" width={380} height={380} />
-          </div>
+          {about.profileImage?.asset?.url && (
+            <div className="about-photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={about.profileImage.asset.url}
+                alt="Sam Abdullaev"
+                width={380}
+                height={380}
+              />
+            </div>
+          )}
           <div className="about-text">
-            {bioParagraphs.map((p, i) => (
-              <ExpandText key={i} summary={p.summary} expanded={p.expanded} />
+            {about.bioParagraphs?.map((p) => (
+              <ExpandText key={p._key} summary={p.summary} expanded={p.expandedText} />
             ))}
           </div>
         </div>
       </div>
 
-      <div className="about-section">
-        <h2 className="about-section-title">Contributions</h2>
-        <ContributionsGrid />
-      </div>
+      {about.contributions?.length > 0 && (
+        <div className="about-section">
+          <h2 className="about-section-title">Contributions</h2>
+          <ContributionsGrid items={about.contributions} />
+        </div>
+      )}
 
-      <div className="about-section">
-        <h2 className="about-section-title">Hobbies & Activities</h2>
-        <HobbiesList />
-      </div>
+      {about.hobbies?.length > 0 && (
+        <div className="about-section">
+          <h2 className="about-section-title">Hobbies & Activities</h2>
+          <HobbiesList items={about.hobbies} />
+        </div>
+      )}
     </section>
   );
 }
