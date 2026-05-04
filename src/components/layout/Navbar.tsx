@@ -94,10 +94,40 @@ function SunIcon() {
   );
 }
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {open ? (
+        <>
+          <line x1="6" y1="6" x2="18" y2="18" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+        </>
+      ) : (
+        <>
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -110,10 +140,32 @@ export default function Navbar() {
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
-  // Close dropdown on route change
+  // Close drawer + desktop dropdown on route change
   useEffect(() => {
     setOpenDropdown(null);
+    setDrawerOpen(false);
   }, [pathname]);
+
+  // Lock body scroll while drawer is open
+  useEffect(() => {
+    if (drawerOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [drawerOpen]);
+
+  // Close drawer on Escape
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDrawerOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [drawerOpen]);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -122,71 +174,123 @@ export default function Navbar() {
     items.some((item) => isActive(item.href));
 
   return (
-    <nav
-      ref={navRef}
-      className="navbar"
-    >
-      <div className="navbar-inner">
-        <Link href="/" className="navbar-logo">
-          Sam Abdullaev
-        </Link>
+    <>
+      <nav ref={navRef} className="navbar" aria-label="Main navigation">
+        <div className="navbar-inner">
+          <Link href="/" className="navbar-logo">
+            Sam Abdullaev
+          </Link>
 
-        <ul className="navbar-links">
+          <ul className="navbar-links">
+            {directLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={isActive(link.href) ? "active" : ""}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+
+            {dropdowns.map((dropdown) => {
+              const isOpen = openDropdown === dropdown.label;
+              const hasActiveChild = isDropdownActive(dropdown.items);
+
+              return (
+                <li
+                  key={dropdown.label}
+                  className={`navbar-dropdown${isOpen ? " open" : ""}`}
+                >
+                  <button
+                    className={`navbar-dropdown-toggle${hasActiveChild ? " active" : ""}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenDropdown(isOpen ? null : dropdown.label);
+                    }}
+                  >
+                    {dropdown.label}
+                    <ChevronDown />
+                  </button>
+                  <ul className="navbar-dropdown-menu">
+                    {dropdown.items.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className={isActive(item.href) ? "active" : ""}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="navbar-actions">
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+            >
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
+            <button
+              className="navbar-hamburger"
+              aria-label={drawerOpen ? "Close menu" : "Open menu"}
+              aria-expanded={drawerOpen}
+              aria-controls="mobile-drawer"
+              onClick={() => setDrawerOpen((v) => !v)}
+            >
+              <HamburgerIcon open={drawerOpen} />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div
+        className={`navbar-drawer-backdrop${drawerOpen ? " open" : ""}`}
+        aria-hidden="true"
+        onClick={() => setDrawerOpen(false)}
+      />
+      <aside
+        id="mobile-drawer"
+        className={`navbar-mobile-menu${drawerOpen ? " open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+      >
+        <nav className="navbar-drawer-links" aria-label="Main pages">
           {directLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={isActive(link.href) ? "active" : ""}
-              >
-                {link.label}
-              </Link>
-            </li>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={isActive(link.href) ? "active" : ""}
+              onClick={() => setDrawerOpen(false)}
+            >
+              {link.label}
+            </Link>
           ))}
 
-          {dropdowns.map((dropdown) => {
-            const isOpen = openDropdown === dropdown.label;
-            const hasActiveChild = isDropdownActive(dropdown.items);
-
-            return (
-              <li
-                key={dropdown.label}
-                className={`navbar-dropdown${isOpen ? " open" : ""}`}
-              >
-                <button
-                  className={`navbar-dropdown-toggle${hasActiveChild ? " active" : ""}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenDropdown(isOpen ? null : dropdown.label);
-                  }}
+          {dropdowns.map((dropdown) => (
+            <div key={dropdown.label} className="navbar-drawer-group">
+              <div className="navbar-drawer-group-label">{dropdown.label}</div>
+              {dropdown.items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={isActive(item.href) ? "active" : ""}
+                  onClick={() => setDrawerOpen(false)}
                 >
-                  {dropdown.label}
-                  <ChevronDown />
-                </button>
-                <ul className="navbar-dropdown-menu">
-                  {dropdown.items.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className={isActive(item.href) ? "active" : ""}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            );
-          })}
-        </ul>
-
-        <button
-          className="theme-toggle"
-          onClick={toggleTheme}
-          aria-label="Toggle dark mode"
-        >
-          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </button>
-      </div>
-    </nav>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 }

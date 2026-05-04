@@ -9,7 +9,7 @@
 | **Current State** | Static HTML/CSS/JS site in `site/` (50 HTML files, 9 CSS files, 150+ assets) |
 | **Target State** | Next.js app (this repo) + JSON data files + API routes (Sanity deferred) |
 | **Tech Stack** | Next.js 16.2, React 19, TypeScript, Tailwind v4, Sanity |
-| **Design** | Light (#fff7f3) / Dark (#171717) theming, Inter font, responsive (5 breakpoints) |
+| **Design** | Light (#faf8f4) / Dark (#171717) theming, Inter font, responsive (5 breakpoints) |
 
 ---
 
@@ -103,10 +103,12 @@ site/
 |----------|-------|------|
 | `--color-text` | `#222` | `#f0f0f0` |
 | `--color-text-secondary` | `#6a6a6a` | `#a0a0a0` |
-| `--color-bg` | `#fff7f3` | `#171717` |
+| `--color-bg` | `#faf8f4` | `#171717` |
 | `--color-card` | `#fff` | `#222222` |
-| `--color-border` | `#ebebeb` | `#333333` |
-| `--color-hover` | `#f7f7f7` | `#2a2a2a` |
+| `--color-border` | `#e3dfd5` | `#333333` |
+| `--color-hover` | `#eeebe4` | `#2a2a2a` |
+
+**Navbar tokens** (scoped to the sticky transparent navbar, tuned to match `--color-bg` so the backdrop blur doesn't shift hue): `--navbar-bg`, `--navbar-border`, `--navbar-shadow`, `--navbar-ease`.
 
 **Accent colors:** Blue `#4285F4` (personal projects), Green `#34A853` (freelance), Gold `#b58b00` (hackathon), Indigo `#4f46e5` (mentorship)
 
