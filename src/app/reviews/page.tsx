@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
-import { SanitySlug } from "@/lib/sanity-types";
+import { SanityImage, SanitySlug } from "@/lib/sanity-types";
 
 interface ReviewCard {
   year: number;
   slug: SanitySlug;
-  gradientFrom: string;
-  gradientTo: string;
+  thumbnail: SanityImage;
 }
 
 export default async function ReviewsPage() {
   const reviews = await sanityFetch<ReviewCard[]>(
     `*[_type == "yearlyReview"] | order(year desc){
-      year, slug, gradientFrom, gradientTo
+      year, slug, thumbnail{ asset->{ url } }
     }`,
   );
 
@@ -23,7 +22,7 @@ export default async function ReviewsPage() {
         <p className="hub-subtitle">A look back at each year</p>
       </div>
 
-      <div className="card-grid always-visible">
+      <div className="card-grid-filtered">
         {reviews.map((r) => (
           <div className="hub-card" key={r.year}>
             <Link href={`/reviews/${r.slug.current}`}>
@@ -32,10 +31,9 @@ export default async function ReviewsPage() {
                   <div
                     className="hub-card-thumb-img"
                     style={{
-                      background: `linear-gradient(135deg, ${r.gradientFrom}, ${r.gradientTo})`,
+                      backgroundImage: `url(${r.thumbnail.asset.url})`,
                     }}
                   />
-                  <div className="hub-card-year">{r.year}</div>
                 </div>
                 <div className="hub-card-content">
                   <h3>{r.year}</h3>

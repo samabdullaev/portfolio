@@ -52,7 +52,6 @@ portfolio/                              ← This repo (Next.js app)
     ├── certificate-issuers.seeder.ts   ← 9 issuer documents with their logos
     ├── mentorship.seeder.ts
     ├── travel.seeder.ts
-    ├── reviews.seeder.ts
     ├── resources.seeder.ts             ← All 34 resources/categories with thumbnails
     ├── resource-topics.seeder.ts       ← 8 hub-grouping documents with logos + mixed-type refs
     ├── resource-images.seeder.ts       ← (legacy) only the 11 category thumbnails
@@ -121,9 +120,9 @@ portfolio/                              ← This repo (Next.js app)
 
 **certificateIssuer** — `name, slug, logo, order` (filter card on `/certificates`; reference target for `certificate.issuer`)
 
-**travelDestination** — `title, slug, flag, thumbnail, overview, placesToTravel[], personalTips[], order`
+**travelDestination** — `title, slug, flag, thumbnail, gallery[], overview, placesToTravel[], personalTips[], sections[], order` (thumbnail leads the detail-page `<Gallery>`; gallery items follow)
 
-**yearlyReview** — `year, slug, gradient[2], sections[]{ title, items[] }`
+**yearlyReview** — `year, slug, thumbnail, gallery[], sections[]{ title, items[] }` (thumbnail drives the hub card; gallery drives the detail page)
 
 **journeyUpdate** — `title, month, year, thumbnail, linkedInUrl, order`
 

@@ -164,6 +164,7 @@ export interface SanityTravelDestination {
   slug: SanitySlug;
   flag: string;
   thumbnail: SanityImage;
+  gallery: (SanityImage & { _key: string })[] | null;
   overview: {
     citiesVisited: string[];
     accommodation: string[];
@@ -182,8 +183,8 @@ export interface SanityTravelDestination {
 export interface SanityYearlyReview {
   year: number;
   slug: SanitySlug;
-  gradientFrom: string;
-  gradientTo: string;
+  thumbnail: SanityImage;
+  gallery: (SanityImage & { _key: string })[] | null;
   sections: { _key: string; title: string; items: string[] }[];
 }
 

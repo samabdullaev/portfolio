@@ -79,6 +79,14 @@
 - [x] Remove "Show All / Show Less" buttons from all hub pages (filter pattern supersedes them)
 - [x] Add seeders: `certificate-issuers`, `blog-series-images`, `journey-years`, `project-categories`
 
+## Phase 6.6: Reviews / Travel / Mentorship redesign
+- [x] Move `.card-grid-filtered` rules from `FilterCardRow.css` into `globals.css` so any page can use them without importing the filter component
+- [x] Reviews: replace gradient cover with `thumbnail` (required image) + `gallery` (image array); render with `<Gallery>` on the detail page; remove year overlay on hub cards (year already shown in title)
+- [x] Travel: add `gallery` (image array) to `travelDestination`; render with `<Gallery>` on the detail page
+- [x] Switch Reviews / Travel / Mentorship hub grids to `card-grid-filtered` (4-col desktop / 2-col tablet / vertical full-width on mobile) — same shape as filtered hub pages
+- [x] Delete dead `reviews.seeder.ts` (read from a `src/data/reviews.json` that no longer exists; user uploads through Studio)
+- [x] Drop unused `.hub-card-year` styles from `globals.css`
+
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages
 - [ ] Add `next/image` optimization for all images

@@ -35,12 +35,14 @@ export default async function ReviewDetailPage({
   const { year } = await params;
   const review = await sanityFetch<{
     year: number;
-    gradientFrom: string;
-    gradientTo: string;
+    thumbnail: { asset: { url: string } };
+    gallery: { _key: string; asset: { url: string } }[] | null;
     sections: { _key: string; title: string; items: string[] }[];
   } | null>(
     `*[_type == "yearlyReview" && slug.current == $year][0]{
-      year, gradientFrom, gradientTo,
+      year,
+      thumbnail{ asset->{ url } },
+      gallery[]{ _key, asset->{ url } },
       sections[]{ _key, title, items }
     }`,
     { year },
@@ -48,12 +50,13 @@ export default async function ReviewDetailPage({
 
   if (!review) notFound();
 
-  const gradientValue = `linear-gradient(135deg, ${review.gradientFrom}, ${review.gradientTo})`;
-
-  const galleryItems = [
-    { type: "gradient" as const, src: gradientValue },
-    { type: "gradient" as const, src: gradientValue },
-    { type: "gradient" as const, src: gradientValue },
+  // Thumbnail leads the gallery, followed by any extra images.
+  const galleryImages = [
+    { type: "image" as const, src: review.thumbnail.asset.url },
+    ...(review.gallery ?? []).map((g) => ({
+      type: "image" as const,
+      src: g.asset.url,
+    })),
   ];
 
   return (
@@ -78,11 +81,7 @@ export default async function ReviewDetailPage({
 
         <h1 className="project-title">{review.year} Yearly Review</h1>
 
-        <Gallery
-          items={galleryItems}
-          title={String(review.year)}
-          gradientLabel={String(review.year)}
-        />
+        <Gallery items={galleryImages} title={String(review.year)} />
 
         {review.sections.map((section) => (
           <div className="project-section" key={section.title}>

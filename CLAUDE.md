@@ -155,13 +155,12 @@ src/
 │   │   ├── CertificatesContent.tsx    ← Client component: switches between "all" (per-issuer horizontal scroll) and "filtered" (1-col mobile / 4-col desktop grid) modes; cert image modal
 │   │   └── certificates.css           ← Filtered-grid + cert modal styles
 │   ├── travel/
-│   │   ├── page.tsx                   ← Travel hub
-│   │   └── [slug]/page.tsx            ← Travel detail
+│   │   ├── page.tsx                   ← Travel hub (`card-grid-filtered` — vertical full-width on mobile)
+│   │   └── [slug]/page.tsx            ← Travel detail (uses `<Gallery>`: thumbnail leads, then `gallery[]`)
 │   ├── reviews/
-│   │   ├── page.tsx                   ← Reviews hub
-│   │   ├── reviews.css                ← Year gradient styles
-│   │   └── [year]/page.tsx            ← Review detail
-│   └── mentorship/page.tsx            ← Mentorship hub
+│   │   ├── page.tsx                   ← Reviews hub (`card-grid-filtered`; thumbnail covers, no year overlay)
+│   │   └── [year]/page.tsx            ← Review detail (uses `<Gallery>`: thumbnail leads, then `gallery[]`)
+│   └── mentorship/page.tsx            ← Mentorship hub (`card-grid-filtered`)
 ├── lib/
 │   ├── sanity.ts                      ← Sanity client + `sanityFetch` helper
 │   └── sanity-types.ts                ← Shared TypeScript shapes for Sanity responses
@@ -179,7 +178,7 @@ src/components/
 │   ├── ThemeProvider.tsx              ← Dark/light mode context + localStorage
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
-│   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects.
+│   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects. Note: the `.card-grid-filtered` grid layout (used both for filtered hub results and for non-filter pages like Reviews/Travel/Mentorship) lives in `globals.css`, not here.
 │   ├── Gallery.tsx                    ← Main image + thumbnail strip + video modal
 │   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
@@ -210,8 +209,8 @@ src/components/
 | `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks) — also acts as filter card on `/resources`. Holds an ordered array of references that can target either `resource` or `resourceCategory`. | `title`, `slug`, `logo`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
 | `certificate` | Certificate entry | `title`, `issuer` → ref `certificateIssuer`, `date`, `image`, `verifyUrl`, `order` |
 | `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Filter card on `/certificates`. | `name`, `slug`, `logo`, `order` |
-| `travelDestination` | Travel country/location | `title`, `slug`, `thumbnail`, `flagEmoji`, `gallery[]`, `sections[]` {title, content}, `order` |
-| `yearlyReview` | Yearly review | `year`, `slug`, `gradientColors` {from, to}, `sections[]` {title, content} |
+| `travelDestination` | Travel country/location | `title`, `slug`, `flag`, `thumbnail` (hub card cover), `gallery[]` (extras for the detail-page `<Gallery>`), `overview`, `placesToTravel[]`, `personalTips[]`, `sections[]`, `order` |
+| `yearlyReview` | Yearly review | `year`, `slug`, `thumbnail` (required — hub card cover), `gallery[]` (images — detail-page gallery), `sections[]` {title, items[]} |
 | `journeyUpdate` | Monthly journey entry | `title`, `month`, `year` (number — matches `journeyYear.year`), `thumbnail`, `linkedInUrl`, `order` |
 | `journeyYear` | Filter card on the Journey hub (one per year that has updates). Matched against `journeyUpdate.year` by number. | `year`, `slug`, `logo`, `order` |
 | `mentorshipArticle` | Mentorship article | `title`, `slug`, `task`, `date`, `thumbnail`, `externalUrl` |

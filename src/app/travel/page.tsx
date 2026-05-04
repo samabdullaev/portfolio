@@ -23,7 +23,7 @@ export default async function TravelPage() {
         <p className="hub-subtitle">Countries and places I&apos;ve explored</p>
       </div>
 
-      <div className="card-grid always-visible">
+      <div className="card-grid-filtered">
         {destinations.map((d) => (
           <HubCard
             key={d.slug.current}

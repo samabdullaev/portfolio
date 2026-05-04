@@ -801,22 +801,32 @@ main {
   display: block !important;
 }
 
-/* Year number overlay on gradient cards */
-.hub-card-year {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: #fff;
-  transition: transform 0.3s ease;
+/* ===== Filtered-mode card grid =====
+   Used by hub pages when a filter is active (one section visible) and by
+   pages without filters that want the same vertical-stacked layout. */
+.card-grid-filtered {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.hub-card a:hover .hub-card-year {
-  transform: scale(1.03);
+@media (max-width: 900px) {
+  .card-grid-filtered {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid-filtered {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    overflow: visible;
+  }
+  .card-grid-filtered .hub-card {
+    flex: none;
+    min-width: 0;
+  }
 }
 
 /* ===== Responsive ===== */

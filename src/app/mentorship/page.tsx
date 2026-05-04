@@ -26,7 +26,7 @@ export default async function MentorshipPage() {
         </p>
       </div>
 
-      <div className="card-grid always-visible">
+      <div className="card-grid-filtered">
         {articles.map((a) => (
           <HubCard
             key={a._id}
