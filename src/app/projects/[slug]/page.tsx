@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
+import { SanityProjectGalleryEntry } from "@/lib/sanity-types";
 import Gallery from "@/components/ui/Gallery";
 import "@/app/project-detail.css";
 
@@ -38,23 +39,33 @@ export default async function ProjectPage({
     about: string;
     features: string[];
     techStack: string[];
-    gallery: { _key: string; type: string; image?: { asset: { url: string } }; videoUrl?: string }[];
+    thumbnail: { asset: { url: string } };
+    gallery: SanityProjectGalleryEntry[] | null;
     liveUrl: string | null;
     githubUrl: string | null;
   } | null>(
     `*[_type == "project" && slug.current == $slug][0]{
       title, description, about, features, techStack,
-      gallery[]{ _key, type, image{ asset->{ url } }, videoUrl },
+      thumbnail{ asset->{ url } },
+      gallery[]{
+        _key, _type,
+        _type == "image" => { asset->{ url } },
+        _type == "galleryVideo" => { videoUrl }
+      },
       liveUrl, githubUrl
     }`,
     { slug },
   );
   if (!project) notFound();
 
-  const galleryItems = (project.gallery || []).map((g) => ({
-    type: g.type as "image" | "video",
-    src: g.type === "image" ? (g.image?.asset?.url || "") : (g.videoUrl || ""),
-  }));
+  const galleryItems = [
+    { type: "image" as const, src: project.thumbnail.asset.url },
+    ...(project.gallery ?? []).map((g) =>
+      g._type === "image"
+        ? { type: "image" as const, src: g.asset.url }
+        : { type: "video" as const, src: g.videoUrl },
+    ),
+  ];
 
   return (
     <main>

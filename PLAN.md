@@ -87,6 +87,13 @@
 - [x] Delete dead `reviews.seeder.ts` (read from a `src/data/reviews.json` that no longer exists; user uploads through Studio)
 - [x] Drop unused `.hub-card-year` styles from `globals.css`
 
+## Phase 6.7: Projects detail-page gallery + video items
+- [x] Replace `galleryItem` (image+video wrapper) with `galleryVideo` (videoUrl + optional label); make `project.gallery` a mixed array of `image | galleryVideo` so the MCP can auto-add image items
+- [x] Update detail page: thumbnail leads the `<Gallery>`, gallery entries follow (images + YouTube/Vimeo videos discriminated by `_type`)
+- [x] Generate relevant screen mockups + photo references for all 14 projects (1–2 each)
+- [x] Move JoyBormi YouTube + Tech 2 Vimeo hackathon recordings into the gallery as `galleryVideo` items (also kept as `liveUrl` so the "Visit Website" button stays present — single, consistent action button)
+- [ ] Modal polish (deferred — current YouTube modal works; UX refinements come later)
+
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages
 - [ ] Add `next/image` optimization for all images

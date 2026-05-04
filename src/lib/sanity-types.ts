@@ -8,12 +8,11 @@ export interface SanitySlug {
   current: string;
 }
 
-export interface SanityGalleryItem {
-  _key: string;
-  type: "image" | "video";
-  image?: SanityImage;
-  videoUrl?: string;
-}
+// A project gallery entry is either an image (plain Sanity image) or a video (galleryVideo object).
+// Discriminated by `_type` from the GROQ projection.
+export type SanityProjectGalleryEntry =
+  | { _key: string; _type: "image"; asset: { url: string } }
+  | { _key: string; _type: "galleryVideo"; videoUrl: string; label?: string };
 
 // Home Page
 export interface SanityHomePage {
@@ -64,8 +63,8 @@ export interface SanityProject {
   about: string;
   features: string[];
   techStack: string[];
-  gallery: SanityGalleryItem[];
   thumbnail: SanityImage;
+  gallery: SanityProjectGalleryEntry[] | null;
   liveUrl: string | null;
   githubUrl: string | null;
   order: number;

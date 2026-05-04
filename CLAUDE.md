@@ -200,7 +200,7 @@ src/components/
 |------|-------------|------------|
 | `homePage` | Home page content (singleton) | `name`, `title`, `subtitle`, `location`, `profileImage`, `socials[]` {platform, url, icon}, `resumeFile`, `ctaLinks[]` {label, url} |
 | `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {emoji, title, description, url}, `hobbies[]` {emoji, label} |
-| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `gallery[]` {type, image/videoUrl}, `thumbnail`, `liveUrl`, `githubUrl`, `order` |
+| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (hub card cover, leads detail-page `<Gallery>`), `gallery[]` (mixed `image \| galleryVideo`), `liveUrl`, `githubUrl`, `order` |
 | `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Matched against `project.category` by slug. | `title`, `slug`, `logo`, `order` |
 | `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `order` |
 | `blogArticle` | Individual blog post | `title`, `partNumber`, `date`, `externalUrl`, `thumbnail` |
