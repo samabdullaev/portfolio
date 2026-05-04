@@ -26,30 +26,35 @@ portfolio/                              ← This repo (Next.js app)
 │   │   └── siteSettings.ts
 │   └── documents/
 │       ├── project.ts
-│       ├── blogSeries.ts, blogArticle.ts
+│       ├── projectCategory.ts          ← Filter card on /projects (Personal, Freelance, Hackathon) — matched by `project.category` slug
+│       ├── blogSeries.ts, blogArticle.ts ← blogSeries also acts as filter card on /blog (uses shortTitle + logo fields)
 │       ├── resource.ts                 ← Single external resource (hub card, no detail page)
 │       ├── resourceCategory.ts         ← Curated category with detail page on /resources/{slug}
-│       ├── resourceTopic.ts            ← Hub grouping (Tools, Apps, Playbooks, …)
+│       ├── resourceTopic.ts            ← Hub grouping (Tools, Apps, Playbooks, …) — also filter card on /resources
 │       ├── certificate.ts
-│       ├── certificateIssuer.ts       ← Issuer (name, slug, logo) — referenced by certificate, used as filter cards on /certificates
+│       ├── certificateIssuer.ts        ← Filter card on /certificates — referenced by certificate.issuer
 │       ├── travelDestination.ts
 │       ├── yearlyReview.ts
 │       ├── journeyUpdate.ts
+│       ├── journeyYear.ts              ← Filter card on /journey — matched by `journeyUpdate.year` number
 │       └── mentorshipArticle.ts
 └── seeders/
     ├── seed.ts                         ← CLI runner (`pnpm seed up [name…]` / `down`)
     ├── helpers.ts                      ← uploadImage, imageRef, key()
     ├── singletons.seeder.ts            ← Home, About, SiteSettings (text content)
     ├── projects.seeder.ts
+    ├── project-categories.seeder.ts    ← 3 categories with their logos (Personal, Freelance, Hackathon)
     ├── blog.seeder.ts
+    ├── blog-series-images.seeder.ts    ← Patches the 4 series with shortTitle + logo (without touching article thumbnails)
     ├── journey.seeder.ts
+    ├── journey-years.seeder.ts         ← 4 year documents (2023–2026) with their logos
     ├── certificates.seeder.ts
     ├── certificate-issuers.seeder.ts   ← 9 issuer documents with their logos
     ├── mentorship.seeder.ts
     ├── travel.seeder.ts
     ├── reviews.seeder.ts
     ├── resources.seeder.ts             ← All 34 resources/categories with thumbnails
-    ├── resource-topics.seeder.ts       ← 8 hub-grouping documents with mixed-type refs
+    ├── resource-topics.seeder.ts       ← 8 hub-grouping documents with logos + mixed-type refs
     ├── resource-images.seeder.ts       ← (legacy) only the 11 category thumbnails
     ├── images.seeder.ts                ← Profile/resume + bulk image uploads
     └── assets/                         ← Image source files for seeding
@@ -100,7 +105,9 @@ portfolio/                              ← This repo (Next.js app)
 
 **project** — `title, slug, category, description, about, features[], techStack[], gallery[]{ type, image/videoUrl }, liveUrl, githubUrl, thumbnail, order`
 
-**blogSeries** — `title, slug, order, articles[] → ref blogArticle`
+**projectCategory** — `title, slug, logo, order` (filter card on `/projects` — matched against `project.category` by slug)
+
+**blogSeries** — `title, slug, shortTitle, logo, articles[] → ref blogArticle, order` (also acts as filter card on `/blog`; `shortTitle` is the compact filter label)
 
 **blogArticle** — `title, partNumber, date, externalUrl, thumbnail`
 
@@ -108,17 +115,19 @@ portfolio/                              ← This repo (Next.js app)
 
 **resourceCategory** — `title, slug, subtitle, thumbnail, sectionLabel, items[]{ name, desc, url }, sections[]{ label, items[] }` (curated category with detail page on `/resources/{slug}`)
 
-**resourceTopic** — `title, order, items[] → ref (resource | resourceCategory)` (hub-page grouping; mixed-type references)
+**resourceTopic** — `title, slug, logo, order, items[] → ref (resource | resourceCategory)` (hub-page grouping; also filter card on `/resources`; mixed-type references)
 
 **certificate** — `title, issuer → ref certificateIssuer, date, image, verifyUrl, order`
 
-**certificateIssuer** — `name, slug, logo, order` (used as filter cards on `/certificates` and as the `issuer` reference target)
+**certificateIssuer** — `name, slug, logo, order` (filter card on `/certificates`; reference target for `certificate.issuer`)
 
 **travelDestination** — `title, slug, flag, thumbnail, overview, placesToTravel[], personalTips[], order`
 
 **yearlyReview** — `year, slug, gradient[2], sections[]{ title, items[] }`
 
-**journeyUpdate** — `title, month, year, theme, thumbnail, linkedInUrl`
+**journeyUpdate** — `title, month, year, thumbnail, linkedInUrl, order`
+
+**journeyYear** — `year, slug, logo, order` (filter card on `/journey` — matched against `journeyUpdate.year` by number)
 
 **mentorshipArticle** — `title, task, date, thumbnail, externalUrl`
 

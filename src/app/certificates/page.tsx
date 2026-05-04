@@ -50,6 +50,9 @@ export default async function CertificatesPage({
     <main className="hub-page">
       <div className="hub-header">
         <h1>Certificates</h1>
+        <p className="hub-subtitle">
+          Certifications, hackathon awards, and course completions
+        </p>
       </div>
 
       <FilterCardRow

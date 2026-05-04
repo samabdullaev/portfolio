@@ -54,7 +54,7 @@
 
 ## Phase 5: Sanity Setup (separate repo `../portfolio-sanity`)
 - [x] Initialize Sanity project with Studio (project ID `p43tljnq`, dataset `production`)
-- [x] Create all document type schemas (homePage, aboutPage, siteSettings, project, blogSeries, blogArticle, resource, resourceCategory, resourceTopic, certificate, certificateIssuer, travelDestination, yearlyReview, journeyUpdate, mentorshipArticle)
+- [x] Create all document type schemas (homePage, aboutPage, siteSettings, project, projectCategory, blogSeries, blogArticle, resource, resourceCategory, resourceTopic, certificate, certificateIssuer, travelDestination, yearlyReview, journeyUpdate, journeyYear, mentorshipArticle)
 - [x] Build seeder system (`pnpm seed up/down [name]`)
 - [x] Populate all content from static site into Sanity (text + image uploads)
 - [x] Migrate Resources hub to mixed-type model: `resource` (external links) + `resourceCategory` (curated detail pages) referenced by `resourceTopic` (hub groupings)
@@ -66,10 +66,18 @@
 - [x] Remove `src/data/` JSON files and `src/app/api/` routes
 - [ ] Set up ISR or on-demand revalidation
 
-## Phase 6.5: Certificates redesign + reusable filter pattern
+## Phase 6.5: Reusable filter pattern across hub pages
 - [x] Introduce `certificateIssuer` document with logo + slug; migrate `certificate.issuer` from free-text string to a reference
 - [x] Build reusable `<FilterCardRow>` component (`src/components/ui/FilterCardRow.{tsx,css}`) cloning Airbnb Services' filter row — exact dimensions (153×192 / 107×148), 20px ring active state with image-shrinks-via-padding, grid distribution on desktop, fixed-width horizontal scroll on mobile, URL search param-driven, elastic rubber-band overscroll
-- [x] Wire Certificates hub to use it; switch between "all" (per-issuer horizontal scroll) and "filtered" (1-col mobile / multi-col desktop grid) modes via `?issuer=<slug>` URL param
+- [x] Always reserve at least 9 columns (`Math.max(items.length, 9)`) so fewer items don't stretch to fill the row
+- [x] Wire Certificates hub (`?issuer=<slug>`) — uses `certificateIssuer` docs as filter cards
+- [x] Add `slug` + `logo` to `resourceTopic`; wire Resources hub (`?topic=<slug>`)
+- [x] Add `shortTitle` + `logo` to `blogSeries`; wire Blog hub (`?series=<slug>`)
+- [x] Introduce `journeyYear` document; wire Journey hub (`?year=<slug>`) — matched against `journeyUpdate.year` by number
+- [x] Introduce `projectCategory` document; wire Projects hub (`?category=<slug>`) — matched against `project.category` string by slug
+- [x] Remove obsolete `<TopicSection>` component (replaced by FilterCardRow + plain grid)
+- [x] Remove "Show All / Show Less" buttons from all hub pages (filter pattern supersedes them)
+- [x] Add seeders: `certificate-issuers`, `blog-series-images`, `journey-years`, `project-categories`
 
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages

@@ -177,10 +177,9 @@ src/components/
 │   └── Footer.tsx                     ← Copyright footer
 ├── ui/
 │   ├── ThemeProvider.tsx              ← Dark/light mode context + localStorage
-│   ├── TopicSection.tsx               ← Section with header + card grid + Show All/Show Less
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
-│   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band). Used by Certificates page; works for any "filter by topic" page.
+│   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects.
 │   ├── Gallery.tsx                    ← Main image + thumbnail strip + video modal
 │   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
@@ -202,17 +201,19 @@ src/components/
 |------|-------------|------------|
 | `homePage` | Home page content (singleton) | `name`, `title`, `subtitle`, `location`, `profileImage`, `socials[]` {platform, url, icon}, `resumeFile`, `ctaLinks[]` {label, url} |
 | `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {emoji, title, description, url}, `hobbies[]` {emoji, label} |
-| `project` | Portfolio project | `title`, `slug`, `category` (personal/freelance/hackathon), `description`, `about`, `features[]`, `techStack[]`, `gallery[]` {type, image/videoUrl}, `metadata` {year, timeline, role}, `links[]` {label, url}, `thumbnail`, `order` |
-| `blogSeries` | Blog series grouping | `title`, `slug`, `partCount`, `articles[]` → ref `blogArticle`, `order` |
-| `blogArticle` | Individual blog post | `title`, `slug`, `subtitle`, `date`, `externalUrl`, `thumbnail`, `partNumber` |
+| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `gallery[]` {type, image/videoUrl}, `thumbnail`, `liveUrl`, `githubUrl`, `order` |
+| `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Matched against `project.category` by slug. | `title`, `slug`, `logo`, `order` |
+| `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `order` |
+| `blogArticle` | Individual blog post | `title`, `partNumber`, `date`, `externalUrl`, `thumbnail` |
 | `resource` | Single external resource (tool/app/library) shown as a hub card with no detail page | `title`, `slug`, `subtitle`, `thumbnail`, `externalUrl` |
 | `resourceCategory` | Curated category with its own detail page on `/resources/{slug}` | `title`, `slug`, `subtitle`, `thumbnail`, `sectionLabel`, `items[]` {name, desc, url}, `sections[]` {label, items[]} |
-| `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks). Holds an ordered array of references that can target either `resource` or `resourceCategory` | `title`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
+| `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks) — also acts as filter card on `/resources`. Holds an ordered array of references that can target either `resource` or `resourceCategory`. | `title`, `slug`, `logo`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
 | `certificate` | Certificate entry | `title`, `issuer` → ref `certificateIssuer`, `date`, `image`, `verifyUrl`, `order` |
-| `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Used as a filter card on the Certificates hub. | `name`, `slug`, `logo`, `order` |
+| `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Filter card on `/certificates`. | `name`, `slug`, `logo`, `order` |
 | `travelDestination` | Travel country/location | `title`, `slug`, `thumbnail`, `flagEmoji`, `gallery[]`, `sections[]` {title, content}, `order` |
 | `yearlyReview` | Yearly review | `year`, `slug`, `gradientColors` {from, to}, `sections[]` {title, content} |
-| `journeyUpdate` | Monthly journey entry | `title`, `month`, `year`, `theme`, `thumbnail`, `linkedInUrl` |
+| `journeyUpdate` | Monthly journey entry | `title`, `month`, `year` (number — matches `journeyYear.year`), `thumbnail`, `linkedInUrl`, `order` |
+| `journeyYear` | Filter card on the Journey hub (one per year that has updates). Matched against `journeyUpdate.year` by number. | `year`, `slug`, `logo`, `order` |
 | `mentorshipArticle` | Mentorship article | `title`, `slug`, `task`, `date`, `thumbnail`, `externalUrl` |
 | `siteSettings` | Global settings (singleton) | `siteTitle`, `footerText`, `navLinks[]`, `socialLinks[]` |
 

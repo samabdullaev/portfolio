@@ -46,6 +46,15 @@ export interface SanityAboutPage {
   hobbies: { _key: string; emoji: string; label: string }[];
 }
 
+// Project Category (filter card)
+export interface SanityProjectCategory {
+  _id: string;
+  title: string;
+  slug: SanitySlug;
+  logo: SanityImage;
+  order: number;
+}
+
 // Project
 export interface SanityProject {
   title: string;
@@ -123,6 +132,8 @@ export type SanityResourceTopicItem = SanityResource | SanityResourceCategory;
 export interface SanityResourceTopic {
   _id: string;
   title: string;
+  slug: SanitySlug;
+  logo: SanityImage | null;
   order: number;
   items: SanityResourceTopicItem[];
 }
@@ -174,6 +185,15 @@ export interface SanityYearlyReview {
   gradientFrom: string;
   gradientTo: string;
   sections: { _key: string; title: string; items: string[] }[];
+}
+
+// Journey Year (filter card)
+export interface SanityJourneyYear {
+  _id: string;
+  year: number;
+  slug: SanitySlug;
+  logo: SanityImage;
+  order: number;
 }
 
 // Journey Update

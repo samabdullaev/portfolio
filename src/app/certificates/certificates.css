@@ -1,31 +1,3 @@
-/* ===== Filtered-mode card grid ===== */
-/* Single section, ungrouped — 1 column on mobile, normal grid on desktop */
-.card-grid-filtered {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .card-grid-filtered {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-}
-
-@media (max-width: 600px) {
-  .card-grid-filtered {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    overflow: visible;
-  }
-  .card-grid-filtered .hub-card {
-    flex: none;
-    min-width: 0;
-  }
-}
-
 /* Certificate modal */
 .cert-modal-overlay {
   position: fixed;

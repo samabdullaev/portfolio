@@ -110,3 +110,31 @@
     padding: 6px;
   }
 }
+
+/* ===== Filtered-mode card grid =====
+   Layout used when a filter is active and only one section's items are shown.
+   1 column on mobile (better readability), 2 cols at tablet, 4 cols on desktop. */
+.card-grid-filtered {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .card-grid-filtered {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid-filtered {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    overflow: visible;
+  }
+  .card-grid-filtered .hub-card {
+    flex: none;
+    min-width: 0;
+  }
+}

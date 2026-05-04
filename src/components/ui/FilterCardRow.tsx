@@ -27,7 +27,10 @@ export default function FilterCardRow({
       className="filter-card-row"
       role="tablist"
       aria-label="Filter"
-      style={{ "--filter-count": items.length } as React.CSSProperties}
+      // Always size cards as if there were at least 9 columns. With fewer items,
+      // cards stay at the natural 1/9-of-row width and leave empty space on the
+      // right instead of stretching to fill the row.
+      style={{ "--filter-count": Math.max(items.length, 9) } as React.CSSProperties}
     >
       {items.map((item) => {
         const isActive = activeSlug === item.slug;
