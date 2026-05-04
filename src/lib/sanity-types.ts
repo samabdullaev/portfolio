@@ -127,11 +127,20 @@ export interface SanityResourceTopic {
   items: SanityResourceTopicItem[];
 }
 
+// Certificate Issuer (filter card)
+export interface SanityCertificateIssuer {
+  _id: string;
+  name: string;
+  slug: SanitySlug;
+  logo: SanityImage;
+  order: number;
+}
+
 // Certificate
 export interface SanityCertificate {
   _id: string;
   title: string;
-  issuer: string;
+  issuer: SanityCertificateIssuer | { name: string; slug: SanitySlug }; // dereferenced via issuer->{...}
   date: string;
   image: SanityImage;
   verifyUrl: string | null;

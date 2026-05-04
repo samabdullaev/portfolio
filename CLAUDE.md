@@ -151,8 +151,9 @@ src/
 │   │   ├── page.tsx                   ← Resources hub (fetches `resourceTopic` with refs to `resource` | `resourceCategory`)
 │   │   └── [slug]/page.tsx            ← Resource Category detail (only built for `resourceCategory` slugs; `resource` items link external)
 │   ├── certificates/
-│   │   ├── page.tsx                   ← Certificates hub (grouped by issuer)
-│   │   └── certificates.css           ← Certificate modal styles
+│   │   ├── page.tsx                   ← Certificates hub (Airbnb-style issuer filter row + grouped/filtered modes)
+│   │   ├── CertificatesContent.tsx    ← Client component: switches between "all" (per-issuer horizontal scroll) and "filtered" (1-col mobile / 4-col desktop grid) modes; cert image modal
+│   │   └── certificates.css           ← Filtered-grid + cert modal styles
 │   ├── travel/
 │   │   ├── page.tsx                   ← Travel hub
 │   │   └── [slug]/page.tsx            ← Travel detail
@@ -179,6 +180,7 @@ src/components/
 │   ├── TopicSection.tsx               ← Section with header + card grid + Show All/Show Less
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
+│   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band). Used by Certificates page; works for any "filter by topic" page.
 │   ├── Gallery.tsx                    ← Main image + thumbnail strip + video modal
 │   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
@@ -206,7 +208,8 @@ src/components/
 | `resource` | Single external resource (tool/app/library) shown as a hub card with no detail page | `title`, `slug`, `subtitle`, `thumbnail`, `externalUrl` |
 | `resourceCategory` | Curated category with its own detail page on `/resources/{slug}` | `title`, `slug`, `subtitle`, `thumbnail`, `sectionLabel`, `items[]` {name, desc, url}, `sections[]` {label, items[]} |
 | `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks). Holds an ordered array of references that can target either `resource` or `resourceCategory` | `title`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
-| `certificate` | Certificate entry | `title`, `issuer`, `date`, `category`, `image`, `verifyUrl` |
+| `certificate` | Certificate entry | `title`, `issuer` → ref `certificateIssuer`, `date`, `image`, `verifyUrl`, `order` |
+| `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Used as a filter card on the Certificates hub. | `name`, `slug`, `logo`, `order` |
 | `travelDestination` | Travel country/location | `title`, `slug`, `thumbnail`, `flagEmoji`, `gallery[]`, `sections[]` {title, content}, `order` |
 | `yearlyReview` | Yearly review | `year`, `slug`, `gradientColors` {from, to}, `sections[]` {title, content} |
 | `journeyUpdate` | Monthly journey entry | `title`, `month`, `year`, `theme`, `thumbnail`, `linkedInUrl` |

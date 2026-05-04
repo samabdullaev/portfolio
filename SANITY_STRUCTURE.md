@@ -31,6 +31,7 @@ portfolio/                              ← This repo (Next.js app)
 │       ├── resourceCategory.ts         ← Curated category with detail page on /resources/{slug}
 │       ├── resourceTopic.ts            ← Hub grouping (Tools, Apps, Playbooks, …)
 │       ├── certificate.ts
+│       ├── certificateIssuer.ts       ← Issuer (name, slug, logo) — referenced by certificate, used as filter cards on /certificates
 │       ├── travelDestination.ts
 │       ├── yearlyReview.ts
 │       ├── journeyUpdate.ts
@@ -43,6 +44,7 @@ portfolio/                              ← This repo (Next.js app)
     ├── blog.seeder.ts
     ├── journey.seeder.ts
     ├── certificates.seeder.ts
+    ├── certificate-issuers.seeder.ts   ← 9 issuer documents with their logos
     ├── mentorship.seeder.ts
     ├── travel.seeder.ts
     ├── reviews.seeder.ts
@@ -108,7 +110,9 @@ portfolio/                              ← This repo (Next.js app)
 
 **resourceTopic** — `title, order, items[] → ref (resource | resourceCategory)` (hub-page grouping; mixed-type references)
 
-**certificate** — `title, issuer, date, category, image, verifyUrl`
+**certificate** — `title, issuer → ref certificateIssuer, date, image, verifyUrl, order`
+
+**certificateIssuer** — `name, slug, logo, order` (used as filter cards on `/certificates` and as the `issuer` reference target)
 
 **travelDestination** — `title, slug, flag, thumbnail, overview, placesToTravel[], personalTips[], order`
 

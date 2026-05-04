@@ -1,0 +1,112 @@
+/* ===== Filter card row (reusable) =====
+   Behavior cloned from Airbnb's Services category row.
+     Desktop (≥901px): all N cards distribute evenly across the row width via
+       `grid-template-columns: repeat(N, 1fr)` (N comes from --filter-count
+       set on the element by FilterCardRow.tsx).
+     Mobile (≤900px): cards have a fixed Airbnb-spec width (107×102 image area)
+       and the row scrolls horizontally, showing 3 + a peek of the 4th.
+   Container is overflow:auto on every viewport so macOS/iOS trackpad gestures
+   produce the native rubber-band stretch even when content fits.
+   Active state draws a 20px-rounded ring and shrinks the image via padding,
+   so neighboring cards never shift when a filter is selected.
+   Note: the negative margins (`-48px` desktop / `-16px` mobile) assume the
+   parent has matching padding (e.g. `.hub-page`). Override via wrapper if
+   used in a different layout. */
+
+.filter-card-row {
+  display: grid;
+  grid-template-columns: repeat(var(--filter-count, 9), minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+  margin: 0 -48px 32px;
+  padding: 4px 32px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.filter-card-row::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.filter-card-logo {
+  width: 100%;
+  aspect-ratio: 153 / 146;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  transition: padding 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Active state — Airbnb's ring spec: 2px solid border at 20px radius with a
+   layered subtle elevation shadow. Padding shrinks the image inside while
+   the container's outer dimensions stay constant — no neighbor shift. */
+.filter-card.active .filter-card-logo {
+  padding: 8px;
+  border-color: var(--color-text);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.02),
+    0 2px 6px 0 rgba(0, 0, 0, 0.04),
+    0 4px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.filter-card-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+}
+
+.filter-card-name {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  color: var(--color-text);
+  margin-top: 4px;
+}
+
+.filter-card.active .filter-card-name {
+  font-weight: 600;
+}
+
+.filter-card-count {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .filter-card-row {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 107px;
+    margin: 0 -16px 32px;
+    padding: 4px 24px;
+  }
+  .filter-card.active .filter-card-logo {
+    padding: 6px;
+  }
+}

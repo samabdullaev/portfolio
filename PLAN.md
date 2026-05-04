@@ -54,7 +54,7 @@
 
 ## Phase 5: Sanity Setup (separate repo `../portfolio-sanity`)
 - [x] Initialize Sanity project with Studio (project ID `p43tljnq`, dataset `production`)
-- [x] Create all document type schemas (homePage, aboutPage, siteSettings, project, blogSeries, blogArticle, resource, resourceCategory, resourceTopic, certificate, travelDestination, yearlyReview, journeyUpdate, mentorshipArticle)
+- [x] Create all document type schemas (homePage, aboutPage, siteSettings, project, blogSeries, blogArticle, resource, resourceCategory, resourceTopic, certificate, certificateIssuer, travelDestination, yearlyReview, journeyUpdate, mentorshipArticle)
 - [x] Build seeder system (`pnpm seed up/down [name]`)
 - [x] Populate all content from static site into Sanity (text + image uploads)
 - [x] Migrate Resources hub to mixed-type model: `resource` (external links) + `resourceCategory` (curated detail pages) referenced by `resourceTopic` (hub groupings)
@@ -65,6 +65,11 @@
 - [x] Wire up all pages to fetch from Sanity (home, about, projects, blog, journey, resources, travel, reviews, certificates, mentorship)
 - [x] Remove `src/data/` JSON files and `src/app/api/` routes
 - [ ] Set up ISR or on-demand revalidation
+
+## Phase 6.5: Certificates redesign + reusable filter pattern
+- [x] Introduce `certificateIssuer` document with logo + slug; migrate `certificate.issuer` from free-text string to a reference
+- [x] Build reusable `<FilterCardRow>` component (`src/components/ui/FilterCardRow.{tsx,css}`) cloning Airbnb Services' filter row — exact dimensions (153×192 / 107×148), 20px ring active state with image-shrinks-via-padding, grid distribution on desktop, fixed-width horizontal scroll on mobile, URL search param-driven, elastic rubber-band overscroll
+- [x] Wire Certificates hub to use it; switch between "all" (per-issuer horizontal scroll) and "filtered" (1-col mobile / multi-col desktop grid) modes via `?issuer=<slug>` URL param
 
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages

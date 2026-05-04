@@ -1,21 +1,69 @@
 import { sanityFetch } from "@/lib/sanity";
-import CertificatesContent from "./CertificatesContent";
+import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
+import CertificatesContent, { Certificate } from "./CertificatesContent";
 
-export default async function CertificatesPage() {
-  const certs = await sanityFetch<
-    {
-      _id: string;
-      title: string;
-      issuer: string;
-      date: string;
-      image: { asset: { url: string } } | null;
-      verifyUrl: string | null;
-    }[]
-  >(
-    `*[_type == "certificate"] | order(order asc){
-      _id, title, issuer, date, image{ asset->{ url } }, verifyUrl
+interface IssuerWithCount {
+  _id: string;
+  name: string;
+  slug: { current: string };
+  logo: { asset: { url: string } } | null;
+  count: number;
+}
+
+export default async function CertificatesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ issuer?: string }>;
+}) {
+  const { issuer: activeSlug } = await searchParams;
+
+  // 1. All issuers with their cert counts (for the filter row)
+  const issuers = await sanityFetch<IssuerWithCount[]>(
+    `*[_type == "certificateIssuer"] | order(order asc){
+      _id, name, slug,
+      logo{ asset->{ url } },
+      "count": count(*[_type=="certificate" && references(^._id)])
     }`,
   );
 
-  return <CertificatesContent certs={certs} />;
+  // 2. Certificates — filtered server-side if an issuer is selected
+  const certs = await sanityFetch<Certificate[]>(
+    `*[_type == "certificate"${activeSlug ? ` && issuer->slug.current == $slug` : ""}] | order(order asc){
+      _id, title, date, image{ asset->{ url } }, verifyUrl,
+      "issuerName": issuer->name,
+      "issuerSlug": issuer->slug.current
+    }`,
+    activeSlug ? { slug: activeSlug } : undefined,
+  );
+
+  const filterItems: FilterCardItem[] = issuers.map((i) => ({
+    id: i._id,
+    name: i.name,
+    slug: i.slug.current,
+    count: i.count,
+    thumbnail: i.logo?.asset?.url,
+  }));
+
+  const activeIssuer = activeSlug ? issuers.find((i) => i.slug.current === activeSlug) : null;
+
+  return (
+    <main className="hub-page">
+      <div className="hub-header">
+        <h1>Certificates</h1>
+      </div>
+
+      <FilterCardRow
+        items={filterItems}
+        activeSlug={activeSlug ?? null}
+        basePath="/certificates"
+        paramName="issuer"
+      />
+
+      <CertificatesContent
+        certs={certs}
+        mode={activeSlug ? "filtered" : "all"}
+        filteredHeading={activeIssuer?.name}
+      />
+    </main>
+  );
 }
