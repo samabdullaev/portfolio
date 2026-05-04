@@ -179,8 +179,10 @@ src/components/
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
 │   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects. Note: the `.card-grid-filtered` grid layout (used both for filtered hub results and for non-filter pages like Reviews/Travel/Mentorship) lives in `globals.css`, not here.
-│   ├── Gallery.tsx                    ← Main image + thumbnail strip + video modal
-│   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay
+│   ├── Gallery.tsx                    ← Inline main image + thumbnail strip (used by detail pages — Projects/Reviews/Travel)
+│   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay (legacy; used by Gallery)
+│   ├── Modal.tsx + .css                ← Reusable Airbnb-style full-viewport modal: white surface, sticky 80px / 64px topbar (leading / centered title + counter / close), Esc-to-close, fade-in enter, instant close, body scroll-locked. Background lives on a separate `.modal-bg` layer so future per-element exit animations could fade independently.
+│   ├── MediaModal.tsx + .css           ← Image/video gallery modal built on `<Modal>`. Track-based slider with Airbnb's spring easing on desktop (JS-controlled translateX, prev/next buttons + keyboard arrows with shrink-on-press), and native `scroll-snap-type: x mandatory` on mobile (no nav arrows, free swipe + momentum, 28px gap between slots). Handles YouTube + Vimeo URLs (autoplay + timestamp).
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
 │   └── SocialTile.tsx                 ← Icon tile with brand-color hover
 └── sections/

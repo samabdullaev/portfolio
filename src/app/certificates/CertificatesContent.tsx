@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
+import MediaModal from "@/components/ui/MediaModal";
 import "./certificates.css";
 
 export interface Certificate {
@@ -37,7 +38,9 @@ function CertCard({
           <div
             className="hub-card-thumb-img"
             style={{
-              backgroundImage: cert.image?.asset?.url ? `url(${cert.image.asset.url})` : undefined,
+              backgroundImage: cert.image?.asset?.url
+                ? `url(${cert.image.asset.url})`
+                : undefined,
               backgroundSize: "cover",
             }}
           />
@@ -67,32 +70,21 @@ function CertCard({
 }
 
 export default function CertificatesContent({ certs, mode, filteredHeading }: Props) {
-  const [modalCert, setModalCert] = useState<Certificate | null>(null);
-
-  const closeModal = useCallback(() => {
-    setModalCert(null);
-    document.body.style.overflow = "";
-  }, []);
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
 
   const openModal = (cert: Certificate) => {
-    setModalCert(cert);
-    document.body.style.overflow = "hidden";
+    const i = certs.findIndex((c) => c._id === cert._id);
+    if (i >= 0) setModalIndex(i);
   };
 
-  useEffect(() => {
-    if (!modalCert) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [modalCert, closeModal]);
+  const closeModal = () => setModalIndex(null);
 
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
+  const items = certs.map((c) => ({
+    type: "image" as const,
+    src: c.image?.asset?.url ?? "",
+    alt: c.title,
+  }));
+  const activeCert = modalIndex != null ? certs[modalIndex] : null;
 
   // Filtered mode — single section, 1-column on mobile, normal grid on desktop
   if (mode === "filtered") {
@@ -110,7 +102,14 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
             ))}
           </div>
         </div>
-        <CertModal cert={modalCert} onClose={closeModal} />
+        <MediaModal
+          open={modalIndex != null}
+          onClose={closeModal}
+          items={items}
+          index={modalIndex ?? 0}
+          onIndexChange={setModalIndex}
+          title={activeCert?.title}
+        />
       </>
     );
   }
@@ -140,40 +139,14 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
           </div>
         </div>
       ))}
-      <CertModal cert={modalCert} onClose={closeModal} />
+      <MediaModal
+        open={modalIndex != null}
+        onClose={closeModal}
+        items={items}
+        index={modalIndex ?? 0}
+        onIndexChange={setModalIndex}
+        title={activeCert?.title}
+      />
     </>
-  );
-}
-
-function CertModal({ cert, onClose }: { cert: Certificate | null; onClose: () => void }) {
-  if (!cert) return null;
-  return (
-    <div className="cert-modal-overlay" onClick={onClose}>
-      <div className="cert-modal" onClick={(e) => e.stopPropagation()}>
-        <button
-          className="cert-modal-close"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={cert.image?.asset?.url || ""} alt={cert.title} />
-        <div className="cert-modal-info">
-          <p className="cert-modal-title">{cert.title}</p>
-          <p className="cert-modal-date">{cert.date}</p>
-        </div>
-      </div>
-    </div>
   );
 }

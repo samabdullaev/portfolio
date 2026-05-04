@@ -94,6 +94,11 @@
 - [x] Move JoyBormi YouTube + Tech 2 Vimeo hackathon recordings into the gallery as `galleryVideo` items (also kept as `liveUrl` so the "Visit Website" button stays present — single, consistent action button)
 - [ ] Modal polish (deferred — current YouTube modal works; UX refinements come later)
 
+## Phase 6.8: Reusable Airbnb-style modal
+- [x] Build `<Modal>` primitive (`src/components/ui/Modal.{tsx,css}`) — full-viewport white surface, sticky topbar (80px desktop / 64px mobile), Esc + click-to-close, body scroll-locked, gentle fade-in enter, instant close (no exit animation by user preference)
+- [x] Build `<MediaModal>` (`src/components/ui/MediaModal.{tsx,css}`) on top of `<Modal>` — track-based slider with Airbnb's spring easing (`linear(...)` curve, 450ms) and shrink-on-press effect on prev/next + keyboard arrows; mobile uses native `scroll-snap-type: x mandatory` + `overflow-x: auto` for momentum-driven free swipe (no nav arrows). 28px gap between slots. Handles YouTube + Vimeo embed conversion.
+- [x] Wire Certificates page to use `<MediaModal>`; delete the old inline `cert-modal-*` CSS
+
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages
 - [ ] Add `next/image` optimization for all images
