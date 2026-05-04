@@ -40,8 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# playwright screenshots
+# playwright screenshots (ignore stray PNGs at repo root, but keep app/public assets)
 *.png
+!src/app/**/*.png
+!public/**/*.png
 .playwright-mcp/
 screenshots/
 

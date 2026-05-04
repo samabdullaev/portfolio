@@ -94,6 +94,33 @@ function SunIcon() {
   );
 }
 
+function LogoIcon() {
+  return (
+    <svg
+      className="navbar-logo-icon"
+      width="32"
+      height="32"
+      viewBox="0 0 64 64"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect className="navbar-logo-bg" width="64" height="64" rx="14" />
+      <text
+        className="navbar-logo-fg"
+        x="32"
+        y="43"
+        textAnchor="middle"
+        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif"
+        fontWeight="800"
+        fontSize="30"
+        letterSpacing="-1.2"
+      >
+        SA
+      </text>
+    </svg>
+  );
+}
+
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <svg
@@ -177,8 +204,9 @@ export default function Navbar() {
     <>
       <nav ref={navRef} className="navbar" aria-label="Main navigation">
         <div className="navbar-inner">
-          <Link href="/" className="navbar-logo">
-            Sam Abdullaev
+          <Link href="/" className="navbar-logo" aria-label="Sam Abdullaev — Home">
+            <LogoIcon />
+            <span className="navbar-logo-text">Sam Abdullaev</span>
           </Link>
 
           <ul className="navbar-links">

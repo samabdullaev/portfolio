@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Navbar from "@/components/layout/Navbar";
@@ -16,6 +16,13 @@ export const metadata: Metadata = {
   title: "Sam Abdullaev — Frontend Software Engineer",
   description:
     "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf8f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#171717" },
+  ],
 };
 
 export default function RootLayout({

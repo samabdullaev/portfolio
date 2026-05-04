@@ -135,6 +135,9 @@ main {
 }
 
 .navbar-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -146,6 +149,16 @@ main {
 .navbar-logo:hover {
   opacity: 0.7;
 }
+
+.navbar-logo-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.navbar-logo-bg { fill: #171717; }
+.navbar-logo-fg { fill: #faf8f4; }
+[data-theme="dark"] .navbar-logo-bg { fill: #faf8f4; }
+[data-theme="dark"] .navbar-logo-fg { fill: #171717; }
 
 .navbar-links {
   display: flex;
@@ -812,6 +825,15 @@ main {
     padding: 0 20px;
     grid-template-columns: auto 1fr auto;
     gap: 12px;
+  }
+
+  .navbar-logo-text {
+    display: none;
+  }
+
+  .navbar-logo-icon {
+    width: 40px;
+    height: 40px;
   }
 
   .navbar-links {
