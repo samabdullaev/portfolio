@@ -18,7 +18,7 @@ portfolio/                              ← This repo (Next.js app)
 ├── schemaTypes/
 │   ├── index.ts                        ← Exports all types
 │   ├── objects/
-│   │   ├── galleryVideo.ts             ← { videoUrl, label } — used inside project.gallery alongside plain images
+│   │   ├── galleryVideo.ts             ← { videoUrl, caption } — used inside project.gallery alongside plain images
 │   │   └── socialLink.ts               ← { platform, url }
 │   ├── singletons/
 │   │   ├── homePage.ts
@@ -102,7 +102,7 @@ portfolio/                              ← This repo (Next.js app)
 
 ### Documents
 
-**project** — `title, slug, category, description, about, features[], techStack[], thumbnail, gallery[] (mixed image | galleryVideo), liveUrl, githubUrl, order` (thumbnail leads the detail-page `<Gallery>`; gallery entries follow, mixing screenshots and YouTube/Vimeo videos)
+**project** — `title, slug, category, description, about, features[], techStack[], thumbnail{ caption }, gallery[]{ caption | videoUrl + caption }, liveUrl, githubUrl, order` (thumbnail leads the detail-page `<MediaGallery>`; gallery entries follow, mixing screenshots and YouTube/Vimeo videos. Every entry — image or video — carries its own `caption` shown as the modal title)
 
 **projectCategory** — `title, slug, logo, order` (filter card on `/projects` — matched against `project.category` by slug)
 

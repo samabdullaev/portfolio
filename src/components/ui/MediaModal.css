@@ -53,6 +53,15 @@
   max-height: calc(100vh - 200px);
 }
 
+/* When the frame holds a video, it should fill the available slot width
+   (capped by viewport-aware max-width) so the iframe renders at usable
+   size. Image-bearing frames shrink to their image instead. */
+.media-modal-frame:has(iframe) {
+  width: 100%;
+  max-width: min(100%, calc((100vh - 200px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+}
+
 .media-modal-frame img {
   display: block;
   max-width: 100%;
@@ -71,8 +80,7 @@
 .media-modal-frame iframe {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: calc(100vh - 200px);
+  height: 100%;
   border: 0;
   background: #000;
   border-radius: 32px;

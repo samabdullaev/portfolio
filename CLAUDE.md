@@ -145,7 +145,7 @@ src/
 │   ├── blog/page.tsx                  ← Blog hub
 │   ├── projects/
 │   │   ├── page.tsx                   ← Projects hub
-│   │   └── [slug]/page.tsx            ← Project detail
+│   │   └── [slug]/page.tsx            ← Project detail (uses `<MediaGallery>`: thumb-swap-inline + click-to-modal; thumbnail leads, gallery items follow — mixed `image | galleryVideo` with per-item `caption`)
 │   ├── journey/page.tsx               ← Journey hub
 │   ├── resources/
 │   │   ├── page.tsx                   ← Resources hub (fetches `resourceTopic` with refs to `resource` | `resourceCategory`)
@@ -179,11 +179,11 @@ src/components/
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
 │   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects. Note: the `.card-grid-filtered` grid layout (used both for filtered hub results and for non-filter pages like Reviews/Travel/Mentorship) lives in `globals.css`, not here.
-│   ├── Gallery.tsx                    ← Inline main image + thumbnail strip (legacy; still used by Projects detail page)
-│   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay (legacy; used by Gallery)
+│   ├── Gallery.tsx                    ← Inline main image + thumbnail strip (legacy; no longer used — kept until removed)
+│   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay (legacy; no longer used — kept until removed)
 │   ├── Modal.tsx + .css                ← Reusable Airbnb-style full-viewport modal: white surface, sticky 80px / 64px topbar (leading / centered title + counter / close), Esc-to-close, fade-in enter, instant close, body scroll-locked.
 │   ├── MediaModal.tsx + .css           ← Image/video gallery modal built on `<Modal>`. Track-based slider with Airbnb's spring easing on desktop (JS-controlled translateX, prev/next buttons + keyboard arrows with shrink-on-press), and native `scroll-snap-type: x mandatory` on mobile (no nav arrows, free swipe + momentum, 28px gap between slots). Handles YouTube + Vimeo URLs (autoplay + timestamp). `MediaModalItem.caption` overrides the topbar title per item; falls back to the modal-level `title` prop.
-│   ├── MediaGallery.tsx                ← Inline hero image + thumbnail strip that opens `<MediaModal>` on hero click. Thumb click swaps the inline hero (Option B "browse-then-expand"). Active thumb visual mirrors `FilterCardRow`: outer box stays the same size, image shrinks via padding, ring drawn with `box-shadow: inset` + `var(--color-bg)` filling the gap. Used by Reviews detail.
+│   ├── MediaGallery.tsx                ← Inline hero image + thumbnail strip that opens `<MediaModal>` on hero click. Thumb click swaps the inline hero (Option B "browse-then-expand"). Active thumb visual mirrors `FilterCardRow`: outer box stays the same size, image shrinks via padding, ring drawn with `box-shadow: inset` + `var(--color-bg)` filling the gap. Handles image + video items uniformly — videos render their YouTube preview thumbnail with a play overlay, then play full-size in the modal. Used by Reviews / Travel / Projects detail.
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
 │   └── SocialTile.tsx                 ← Icon tile with brand-color hover
 └── sections/
@@ -203,7 +203,7 @@ src/components/
 |------|-------------|------------|
 | `homePage` | Home page content (singleton) | `name`, `title`, `subtitle`, `location`, `profileImage`, `socials[]` {platform, url, icon}, `resumeFile`, `ctaLinks[]` {label, url} |
 | `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {emoji, title, description, url}, `hobbies[]` {emoji, label} |
-| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (hub card cover, leads detail-page `<Gallery>`), `gallery[]` (mixed `image \| galleryVideo`), `liveUrl`, `githubUrl`, `order` |
+| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (mixed: `image` items with `caption`, or `galleryVideo` items with `videoUrl` + `caption`), `liveUrl`, `githubUrl`, `order`. Captions show as the modal's per-item title. |
 | `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Matched against `project.category` by slug. | `title`, `slug`, `logo`, `order` |
 | `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `order` |
 | `blogArticle` | Individual blog post | `title`, `partNumber`, `date`, `externalUrl`, `thumbnail` |

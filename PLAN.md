@@ -99,13 +99,14 @@
 - [x] Build `<MediaModal>` (`src/components/ui/MediaModal.{tsx,css}`) on top of `<Modal>` — track-based slider with Airbnb's spring easing (`linear(...)` curve, 450ms) and shrink-on-press effect on prev/next + keyboard arrows; mobile uses native `scroll-snap-type: x mandatory` + `overflow-x: auto` for momentum-driven free swipe (no nav arrows). 28px gap between slots. Handles YouTube + Vimeo embed conversion.
 - [x] Wire Certificates page to use `<MediaModal>`; delete the old inline `cert-modal-*` CSS
 
-## Phase 6.9: Reviews + Travel → MediaGallery + per-image captions
+## Phase 6.9: Reviews + Travel + Projects → MediaGallery + per-image captions
 - [x] Build `<MediaGallery>` (`src/components/ui/MediaGallery.tsx`) — inline hero + thumbnail strip with Option B interaction: thumb click swaps the inline hero, hero click opens `<MediaModal>` at the active index. Modal navigation also updates the inline `activeIndex` so closing returns to the last image viewed.
 - [x] Active-thumb visual mirrors `FilterCardRow`: `box-sizing: border-box` + `padding: 4px` + `box-shadow: inset 0 0 0 2px var(--color-text)` + `var(--color-bg)` fills the gap; image inside has its own `border-radius: 4px` so the curve survives the padding. Outer dimensions stay 80×52 — no neighbour shift.
-- [x] Add `caption` field to every image in `yearlyReview` and `travelDestination` (both `thumbnail` and `gallery[]` items) — editable in Studio
-- [x] `MediaModalItem` gains optional `caption` field; `<MediaModal>` derives the topbar title from `items[index].caption` (falls back to the modal-level `title` prop for usages like Certificates that don't use per-item captions)
-- [x] Reviews and Travel detail pages swap `<Gallery>` → `<MediaGallery>` and pull captions from Sanity
-- [x] Seed captions for all 5 review thumbnails + every gallery item, and for all 11 travel destinations + their gallery items
+- [x] `MediaGallery` handles videos uniformly with images: video thumbs/heros render the YouTube preview frame with a play overlay, then play full-size inside `<MediaModal>` (no auto-play in the inline view). YouTube + Vimeo embed conversion handled in `MediaModal`.
+- [x] Add `caption` field to every image in `yearlyReview`, `travelDestination`, and `project` (`thumbnail` + `gallery[]` items). Rename `galleryVideo.label` → `caption` for consistency. All editable in Studio.
+- [x] `<MediaModal>` `<MediaModal>` derives the topbar title from `items[index].caption` (falls back to the modal-level `title` prop for usages like Certificates that don't use per-item captions). Iframe sized via `:has(iframe)` rule that stretches the frame to viewport-fitted 16:9 instead of shrinking with the image-style content fit.
+- [x] Reviews / Travel / Projects detail pages all swap `<Gallery>` → `<MediaGallery>` and pull captions from Sanity
+- [x] Seed captions for all 5 review thumbnails + gallery items, all 11 travel destinations + gallery items, and all 14 projects + gallery items (incl. JoyBormi YouTube + Tech 2 Vimeo videos)
 
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages

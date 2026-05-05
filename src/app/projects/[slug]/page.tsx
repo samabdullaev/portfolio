@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import { SanityProjectGalleryEntry } from "@/lib/sanity-types";
-import Gallery from "@/components/ui/Gallery";
+import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
@@ -39,16 +39,16 @@ export default async function ProjectPage({
     about: string;
     features: string[];
     techStack: string[];
-    thumbnail: { asset: { url: string } };
+    thumbnail: { asset: { url: string }; caption?: string };
     gallery: SanityProjectGalleryEntry[] | null;
     liveUrl: string | null;
     githubUrl: string | null;
   } | null>(
     `*[_type == "project" && slug.current == $slug][0]{
       title, description, about, features, techStack,
-      thumbnail{ asset->{ url } },
+      thumbnail{ asset->{ url }, caption },
       gallery[]{
-        _key, _type,
+        _key, _type, caption,
         _type == "image" => { asset->{ url } },
         _type == "galleryVideo" => { videoUrl }
       },
@@ -59,11 +59,23 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   const galleryItems = [
-    { type: "image" as const, src: project.thumbnail.asset.url },
+    {
+      type: "image" as const,
+      src: project.thumbnail.asset.url,
+      caption: project.thumbnail.caption,
+    },
     ...(project.gallery ?? []).map((g) =>
       g._type === "image"
-        ? { type: "image" as const, src: g.asset.url }
-        : { type: "video" as const, src: g.videoUrl },
+        ? {
+            type: "image" as const,
+            src: g.asset.url,
+            caption: g.caption,
+          }
+        : {
+            type: "video" as const,
+            src: g.videoUrl,
+            caption: g.caption,
+          },
     ),
   ];
 
@@ -88,7 +100,7 @@ export default async function ProjectPage({
         <h1 className="project-title">{project.title}</h1>
         <p className="project-description">{project.description}</p>
 
-        <Gallery items={galleryItems} title={project.title} />
+        <MediaGallery items={galleryItems} title={project.title} />
 
         {(project.liveUrl || project.githubUrl) && (
           <div className="project-section">
