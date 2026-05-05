@@ -112,6 +112,10 @@
 - [x] Generate Airbnb-style isometric icons via Sanity's `mcp__Sanity__generate_image`. Prompt template: 1:1 canvas, isometric-left orientation, soft ambient lighting from top-right, satin/semi-matte materials, octane-style 3D rendering on plain white bg, no text/numbers/words. Same template reused across pages.
 - [x] Project filter cards: Personal (laptop+plant+notebooks), Freelance (briefcase+document+pen), Hackathon (trophy+code-bracket+lightning)
 - [x] Journey filter cards: 2023 (airplane+globe+passport — travel), 2024 (textbooks+maple leaf — Concordia exchange), 2025 (graduation cap+diploma+briefcase — graduation/job hunt), 2026 (calendar+pencil+growth chart — planning/momentum)
+- [x] Blog filter cards: SvelteKit+Sanity (Svelte flame + Sanity-style block), Study Abroad (passport + globe + airplane), Professional Dev (laptop + chart + notebook), UK Guide (red double-decker bus + tea + Big-Ben tower)
+- [x] Resources filter cards: 8 topic icons (Tools, Apps, Programming, Career, Education, Newsletters, Showcases, Portfolios — props vary per topic)
+- [x] Certificates filter cards: 9 issuer icons keyed to the platform's subject matter (CS50 = academic pillar+chalkboard+books, Python Institute = python snake+scroll+laptop, HackerRank = terminal+green chevron+hex badge, Awards & Hackathons = trophy+medal+scroll, Coursera = laptop+headphones+notepad, FreeCodeCamp = campfire+laptop+log stool, Forage = briefcase+laptop+clipboard, LinkedIn Learning = navy tablet+graduation cap+mug, Springpod = sapling+magnifier+book). Thematic only — no logo reproduction.
+- [x] Add new April 2026 journeyUpdate entry (`journey-2026-04`, "April 2026: Iteration") + matching thumbnail mapping in `images.seeder.ts` (auto-bumps `order` since entries[] is reverse-chronological)
 - [x] Active filter card image radius bumped from 12px → 20px (matches the outer ring's 20px radius so both curves read as the same shape). Padding and structural design preserved (2px border, 20px outer radius, 8px desktop / 6px mobile padding). `var(--color-bg)` fills the active gap so the curve is visible against the white-bg AI icons.
 
 ## Phase 7: Polish & Deploy
