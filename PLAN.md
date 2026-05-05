@@ -108,6 +108,10 @@
 - [x] Reviews / Travel / Projects detail pages all swap `<Gallery>` → `<MediaGallery>` and pull captions from Sanity
 - [x] Seed captions for all 5 review thumbnails + gallery items, all 11 travel destinations + gallery items, and all 14 projects + gallery items (incl. JoyBormi YouTube + Tech 2 Vimeo videos)
 
+## Phase 6.10: AI-generated isometric filter icons + curve match
+- [x] Generate Airbnb-style isometric icons via Sanity's `mcp__Sanity__generate_image` for the 3 Project filter cards (Personal/Freelance/Hackathon). Prompt template: 1:1 canvas, isometric-left orientation, soft ambient lighting from top-right, satin/semi-matte materials, octane-style 3D rendering on plain white bg. Same template will be reused for other pages' filter cards.
+- [x] Active filter card image radius bumped from 12px → 20px (matches the outer ring's 20px radius so both curves read as the same shape). Padding and structural design preserved (2px border, 20px outer radius, 8px desktop / 6px mobile padding). `var(--color-bg)` fills the active gap so the curve is visible against the white-bg AI icons.
+
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages
 - [ ] Add `next/image` optimization for all images
