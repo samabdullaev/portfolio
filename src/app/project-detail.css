@@ -177,65 +177,6 @@ button.project-gallery-main:hover {
     color: #fff;
 }
 
-/* Video modal */
-.video-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    padding: 24px;
-}
-
-.video-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.video-modal {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-}
-
-.video-modal iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: none;
-    border-radius: 12px;
-    display: block;
-}
-
-.video-modal-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.2s ease;
-}
-
-.video-modal-close:hover {
-    opacity: 0.7;
-}
-
-.video-modal-close svg {
-    width: 24px;
-    height: 24px;
-}
-
 /* Hide thumbs strip when only 1 item */
 .project-gallery-thumbs:empty {
     display: none;
