@@ -1,3 +1,5 @@
+import { monthNumber } from "@/lib/constants";
+
 interface ContributionItem {
   _key: string;
   title: string;
@@ -31,14 +33,6 @@ interface Props {
 }
 
 const SLOTS = ["a", "b", "c", "d", "e", "f"] as const;
-
-// Sam's monthly journey began Oct 2023 — that's Month 1.
-const JOURNEY_START_YEAR = 2023;
-const JOURNEY_START_MONTH = 10;
-
-function monthNumber(year: number, month: number) {
-  return (year - JOURNEY_START_YEAR) * 12 + (month - JOURNEY_START_MONTH) + 1;
-}
 
 export default function ContributionsBentoCreative({ items, latestPosts, latestArticle }: Props) {
   return (

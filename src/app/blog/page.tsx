@@ -1,24 +1,7 @@
 import { sanityFetch } from "@/lib/sanity";
+import { blogSeriesQuery, type BlogSeries } from "@/lib/sanity/queries/blog";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
-
-interface BlogArticle {
-  _id: string;
-  title: string;
-  partNumber: number;
-  date: string;
-  externalUrl: string;
-  thumbnail: { asset: { url: string } } | null;
-}
-
-interface BlogSeries {
-  _id: string;
-  title: string;
-  shortTitle: string | null;
-  slug: { current: string };
-  logo: { asset: { url: string } } | null;
-  articles: BlogArticle[];
-}
 
 export default async function BlogPage({
   searchParams,
@@ -27,13 +10,7 @@ export default async function BlogPage({
 }) {
   const { series: activeSlug } = await searchParams;
 
-  const series = await sanityFetch<BlogSeries[]>(
-    `*[_type == "blogSeries"] | order(order asc){
-      _id, title, shortTitle, slug,
-      logo{ asset->{ url } },
-      articles[]->{ _id, title, partNumber, date, externalUrl, thumbnail{ asset->{ url } } }
-    }`,
-  );
+  const series = await sanityFetch<BlogSeries[]>(blogSeriesQuery);
 
   const filterItems: FilterCardItem[] = series.map((s) => ({
     id: s._id,

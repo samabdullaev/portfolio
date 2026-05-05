@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
+import {
+  travelDestinationDetailQuery,
+  travelDestinationSlugsQuery,
+  travelDestinationTitleBySlugQuery,
+  type TravelDestinationDetail,
+} from "@/lib/sanity/queries/travel";
 import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
-  const all = await sanityFetch<{ slug: { current: string } }[]>(
-    `*[_type == "travelDestination"]{ slug }`,
-  );
+  const all = await sanityFetch<{ slug: { current: string } }[]>(travelDestinationSlugsQuery);
   return all.map((d) => ({ slug: d.slug.current }));
 }
 
@@ -18,7 +22,7 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const dest = await sanityFetch<{ title: string } | null>(
-    `*[_type == "travelDestination" && slug.current == $slug][0]{ title }`,
+    travelDestinationTitleBySlugQuery,
     { slug },
   );
   if (!dest) return {};
@@ -33,23 +37,8 @@ export default async function TravelDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const dest = await sanityFetch<{
-    title: string;
-    flag: string;
-    thumbnail: { asset: { url: string }; caption?: string };
-    gallery: { _key: string; caption?: string; asset: { url: string } }[] | null;
-    overview: { citiesVisited: string[]; accommodation: string[] } | null;
-    placesToTravel: { _key: string; city: string; places: string[] }[] | null;
-    personalTips: string[] | null;
-    sections: { _key: string; title: string; items: string[] }[] | null;
-  } | null>(
-    `*[_type == "travelDestination" && slug.current == $slug][0]{
-      title, flag,
-      thumbnail{ asset->{ url }, caption },
-      gallery[]{ _key, caption, asset->{ url } },
-      overview, placesToTravel[]{ _key, city, places },
-      personalTips, sections[]{ _key, title, items }
-    }`,
+  const dest = await sanityFetch<TravelDestinationDetail | null>(
+    travelDestinationDetailQuery,
     { slug },
   );
 

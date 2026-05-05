@@ -1,20 +1,12 @@
 import { sanityFetch } from "@/lib/sanity";
-import { SanitySlug, SanityImage } from "@/lib/sanity-types";
+import {
+  travelDestinationsQuery,
+  type TravelCard,
+} from "@/lib/sanity/queries/travel";
 import HubCard from "@/components/ui/HubCard";
 
-interface TravelCard {
-  title: string;
-  slug: SanitySlug;
-  flag: string;
-  thumbnail: SanityImage | null;
-}
-
 export default async function TravelPage() {
-  const destinations = await sanityFetch<TravelCard[]>(
-    `*[_type == "travelDestination"] | order(order asc){
-      title, slug, flag, thumbnail{ asset->{ url } }
-    }`,
-  );
+  const destinations = await sanityFetch<TravelCard[]>(travelDestinationsQuery);
 
   return (
     <main className="hub-page">

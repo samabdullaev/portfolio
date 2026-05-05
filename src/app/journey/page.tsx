@@ -1,21 +1,12 @@
 import { sanityFetch } from "@/lib/sanity";
+import {
+  journeyUpdatesQuery,
+  journeyYearsQuery,
+  type JourneyUpdate,
+  type JourneyYear,
+} from "@/lib/sanity/queries/journey";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
-
-interface JourneyUpdate {
-  _id: string;
-  title: string;
-  year: number;
-  linkedInUrl: string;
-  thumbnail: { asset: { url: string } } | null;
-}
-
-interface JourneyYear {
-  _id: string;
-  year: number;
-  slug: { current: string };
-  logo: { asset: { url: string } } | null;
-}
 
 export default async function JourneyPage({
   searchParams,
@@ -26,16 +17,8 @@ export default async function JourneyPage({
 
   // Fetch updates and year filter cards in parallel via two GROQ queries.
   const [updates, journeyYears] = await Promise.all([
-    sanityFetch<JourneyUpdate[]>(
-      `*[_type == "journeyUpdate"] | order(order asc){
-        _id, title, year, linkedInUrl, thumbnail{ asset->{ url } }
-      }`,
-    ),
-    sanityFetch<JourneyYear[]>(
-      `*[_type == "journeyYear"] | order(year desc){
-        _id, year, slug, logo{ asset->{ url } }
-      }`,
-    ),
+    sanityFetch<JourneyUpdate[]>(journeyUpdatesQuery),
+    sanityFetch<JourneyYear[]>(journeyYearsQuery),
   ]);
 
   // Group updates by year

@@ -2,17 +2,10 @@
 
 import { useState } from "react";
 import MediaModal from "@/components/ui/MediaModal";
+import type { Certificate } from "@/lib/sanity/queries/certificates";
 import "./certificates.css";
 
-export interface Certificate {
-  _id: string;
-  title: string;
-  date: string;
-  image: { asset: { url: string } } | null;
-  verifyUrl: string | null;
-  issuerName: string;
-  issuerSlug: string;
-}
+export type { Certificate };
 
 interface Props {
   certs: Certificate[];

@@ -1,19 +1,9 @@
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
-import { SanityImage, SanitySlug } from "@/lib/sanity-types";
-
-interface ReviewCard {
-  year: number;
-  slug: SanitySlug;
-  thumbnail: SanityImage;
-}
+import { reviewsListQuery, type ReviewCard } from "@/lib/sanity/queries/reviews";
 
 export default async function ReviewsPage() {
-  const reviews = await sanityFetch<ReviewCard[]>(
-    `*[_type == "yearlyReview"] | order(year desc){
-      year, slug, thumbnail{ asset->{ url } }
-    }`,
-  );
+  const reviews = await sanityFetch<ReviewCard[]>(reviewsListQuery);
 
   return (
     <main className="hub-page">

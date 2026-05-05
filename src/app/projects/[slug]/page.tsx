@@ -2,14 +2,17 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
-import { SanityProjectGalleryEntry } from "@/lib/sanity-types";
+import {
+  projectDetailQuery,
+  projectSlugsQuery,
+  projectTitleBySlugQuery,
+  type ProjectDetail,
+} from "@/lib/sanity/queries/projects";
 import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
-  const projects = await sanityFetch<{ slug: { current: string } }[]>(
-    `*[_type == "project"]{ slug }`,
-  );
+  const projects = await sanityFetch<{ slug: { current: string } }[]>(projectSlugsQuery);
   return projects.map((p) => ({ slug: p.slug.current }));
 }
 
@@ -19,10 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = await sanityFetch<{ title: string } | null>(
-    `*[_type == "project" && slug.current == $slug][0]{ title }`,
-    { slug },
-  );
+  const project = await sanityFetch<{ title: string } | null>(projectTitleBySlugQuery, { slug });
   if (!project) return { title: "Project Not Found" };
   return { title: `${project.title} — Sam Abdullaev` };
 }
@@ -33,29 +33,7 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await sanityFetch<{
-    title: string;
-    description: string;
-    about: string;
-    features: string[];
-    techStack: string[];
-    thumbnail: { asset: { url: string }; caption?: string };
-    gallery: SanityProjectGalleryEntry[] | null;
-    liveUrl: string | null;
-    githubUrl: string | null;
-  } | null>(
-    `*[_type == "project" && slug.current == $slug][0]{
-      title, description, about, features, techStack,
-      thumbnail{ asset->{ url }, caption },
-      gallery[]{
-        _key, _type, caption,
-        _type == "image" => { asset->{ url } },
-        _type == "galleryVideo" => { videoUrl }
-      },
-      liveUrl, githubUrl
-    }`,
-    { slug },
-  );
+  const project = await sanityFetch<ProjectDetail | null>(projectDetailQuery, { slug });
   if (!project) notFound();
 
   const galleryItems = [

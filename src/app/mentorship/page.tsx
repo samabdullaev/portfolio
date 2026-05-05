@@ -1,21 +1,12 @@
 import { sanityFetch } from "@/lib/sanity";
+import {
+  mentorshipArticlesQuery,
+  type MentorshipArticle,
+} from "@/lib/sanity/queries/mentorship";
 import HubCard from "@/components/ui/HubCard";
 
-interface MentorshipArticle {
-  _id: string;
-  title: string;
-  task: string;
-  date: string;
-  externalUrl: string;
-  thumbnail: { asset: { url: string } } | null;
-}
-
 export default async function MentorshipPage() {
-  const articles = await sanityFetch<MentorshipArticle[]>(
-    `*[_type == "mentorshipArticle"] | order(order asc){
-      _id, title, task, date, externalUrl, thumbnail{ asset->{ url } }
-    }`,
-  );
+  const articles = await sanityFetch<MentorshipArticle[]>(mentorshipArticlesQuery);
 
   return (
     <main className="hub-page">

@@ -1,5 +1,8 @@
 import { sanityFetch } from "@/lib/sanity";
-import { SanityResourceTopic } from "@/lib/sanity-types";
+import {
+  resourceTopicsQuery,
+  type ResourceTopic,
+} from "@/lib/sanity/queries/resources";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 
@@ -10,17 +13,7 @@ export default async function ResourcesPage({
 }) {
   const { topic: activeSlug } = await searchParams;
 
-  const topics = await sanityFetch<SanityResourceTopic[]>(
-    `*[_type == "resourceTopic"] | order(order asc){
-      _id, title, slug, order,
-      logo{ asset->{ url } },
-      "items": items[]->{
-        _id, _type, title, slug, subtitle,
-        thumbnail{ asset->{ url } },
-        externalUrl
-      }
-    }`,
-  );
+  const topics = await sanityFetch<ResourceTopic[]>(resourceTopicsQuery);
 
   const filterItems: FilterCardItem[] = topics.map((t) => ({
     id: t._id,

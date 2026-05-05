@@ -4,36 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/components/ui/ThemeProvider";
-
-const directLinks = [
-  { label: "About", href: "/about" },
-  { label: "Projects", href: "/projects" },
-];
-
-const dropdowns = [
-  {
-    label: "Writing",
-    items: [
-      { label: "Journey", href: "/journey" },
-      { label: "Blog", href: "/blog" },
-      { label: "Mentorship", href: "/mentorship" },
-    ],
-  },
-  {
-    label: "Life",
-    items: [
-      { label: "Travel", href: "/travel" },
-      { label: "Yearly Reviews", href: "/reviews" },
-    ],
-  },
-  {
-    label: "Learning",
-    items: [
-      { label: "Resources", href: "/resources" },
-      { label: "Certificates", href: "/certificates" },
-    ],
-  },
-];
+import { directLinks, dropdowns } from "@/data/navigation";
 
 function ChevronDown() {
   return (

@@ -1,22 +1,12 @@
 import { sanityFetch } from "@/lib/sanity";
-import { SanityProject, SanityImage, SanitySlug } from "@/lib/sanity-types";
+import {
+  projectsListQuery,
+  projectCategoriesQuery,
+  type ProjectCard,
+  type ProjectCategoryCard,
+} from "@/lib/sanity/queries/projects";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
-
-interface ProjectCard {
-  title: string;
-  slug: SanitySlug;
-  category: SanityProject["category"];
-  description: string;
-  thumbnail: SanityImage | null;
-}
-
-interface ProjectCategory {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  logo: { asset: { url: string } } | null;
-}
 
 export default async function ProjectsPage({
   searchParams,
@@ -27,16 +17,8 @@ export default async function ProjectsPage({
 
   // Fetch projects + categories in parallel.
   const [projects, categories] = await Promise.all([
-    sanityFetch<ProjectCard[]>(
-      `*[_type == "project"] | order(order asc){
-        title, slug, category, description, thumbnail{ asset->{ url } }
-      }`,
-    ),
-    sanityFetch<ProjectCategory[]>(
-      `*[_type == "projectCategory"] | order(order asc){
-        _id, title, slug, logo{ asset->{ url } }
-      }`,
-    ),
+    sanityFetch<ProjectCard[]>(projectsListQuery),
+    sanityFetch<ProjectCategoryCard[]>(projectCategoriesQuery),
   ]);
 
   // Group projects by category slug

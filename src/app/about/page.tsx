@@ -1,6 +1,6 @@
 import "./about.css";
 import { sanityFetch } from "@/lib/sanity";
-import { SanityAboutPage } from "@/lib/sanity-types";
+import { aboutPageQuery, type AboutPageData } from "@/lib/sanity/queries/about";
 import ExpandText from "@/components/ui/ExpandText";
 import ContributionsBentoCreative from "@/components/sections/ContributionsBentoCreative";
 import HobbiesList from "@/components/sections/HobbiesList";
@@ -10,43 +10,8 @@ import HobbiesList from "@/components/sections/HobbiesList";
 // articles surface in the bento without a redeploy.
 export const revalidate = 3600;
 
-interface BentoLatestPost {
-  title: string;
-  month: number;
-  year: number;
-  linkedInUrl: string;
-  thumbnailUrl: string | null;
-}
-
-interface BentoLatestArticle {
-  title: string;
-  date: string;
-  externalUrl: string;
-}
-
-interface AboutPageData {
-  about: SanityAboutPage | null;
-  latestPosts: BentoLatestPost[];
-  latestArticle: BentoLatestArticle | null;
-}
-
 export default async function AboutPage() {
-  const data = await sanityFetch<AboutPageData>(
-    `{
-      "about": *[_id == "aboutPage"][0]{
-        profileImage{ asset->{ url } },
-        bioParagraphs[]{ _key, summary, expandedText },
-        contributions[]{ _key, title, description, url, tag, subtitle, channelName, channelStatus, activities },
-        hobbies[]{ _key, emoji, label }
-      },
-      "latestPosts": *[_type == "journeyUpdate"] | order(year desc, month desc)[0...5]{
-        title, month, year, linkedInUrl, "thumbnailUrl": thumbnail.asset->url
-      },
-      "latestArticle": *[_type == "blogArticle"] | order(date desc)[0]{
-        title, date, externalUrl
-      }
-    }`,
-  );
+  const data = await sanityFetch<AboutPageData>(aboutPageQuery);
 
   const { about, latestPosts, latestArticle } = data;
   if (!about) return null;

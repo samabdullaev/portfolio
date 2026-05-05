@@ -1,15 +1,19 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
-import { SanityImage } from "@/lib/sanity-types";
+import {
+  resourceCategoryDetailQuery,
+  resourceCategorySlugsQuery,
+  resourceCategoryTitleBySlugQuery,
+  type ResourceCategoryDetail,
+  type ResourceItem,
+} from "@/lib/sanity/queries/resources";
 import "@/app/project-detail.css";
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const all = await sanityFetch<{ slug: { current: string } }[]>(
-    `*[_type == "resourceCategory"]{ slug }`,
-  );
+  const all = await sanityFetch<{ slug: { current: string } }[]>(resourceCategorySlugsQuery);
   return all.map((r) => ({ slug: r.slug.current }));
 }
 
@@ -20,7 +24,7 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const resource = await sanityFetch<{ title: string } | null>(
-    `*[_type == "resourceCategory" && slug.current == $slug][0]{ title }`,
+    resourceCategoryTitleBySlugQuery,
     { slug },
   );
   if (!resource) return {};
@@ -48,7 +52,7 @@ function ExternalLinkIcon() {
   );
 }
 
-function ResourceItemList({ items }: { items: { _key: string; name: string; desc: string | null; url: string }[] }) {
+function ResourceItemList({ items }: { items: ResourceItem[] }) {
   return (
     <ul className="resource-list">
       {items.map((item) => (
@@ -72,19 +76,8 @@ export default async function ResourceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const resource = await sanityFetch<{
-    title: string;
-    sectionLabel: string | null;
-    thumbnail: SanityImage;
-    items: { _key: string; name: string; desc: string | null; url: string }[];
-    sections: { _key: string; label: string; items: { _key: string; name: string; desc: string | null; url: string }[] }[] | null;
-  } | null>(
-    `*[_type == "resourceCategory" && slug.current == $slug][0]{
-      title, sectionLabel,
-      thumbnail{ asset->{ url } },
-      items[]{ _key, name, desc, url },
-      sections[]{ _key, label, items[]{ _key, name, desc, url } }
-    }`,
+  const resource = await sanityFetch<ResourceCategoryDetail | null>(
+    resourceCategoryDetailQuery,
     { slug },
   );
 

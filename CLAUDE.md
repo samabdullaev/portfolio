@@ -6,7 +6,7 @@
 |-------|-------|
 | **Owner** | Sam Abdullaev — Frontend Software Engineer |
 | **Purpose** | Personal portfolio showcasing projects, blog, travel, certificates, mentorship, and more |
-| **State** | Next.js app fully wired to Sanity CMS for content (home, about, projects, blog, journey, resources, travel, reviews, certificates, mentorship). The original static HTML reference site has been removed. |
+| **State** | Next.js app fully wired to Sanity CMS for content (home, about, projects, blog, journey, resources, travel, reviews, certificates, mentorship). The original static HTML reference site has been removed. Currently entering an audit/refactor cycle (Phase 7+) ahead of a public release of both repositories — keep secrets out of commits and route IDs/tokens through env vars. |
 | **Sanity Studio** | Separate repo at `../portfolio-sanity` (project ID `p43tljnq`, dataset `production`). Schemas, seeders, and Studio config live there. |
 | **Tech Stack** | Next.js 16.2, React 19, TypeScript, Tailwind v4, Sanity |
 | **Design** | Light (#faf8f4) / Dark (#171717) theming, Inter font, responsive (5 breakpoints) |
@@ -162,8 +162,17 @@ src/
 │   │   └── [year]/page.tsx            ← Review detail (uses `<MediaGallery>`: thumb-swap-inline + click-to-modal; thumbnail leads, gallery items follow, every image carries its own `caption`)
 │   └── mentorship/page.tsx            ← Mentorship hub (`card-grid-filtered`)
 ├── lib/
-│   ├── sanity.ts                      ← Sanity client + `sanityFetch` helper
-│   └── sanity-types.ts                ← Shared TypeScript shapes for Sanity responses
+│   ├── constants.ts                   ← App-wide constants (`JOURNEY_START_YEAR`, `JOURNEY_START_MONTH`, `monthNumber()`)
+│   └── sanity/
+│       ├── client.ts                  ← Sanity client + `sanityFetch` (env-driven via `NEXT_PUBLIC_SANITY_PROJECT_ID` + `NEXT_PUBLIC_SANITY_DATASET`)
+│       ├── types.ts                   ← Shared primitives (`SanityImage`, `SanitySlug`, `SanityProjectGalleryEntry`)
+│       ├── index.ts                   ← Barrel re-exporting client + primitives so consumers can `import { sanityFetch } from "@/lib/sanity"`
+│       └── queries/                   ← One file per content domain — GROQ strings + result types co-located so they evolve together
+│           ├── home.ts, about.ts, projects.ts, blog.ts, journey.ts
+│           └── resources.ts, certificates.ts, travel.ts, reviews.ts, mentorship.ts
+├── data/                              ← Cross-page static data (page content stays in Sanity)
+│   ├── navigation.ts                  ← Top-level nav structure (direct links + dropdowns)
+│   └── social-icons.tsx               ← `SOCIAL_ICONS` map keyed by `homePage.socials[].platform`
 └── components/                        ← (see Shared Components below)
 ```
 
@@ -219,6 +228,19 @@ src/components/
 
 ---
 
-## Task List
+## Roadmap
 
-See [PLAN.md](./PLAN.md) for the full task list with progress tracking.
+Phases 1–6.11 (initial build → Sanity migration → bento + filter system) are complete. The site is live-feature-complete; the remaining phases are a structured cleanup + refactor cycle in preparation for a public release.
+
+| # | Phase | Scope |
+|---|---|---|
+| 7 | Cleanup & Audit | Read-only inventory: dead code, `"use client"` overuse, hardcoded data, sensitive data, naming, version cruft. Report → approve → execute |
+| 8 | Reorganize structure | Move static data, extract GROQ queries to `src/lib/sanity/queries/`, split `sanity-types.ts`, add `loading.tsx`/`error.tsx`, apply naming fixes |
+| 9 | Playwright E2E baseline | Per-route happy paths + critical interactions (filters, modals, theme toggle, mobile drawer). Becomes regression net for everything after |
+| 10 | Tailwind migration (hybrid) | Bucket components → migrate pure-utility + hybrid; retain CSS for keyframes / complex compounds, realigned to design tokens. Add `clsx` + `tailwind-merge` |
+| 11 | next/image migration | Custom Sanity loader, decide `sizes` per usage pattern, replace `<img>` site-wide |
+| 12 | Sanity Studio refactor (`../portfolio-sanity`) | Desk groups, date-type migration, drag-and-drop vs date-sort per doc type, schema add/remove/edit as discovered, seeder split (gitignored fixtures + committed example) |
+| 13 | Performance + a11y | Bundle analyzer, Lighthouse baseline, modal focus trap, skip link, ARIA audit, contrast check, lazy-load |
+| 14 | Public repo prep + deploy | Env audit, `.env.example`, `.gitignore` audit, READMEs, LICENSE, Vercel deploy, Sanity webhook ISR, OG metadata, flip both repos to public |
+
+See [PLAN.md](./PLAN.md) for the full task list with progress tracking and per-phase checklists.

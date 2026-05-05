@@ -132,12 +132,92 @@
 - [x] Singleton documents (`homePage`, `aboutPage`, `siteSettings`) gained `preview` blocks so Sanity Studio shows readable titles + media instead of the raw object dump.
 - [x] About page opts into ISR with `export const revalidate = 3600` so newly-published `journeyUpdate` and `blogArticle` docs surface in the bento within an hour without a redeploy.
 
-## Phase 7: Polish & Deploy
-- [ ] Add `<head>` metadata + OG images for all pages
-- [ ] Add `next/image` optimization for all images
+---
+
+> **Phases 7–14 — Cleanup, refactor & public-release prep**
+>
+> Sequential, each phase lands as a discrete commit set. The Playwright baseline (Phase 9) becomes the regression net for everything after. Schema mutations during Phase 12 imply matching CLAUDE.md updates to the schema table.
+
+## Phase 7: Cleanup & Audit (read-only first)
+- [x] Inventory dead code — unused exports, components, CSS classes, leftover JSON files
+- [x] Inventory `"use client"` directives — flag any that don't actually need browser APIs / state
+- [x] Inventory hardcoded data — what's static, where it currently lives, where it should live (`src/data/` cross-page, `src/lib/constants.ts` app-wide, file-top single-use)
+- [x] Inventory sensitive data — any committed `.env*`, hardcoded tokens, personal info that should be Sanity-driven, anything to env-ify before public release
+- [x] Naming consistency check — PascalCase components, camelCase utils, kebab-case routes, slug-style file names
+- [x] Version audit — flag legacy patterns from earlier Next.js / React / Sanity versions; check for old terminology in code/comments
+- [x] Report findings; user approves before any deletion or moves
+
+## Phase 8: Reorganize structure
+- [x] Delete dead code identified in audit (`src/components/ui/CardGrid.tsx`)
+- [x] Move static data per audit (`src/data/navigation.ts`, `src/data/social-icons.tsx`, `src/lib/constants.ts` for `JOURNEY_START_*` + `monthNumber`)
+- [x] Env-ify Sanity client — `NEXT_PUBLIC_SANITY_PROJECT_ID` + `NEXT_PUBLIC_SANITY_DATASET`; create `.env.local` (gitignored) and `.env.example` (committed)
+- [x] Extract GROQ queries to `src/lib/sanity/queries/{home,about,projects,blog,journey,resources,certificates,travel,reviews,mentorship}.ts` — query strings + result types co-located per domain
+- [x] Move shared Sanity primitives (`SanityImage`, `SanitySlug`, `SanityProjectGalleryEntry`) to `src/lib/sanity/types.ts`; delete `src/lib/sanity-types.ts`
+- [x] Move client + `sanityFetch` to `src/lib/sanity/client.ts`; add `src/lib/sanity/index.ts` barrel so existing `from "@/lib/sanity"` imports still resolve; delete `src/lib/sanity.ts`
+- [x] Update all 14 page files to consume the new query modules; remove every inline `interface ... { ... }` shape that duplicates a query result type
+- [x] Add root `loading.tsx`, `error.tsx`, and `not-found.tsx` (Next.js cascades these to all child segments — per-route overrides only when copy needs to differ)
+- [x] Naming corrections from audit — none needed (audit confirmed conventions are consistent)
+- [x] Type check + dev-server smoke test (about + projects render clean, no console errors)
+- [x] Update CLAUDE.md component/route table to reflect new `src/lib/sanity/` structure
+
+## Phase 9: Playwright E2E baseline
+- [ ] Install Playwright; add `e2e/` directory; add `test:e2e` + `test:e2e:ui` npm scripts
+- [ ] Per-route happy-path tests: home, about, every hub page, one detail page per type (project / resource-category / travel / review)
+- [ ] Critical interactions: filter cards (URL-driven), MediaModal open / close / navigation, theme toggle persists, mobile drawer
+- [ ] Visual snapshots for routes that get heavy refactor in Phase 10 (Tailwind migration baseline)
+- [ ] CI hook deferred until deploy host is decided in Phase 14
+
+## Phase 10: Tailwind migration (hybrid)
+- [ ] Inventory components into three buckets: **pure utilities** (HubCard, hobby pills, layout shells), **hybrid** (page layouts, simple sections), **CSS-stays** (bento system, MediaModal slider, expand animations, any keyframe-heavy block)
+- [ ] Migrate pure-utility components first; replace per-component `.css` imports with utility classes
+- [ ] Migrate hybrid components; thin their CSS files to only the parts utilities can't express
+- [ ] Realign retained CSS to design tokens via `var(--color-*)` so both worlds share the system
+- [ ] Add `clsx` + `tailwind-merge` once classnames go conditional
+- [ ] Visual regression check after each cluster (compare against Phase 9 snapshots)
+
+## Phase 11: next/image migration
+- [ ] Add custom Sanity image loader (`src/lib/sanity-image-loader.ts`) for the Sanity CDN
+- [ ] Decide default `sizes` per usage pattern (hub thumbnail, detail hero, gallery thumb, avatar, bento media)
+- [ ] Replace `<img>` site-wide with `next/image`
+- [ ] Remove `eslint-disable @next/next/no-img-element` comments
+- [ ] Verify hub + detail page Lighthouse LCP improvement vs Phase 9 baseline
+
+## Phase 12: Sanity Studio refactor (`../portfolio-sanity` repo)
+- [ ] Build desk structure with 7 groups: Pages / Projects / Blog / Resources / Certificates / Travel / Reviews / Journey / Mentorship
+- [ ] Migrate `string` date fields to `date` type — `certificate.date`, `blogArticle.date`, `mentorshipArticle.date`
+- [ ] Decide per-doc-type ordering strategy:
+  - **Drag-and-drop** (small, intentional): `projectCategory`, `blogSeries`, `resourceTopic`, `certificateIssuer`, `journeyYear`, `travelDestination`, `yearlyReview`
+  - **Date-based default sort** (drop `order` entirely): `certificate`, `blogArticle`, `journeyUpdate`
+- [ ] Install `@sanity/orderable-document-list` and configure for D&D types
+- [ ] Set `defaultOrdering: [{ field: 'date', direction: 'desc' }]` per date-sorted doc type for newest-first
+- [ ] Schema add/remove/edit as discovered during refactor (planned: `order` field removal where date-sort replaces it; field-type migration for date fields; any new fields to support better ordering or grouping)
+- [ ] Seeder split:
+  - `seed/fixtures/` — **gitignored**, real-data backup; refresh via `sanity dataset export production`
+  - `seed/example/` — **committed**, 1–2 placeholder docs per type so a stranger can fork and see Studio work end-to-end
+  - Seed runner reads either directory via flag (`--from fixtures` / `--from example`)
+- [ ] Update CLAUDE.md schema table to reflect any field/type changes
+- [ ] Update PLAN.md schema-related sections (Phase 5, 6.5–6.11) only if field renames break historical accuracy
+
+## Phase 13: Performance + a11y polish
+- [ ] Run `next build` + bundle analyzer; record baseline numbers
+- [ ] Lighthouse per route (light + dark mode); record baseline
+- [ ] Modal focus trap + focus restoration on close
+- [ ] Skip-to-content link in root layout
+- [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
+- [ ] Contrast audit on `--color-text-secondary` against `--color-bg` (both modes); adjust tokens if needed
 - [ ] Lazy-load offscreen card grids and images
-- [ ] Test full light/dark mode across all pages
-- [ ] Test responsive layout at all 5 breakpoints
-- [ ] Run Lighthouse audit and fix performance issues
-- [ ] Configure deployment (Vercel)
-- [ ] Set up Sanity webhook for on-demand revalidation
+- [ ] Re-run bundle analyzer + Lighthouse; compare to baseline; document deltas
+
+## Phase 14: Public repo prep + deploy
+- [ ] Sweep both repos for `.env*`, hardcoded tokens, personal data not surfaced via Sanity
+- [ ] Create `.env.example` in both repos (var names only, no values)
+- [ ] `.gitignore` audit — build outputs, OS junk (`.DS_Store`), IDE configs, `seed/fixtures/`
+- [ ] Move Sanity project ID + dataset name to env vars (currently `p43tljnq` / `production` — public-readable but env-driven for hygiene)
+- [ ] Write README for portfolio repo (tech stack, local setup, env vars, screenshots, deploy)
+- [ ] Write README for portfolio-sanity repo (Studio setup, seeding via `seed/example/`, schema groups)
+- [ ] Add `LICENSE` (MIT) to both repos
+- [ ] Configure Vercel deployment for portfolio
+- [ ] Set up Sanity webhook for on-demand revalidation (rolls in leftover Phase 6 ISR item)
+- [ ] Add `<head>` metadata + per-route `generateMetadata` + OG images
+- [ ] Final QA: full light/dark across pages, responsive at all 5 breakpoints, broken links / images
+- [ ] Flip both repositories to public

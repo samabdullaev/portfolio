@@ -1,14 +1,12 @@
 import { sanityFetch } from "@/lib/sanity";
+import {
+  certificateIssuersQuery,
+  certificatesQuery,
+  type Certificate,
+  type IssuerWithCount,
+} from "@/lib/sanity/queries/certificates";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
-import CertificatesContent, { Certificate } from "./CertificatesContent";
-
-interface IssuerWithCount {
-  _id: string;
-  name: string;
-  slug: { current: string };
-  logo: { asset: { url: string } } | null;
-  count: number;
-}
+import CertificatesContent from "./CertificatesContent";
 
 export default async function CertificatesPage({
   searchParams,
@@ -18,21 +16,11 @@ export default async function CertificatesPage({
   const { issuer: activeSlug } = await searchParams;
 
   // 1. All issuers with their cert counts (for the filter row)
-  const issuers = await sanityFetch<IssuerWithCount[]>(
-    `*[_type == "certificateIssuer"] | order(order asc){
-      _id, name, slug,
-      logo{ asset->{ url } },
-      "count": count(*[_type=="certificate" && references(^._id)])
-    }`,
-  );
+  const issuers = await sanityFetch<IssuerWithCount[]>(certificateIssuersQuery);
 
   // 2. Certificates — filtered server-side if an issuer is selected
   const certs = await sanityFetch<Certificate[]>(
-    `*[_type == "certificate"${activeSlug ? ` && issuer->slug.current == $slug` : ""}] | order(order asc){
-      _id, title, date, image{ asset->{ url } }, verifyUrl,
-      "issuerName": issuer->name,
-      "issuerSlug": issuer->slug.current
-    }`,
+    certificatesQuery(Boolean(activeSlug)),
     activeSlug ? { slug: activeSlug } : undefined,
   );
 

@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
+import {
+  yearlyReviewDetailQuery,
+  yearlyReviewSlugsQuery,
+  yearlyReviewYearBySlugQuery,
+  type YearlyReviewDetail,
+} from "@/lib/sanity/queries/reviews";
 import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
-  const all = await sanityFetch<{ slug: { current: string } }[]>(
-    `*[_type == "yearlyReview"]{ slug }`,
-  );
+  const all = await sanityFetch<{ slug: { current: string } }[]>(yearlyReviewSlugsQuery);
   return all.map((r) => ({ year: r.slug.current }));
 }
 
@@ -18,7 +22,7 @@ export async function generateMetadata({
 }) {
   const { year } = await params;
   const review = await sanityFetch<{ year: number } | null>(
-    `*[_type == "yearlyReview" && slug.current == $year][0]{ year }`,
+    yearlyReviewYearBySlugQuery,
     { year },
   );
   if (!review) return {};
@@ -33,18 +37,8 @@ export default async function ReviewDetailPage({
   params: Promise<{ year: string }>;
 }) {
   const { year } = await params;
-  const review = await sanityFetch<{
-    year: number;
-    thumbnail: { asset: { url: string }; caption?: string };
-    gallery: { _key: string; caption?: string; asset: { url: string } }[] | null;
-    sections: { _key: string; title: string; items: string[] }[];
-  } | null>(
-    `*[_type == "yearlyReview" && slug.current == $year][0]{
-      year,
-      thumbnail{ asset->{ url }, caption },
-      gallery[]{ _key, caption, asset->{ url } },
-      sections[]{ _key, title, items }
-    }`,
+  const review = await sanityFetch<YearlyReviewDetail | null>(
+    yearlyReviewDetailQuery,
     { year },
   );
 
