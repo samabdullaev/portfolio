@@ -37,10 +37,14 @@ export interface SanityAboutPage {
   }[];
   contributions: {
     _key: string;
-    emoji: string;
     title: string;
     description: string;
     url: string;
+    tag?: string;
+    subtitle?: string;
+    channelName?: string;
+    channelStatus?: string;
+    activities?: string[];
   }[];
   hobbies: { _key: string; emoji: string; label: string }[];
 }

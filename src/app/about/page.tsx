@@ -2,19 +2,53 @@ import "./about.css";
 import { sanityFetch } from "@/lib/sanity";
 import { SanityAboutPage } from "@/lib/sanity-types";
 import ExpandText from "@/components/ui/ExpandText";
-import ContributionsGrid from "@/components/sections/ContributionsGrid";
+import ContributionsBentoCreative from "@/components/sections/ContributionsBentoCreative";
 import HobbiesList from "@/components/sections/HobbiesList";
 
+// Re-fetch the page (and its `latestPosts` / `latestArticle` sub-queries)
+// at most once per hour so newly-published journey updates and Medium
+// articles surface in the bento without a redeploy.
+export const revalidate = 3600;
+
+interface BentoLatestPost {
+  title: string;
+  month: number;
+  year: number;
+  linkedInUrl: string;
+  thumbnailUrl: string | null;
+}
+
+interface BentoLatestArticle {
+  title: string;
+  date: string;
+  externalUrl: string;
+}
+
+interface AboutPageData {
+  about: SanityAboutPage | null;
+  latestPosts: BentoLatestPost[];
+  latestArticle: BentoLatestArticle | null;
+}
+
 export default async function AboutPage() {
-  const about = await sanityFetch<SanityAboutPage | null>(
-    `*[_id == "aboutPage"][0]{
-      profileImage{ asset->{ url } },
-      bioParagraphs[]{ _key, summary, expandedText },
-      contributions[]{ _key, emoji, title, description, url },
-      hobbies[]{ _key, emoji, label }
+  const data = await sanityFetch<AboutPageData>(
+    `{
+      "about": *[_id == "aboutPage"][0]{
+        profileImage{ asset->{ url } },
+        bioParagraphs[]{ _key, summary, expandedText },
+        contributions[]{ _key, title, description, url, tag, subtitle, channelName, channelStatus, activities },
+        hobbies[]{ _key, emoji, label }
+      },
+      "latestPosts": *[_type == "journeyUpdate"] | order(year desc, month desc)[0...5]{
+        title, month, year, linkedInUrl, "thumbnailUrl": thumbnail.asset->url
+      },
+      "latestArticle": *[_type == "blogArticle"] | order(date desc)[0]{
+        title, date, externalUrl
+      }
     }`,
   );
 
+  const { about, latestPosts, latestArticle } = data;
   if (!about) return null;
 
   return (
@@ -49,7 +83,11 @@ export default async function AboutPage() {
       {about.contributions?.length > 0 && (
         <div className="about-section">
           <h2 className="about-section-title">Contributions</h2>
-          <ContributionsGrid items={about.contributions} />
+          <ContributionsBentoCreative
+            items={about.contributions}
+            latestPosts={latestPosts}
+            latestArticle={latestArticle}
+          />
         </div>
       )}
 

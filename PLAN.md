@@ -118,6 +118,20 @@
 - [x] Add new April 2026 journeyUpdate entry (`journey-2026-04`, "April 2026: Iteration") + matching thumbnail mapping in `images.seeder.ts` (auto-bumps `order` since entries[] is reverse-chronological)
 - [x] Active filter card image radius bumped from 12px → 20px (matches the outer ring's 20px radius so both curves read as the same shape). Padding and structural design preserved (2px border, 20px outer radius, 8px desktop / 6px mobile padding). `var(--color-bg)` fills the active gap so the curve is visible against the white-bg AI icons.
 
+## Phase 6.11: About-page Contributions bento
+- [x] Replace the 2-col `ContributionsGrid` on `/about` with `ContributionsBentoCreative` — a 4×3 bento (`"a a b c" / "a a b d" / "e e e f"`) where each slot renders its own visual format instead of the uniform icon+title+description.
+- [x] Slot renderers (each tied to a specific platform by array order):
+  - **a — FeatureHero (LinkedIn, 2×2)**: cream card, two-column inner layout. Left: `SOCIAL` tag + bold "Monthly journey on LinkedIn." headline + description. Right: a `Recent posts` panel showing the 5 most-recent `journeyUpdate` docs (real thumbnail + title + "Month N" derived from a journey-start of Oct 2023, e.g. April 2026 = Month 31). Green pulsing "Live" indicator next to the panel header.
+  - **b — CommunityCard (UzTech, 1×2)**: cream card. `COMMUNITY` tag, 5 colourful gradient avatar circles with white person-silhouette SVGs, 3 activity pills (Events / Training / Projects) with status dots that cycle green on a stagger, title, description, and a Telegram-style channel-preview footer at the bottom (Telegram-blue circle + paper-plane SVG + `@UzTechUK` + green pulsing "Active community" dot).
+  - **c — ContributionGraphCard (GitHub, 1×1)**: dark slate card (only non-cream slot — "code editor" reads instantly). `CODE` tag + a mock 5×7 contribution-graph grid in GitHub-style greens.
+  - **d — QuoteCard (Publink, 1×1)**: cream card. Big serif `❞` quote-mark watermark in the top-right, `WRITING` tag, title, optional `subtitle` (e.g. "Uzbek mentorship").
+  - **e — ArticlePreviewCard (Medium, 3×1 banner)**: cream card. Inline `WRITING` tag + black avatar dot, big Lora-serif "Medium" headline, description, "Read more →" CTA. On the right: a tilted mock article tile showing a black-gradient thumbnail with a white serif "M" + the latest `blogArticle` title + date. On mobile the tile becomes a peek (absolutely positioned with negative offsets so the card's `overflow: hidden` crops most of it — only a sliver shows in the bottom-right corner).
+  - **f — CodeBracketsCard (LeetCode, 1×1)**: cream card. `PRACTICE` tag + giant mono `{ }` watermark.
+- [x] Sanity schema additions on `aboutPage.contributions[]`: `tag` (uppercase pill, every slot), `subtitle` (Quote slot), `channelName` / `channelStatus` / `activities[]` (Community slot). Removed `emoji` (no slot rendered it after the bento redesign).
+- [x] Drop `Kompas` contribution (programme stopped 2 years ago) — patched out of the live document, removed from the singletons seeder, and the bento now sizes to 6 slots.
+- [x] Singleton documents (`homePage`, `aboutPage`, `siteSettings`) gained `preview` blocks so Sanity Studio shows readable titles + media instead of the raw object dump.
+- [x] About page opts into ISR with `export const revalidate = 3600` so newly-published `journeyUpdate` and `blogArticle` docs surface in the bento within an hour without a redeploy.
+
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages
 - [ ] Add `next/image` optimization for all images

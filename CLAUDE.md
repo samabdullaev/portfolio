@@ -185,7 +185,7 @@ src/components/
 │   ├── ExpandText.tsx                 ← Expandable paragraph with animation
 │   └── SocialTile.tsx                 ← Icon tile with brand-color hover
 └── sections/
-    ├── ContributionsGrid.tsx          ← Linked contribution cards (props from `aboutPage.contributions`)
+    ├── ContributionsBentoCreative.tsx ← About-page Contributions bento. 6 fixed slots in a 4×3 grid (`"a a b c" / "a a b d" / "e e e f"`), each slot rendering a different visual format: FeatureHero (LinkedIn), CommunityCard (UzTech), ContributionGraphCard (GitHub), QuoteCard (Publink), ArticlePreviewCard (Medium), CodeBracketsCard (LeetCode). LinkedIn pulls the 5 most recent `journeyUpdate` docs (with thumbnails + "Month N" labels derived from a journey-start of Oct 2023); Medium pulls the latest `blogArticle`. Slot mapping is by array order — reordering `aboutPage.contributions` swaps slots.
     └── HobbiesList.tsx                ← Hobby pills (props from `aboutPage.hobbies`)
 ```
 
@@ -200,7 +200,7 @@ src/components/
 | Type | Description | Key Fields |
 |------|-------------|------------|
 | `homePage` | Home page content (singleton) | `name`, `title`, `subtitle`, `location`, `profileImage`, `socials[]` {platform, url, icon}, `resumeFile`, `ctaLinks[]` {label, url} |
-| `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {emoji, title, description, url}, `hobbies[]` {emoji, label} |
+| `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {title, description, url, tag, subtitle, channelName, channelStatus, activities[]}, `hobbies[]` {emoji, label}. Order of `contributions[]` maps to the 6 bento slots (LinkedIn → UzTech → GitHub → Publink → Medium → LeetCode). `tag` is shown in every slot; the others are only used by their specific slots (`subtitle` → Quote/Publink; `channelName`/`channelStatus`/`activities` → Community/UzTech). |
 | `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (mixed: `image` items with `caption`, or `galleryVideo` items with `videoUrl` + `caption`), `liveUrl`, `githubUrl`, `order`. Captions show as the modal's per-item title. |
 | `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Matched against `project.category` by slug. | `title`, `slug`, `logo`, `order` |
 | `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `order` |

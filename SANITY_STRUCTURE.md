@@ -96,7 +96,7 @@ portfolio/                              ← This repo (Next.js app)
 
 **homePage** — `name, title, subtitle, location, profileImage, socials[], resumeFile, ctaLabel, ctaUrl`
 
-**aboutPage** — `profileImage, bioParagraphs[]{ summary, expandedText }, contributions[]{ emoji, title, description, url }, hobbies[]{ emoji, label }`
+**aboutPage** — `profileImage, bioParagraphs[]{ summary, expandedText }, contributions[]{ title, description, url, tag, subtitle?, channelName?, channelStatus?, activities[]? }, hobbies[]{ emoji, label }` (contributions array order maps to the 6 bento slots — LinkedIn, UzTech, GitHub, Publink, Medium, LeetCode. `tag` is the uppercase pill label shown on every card; `subtitle` is rendered only on the Quote/Publink slot; `channelName`/`channelStatus`/`activities` are rendered only on the Community/UzTech slot)
 
 **siteSettings** — `siteTitle, footerText, navLinks[]`
 
