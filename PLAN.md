@@ -161,10 +161,19 @@
 - [x] Update CLAUDE.md component/route table to reflect new `src/lib/sanity/` structure
 
 ## Phase 9: Playwright E2E baseline
-- [ ] Install Playwright; add `e2e/` directory; add `test:e2e` + `test:e2e:ui` npm scripts
-- [ ] Per-route happy-path tests: home, about, every hub page, one detail page per type (project / resource-category / travel / review)
-- [ ] Critical interactions: filter cards (URL-driven), MediaModal open / close / navigation, theme toggle persists, mobile drawer
-- [ ] Visual snapshots for routes that get heavy refactor in Phase 10 (Tailwind migration baseline)
+- [x] Install `@playwright/test` + chromium binary; add `playwright.config.ts` (chromium 1280×720 desktop project + Pixel-7 mobile project; reuses existing dev server on :3000)
+- [x] Add npm scripts: `test:e2e`, `test:e2e:ui`, `test:e2e:update`
+- [x] Per-route happy-path tests in `e2e/`:
+  - `home.spec.ts` — hero, profile photo, socials, actions
+  - `about.spec.ts` — bio, bento, hobbies, expand button
+  - `hubs.spec.ts` — parametrised over all 8 hubs (heading + first card/chip + no broken images)
+  - `details.spec.ts` — one project / travel / review / resource-category detail
+- [x] Critical interactions:
+  - `filters.spec.ts` — Certificates / Projects / Journey filter chips update URL + narrow the visible grid
+  - `interactions.spec.ts` — theme toggle persists across reload; MediaModal opens, navigates, closes on Esc
+  - `navbar.mobile.spec.ts` — burger drawer opens, link click navigates (mobile-only project)
+- [x] Visual snapshots — `snapshots.spec.ts` with full-page baselines for `/`, `/about`, `/projects`, `/blog`, `/certificates` (the routes that take the heaviest CSS load and will get migrated in Phase 10). Stored under `e2e/snapshots.spec.ts-snapshots/` and committed; `*.png` allowlist in `.gitignore` covers them.
+- [x] Baseline run: 26/26 tests pass in ~12s
 - [ ] CI hook deferred until deploy host is decided in Phase 14
 
 ## Phase 10: Tailwind migration (hybrid)

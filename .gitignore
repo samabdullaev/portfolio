@@ -41,12 +41,18 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# playwright screenshots (ignore stray PNGs at repo root, but keep app/public assets)
+# playwright screenshots (ignore stray PNGs at repo root, but keep
+# app/public assets and committed visual-regression baselines under e2e/)
 *.png
 !src/app/**/*.png
 !public/**/*.png
+!e2e/**/*.png
 .playwright-mcp/
 screenshots/
+
+# playwright test outputs — re-generated each run, never committed
+/test-results/
+/playwright-report/
 
 # pnpm
 pnpm-lock.yaml
