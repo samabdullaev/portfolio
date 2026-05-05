@@ -9,10 +9,19 @@ interface MediaGalleryProps {
   title?: string;
 }
 
-/** Extract a YouTube preview thumbnail for a given embed URL. */
-function youTubeThumb(url: string): string | null {
-  const m = url.match(/(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
-  return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
+/**
+ * Resolve a static preview-frame URL for a video.
+ * - YouTube: uses the public `img.youtube.com` thumbnails
+ * - Vimeo: uses vumbnail.com, a third-party proxy that resolves Vimeo's
+ *   official thumbnail (Vimeo's own API requires an authed call). Cached on
+ *   their CDN.
+ */
+function videoPreviewSrc(url: string): string | null {
+  let m = url.match(/(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
+  if (m) return `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`;
+  m = url.match(/vimeo\.com\/(\d+)/);
+  if (m) return `https://vumbnail.com/${m[1]}.jpg`;
+  return null;
 }
 
 /**
@@ -46,7 +55,7 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
           ) : (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={youTubeThumb(active.src) ?? ""} alt="" />
+              <img src={videoPreviewSrc(active.src) ?? ""} alt="" />
               <div className="play-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
                   <polygon points="5,3 19,12 5,21" />
@@ -72,7 +81,7 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                 ) : (
                   <>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={youTubeThumb(item.src) ?? ""} alt="" />
+                    <img src={videoPreviewSrc(item.src) ?? ""} alt="" />
                     <div className="play-icon">
                       <svg
                         viewBox="0 0 24 24"

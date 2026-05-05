@@ -152,7 +152,9 @@ button.project-gallery-main:hover {
     border-radius: 4px;
 }
 
-/* Video play overlay on thumbnail */
+/* Video play overlay on thumbnail. Sized to match the image inside the thumb
+   so the active-state padding/ring is left untouched and the overlay follows
+   the image's rounded corners. */
 .project-gallery-thumb .play-icon {
     position: absolute;
     inset: 0;
@@ -160,6 +162,13 @@ button.project-gallery-main:hover {
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.project-gallery-thumb.active .play-icon {
+    inset: 4px;
+    border-radius: 4px;
 }
 
 .project-gallery-thumb .play-icon svg {
