@@ -15,6 +15,8 @@ export interface MediaModalItem {
   type: "image" | "video";
   src: string;
   alt?: string;
+  /** Per-item caption, shown as the modal's centered top-bar title. */
+  caption?: string;
 }
 
 interface MediaModalProps {
@@ -178,9 +180,10 @@ export default function MediaModal({
   if (!open || items.length === 0) return null;
 
   const counter = items.length > 1 ? `${index + 1} of ${items.length}` : undefined;
+  const currentTitle = items[index]?.caption ?? title;
 
   return (
-    <Modal open={open} onClose={onClose} title={title} trailing={counter}>
+    <Modal open={open} onClose={onClose} title={currentTitle} trailing={counter}>
       <div
         ref={stageRef}
         className={`media-modal-stage${pressed ? ` pressed-${pressed}` : ""}`}

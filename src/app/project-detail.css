@@ -72,6 +72,23 @@
     position: relative;
 }
 
+/* When the hero is a button (clickable to open the modal viewer) reset
+   default button styles so it inherits the same chrome as a div. */
+button.project-gallery-main {
+    display: block;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: opacity 0.2s ease;
+}
+
+button.project-gallery-main:hover {
+    opacity: 0.92;
+}
+
 .project-gallery-main img {
     width: 100%;
     display: block;
@@ -104,13 +121,25 @@
     border-radius: 8px;
     overflow: hidden;
     border: none;
+    background: none;
+    padding: 0;
     cursor: pointer;
     position: relative;
-    transition: opacity 0.2s ease;
+    box-sizing: border-box;
+    transition: padding 0.15s ease, opacity 0.2s ease;
 }
 
 .project-gallery-thumb:hover {
     opacity: 0.8;
+}
+
+/* Active state mirrors FilterCardRow: outer box stays the same size, but a
+   ring is drawn inset and padding pushes the image inward — so the ring sits
+   between the box edge and the image without overlapping neighbours. */
+.project-gallery-thumb.active {
+    padding: 4px;
+    background: var(--color-bg);
+    box-shadow: inset 0 0 0 2px var(--color-text);
 }
 
 .project-gallery-thumb img {
@@ -118,6 +147,9 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Image keeps its own curve so when the active state pads it inward,
+       the rounded corners stay visible inside the ring. */
+    border-radius: 4px;
 }
 
 /* Video play overlay on thumbnail */

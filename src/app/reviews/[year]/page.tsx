@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
-import Gallery from "@/components/ui/Gallery";
+import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
@@ -35,14 +35,14 @@ export default async function ReviewDetailPage({
   const { year } = await params;
   const review = await sanityFetch<{
     year: number;
-    thumbnail: { asset: { url: string } };
-    gallery: { _key: string; asset: { url: string } }[] | null;
+    thumbnail: { asset: { url: string }; caption?: string };
+    gallery: { _key: string; caption?: string; asset: { url: string } }[] | null;
     sections: { _key: string; title: string; items: string[] }[];
   } | null>(
     `*[_type == "yearlyReview" && slug.current == $year][0]{
       year,
-      thumbnail{ asset->{ url } },
-      gallery[]{ _key, asset->{ url } },
+      thumbnail{ asset->{ url }, caption },
+      gallery[]{ _key, caption, asset->{ url } },
       sections[]{ _key, title, items }
     }`,
     { year },
@@ -50,12 +50,18 @@ export default async function ReviewDetailPage({
 
   if (!review) notFound();
 
-  // Thumbnail leads the gallery, followed by any extra images.
+  // Thumbnail leads the gallery, followed by any extra images. Every image
+  // is expected to have a caption (set in Studio).
   const galleryImages = [
-    { type: "image" as const, src: review.thumbnail.asset.url },
+    {
+      type: "image" as const,
+      src: review.thumbnail.asset.url,
+      caption: review.thumbnail.caption,
+    },
     ...(review.gallery ?? []).map((g) => ({
       type: "image" as const,
       src: g.asset.url,
+      caption: g.caption,
     })),
   ];
 
@@ -81,7 +87,7 @@ export default async function ReviewDetailPage({
 
         <h1 className="project-title">{review.year} Yearly Review</h1>
 
-        <Gallery items={galleryImages} title={String(review.year)} />
+        <MediaGallery items={galleryImages} title={`${review.year} Yearly Review`} />
 
         {review.sections.map((section) => (
           <div className="project-section" key={section.title}>

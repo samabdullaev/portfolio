@@ -122,7 +122,7 @@ portfolio/                              ← This repo (Next.js app)
 
 **travelDestination** — `title, slug, flag, thumbnail, gallery[], overview, placesToTravel[], personalTips[], sections[], order` (thumbnail leads the detail-page `<Gallery>`; gallery items follow)
 
-**yearlyReview** — `year, slug, thumbnail, gallery[], sections[]{ title, items[] }` (thumbnail drives the hub card; gallery drives the detail page)
+**yearlyReview** — `year, slug, thumbnail{ caption }, gallery[]{ caption }, sections[]{ title, items[] }` (thumbnail drives the hub card and leads the detail-page gallery; every image — thumbnail and gallery items — carries its own `caption` shown as the modal title)
 
 **journeyUpdate** — `title, month, year, thumbnail, linkedInUrl, order`
 

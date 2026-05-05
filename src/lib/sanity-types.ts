@@ -182,8 +182,8 @@ export interface SanityTravelDestination {
 export interface SanityYearlyReview {
   year: number;
   slug: SanitySlug;
-  thumbnail: SanityImage;
-  gallery: (SanityImage & { _key: string })[] | null;
+  thumbnail: SanityImage & { caption?: string };
+  gallery: (SanityImage & { _key: string; caption?: string })[] | null;
   sections: { _key: string; title: string; items: string[] }[];
 }
 
