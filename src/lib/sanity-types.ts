@@ -162,8 +162,8 @@ export interface SanityTravelDestination {
   title: string;
   slug: SanitySlug;
   flag: string;
-  thumbnail: SanityImage;
-  gallery: (SanityImage & { _key: string })[] | null;
+  thumbnail: SanityImage & { caption?: string };
+  gallery: (SanityImage & { _key: string; caption?: string })[] | null;
   overview: {
     citiesVisited: string[];
     accommodation: string[];

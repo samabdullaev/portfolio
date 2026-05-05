@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
-import Gallery from "@/components/ui/Gallery";
+import MediaGallery from "@/components/ui/MediaGallery";
 import "@/app/project-detail.css";
 
 export async function generateStaticParams() {
@@ -36,8 +36,8 @@ export default async function TravelDetailPage({
   const dest = await sanityFetch<{
     title: string;
     flag: string;
-    thumbnail: { asset: { url: string } };
-    gallery: { _key: string; asset: { url: string } }[] | null;
+    thumbnail: { asset: { url: string }; caption?: string };
+    gallery: { _key: string; caption?: string; asset: { url: string } }[] | null;
     overview: { citiesVisited: string[]; accommodation: string[] } | null;
     placesToTravel: { _key: string; city: string; places: string[] }[] | null;
     personalTips: string[] | null;
@@ -45,8 +45,8 @@ export default async function TravelDetailPage({
   } | null>(
     `*[_type == "travelDestination" && slug.current == $slug][0]{
       title, flag,
-      thumbnail{ asset->{ url } },
-      gallery[]{ _key, asset->{ url } },
+      thumbnail{ asset->{ url }, caption },
+      gallery[]{ _key, caption, asset->{ url } },
       overview, placesToTravel[]{ _key, city, places },
       personalTips, sections[]{ _key, title, items }
     }`,
@@ -56,10 +56,15 @@ export default async function TravelDetailPage({
   if (!dest) notFound();
 
   const galleryImages = [
-    { type: "image" as const, src: dest.thumbnail.asset.url },
+    {
+      type: "image" as const,
+      src: dest.thumbnail.asset.url,
+      caption: dest.thumbnail.caption,
+    },
     ...(dest.gallery ?? []).map((g) => ({
       type: "image" as const,
       src: g.asset.url,
+      caption: g.caption,
     })),
   ];
 
@@ -87,7 +92,7 @@ export default async function TravelDetailPage({
           {dest.title} {dest.flag}
         </h1>
 
-        <Gallery items={galleryImages} title={dest.title} />
+        <MediaGallery items={galleryImages} title={dest.title} />
 
         {/* travel-tips: has sections array instead of structured overview */}
         {dest.sections ? (

@@ -99,13 +99,13 @@
 - [x] Build `<MediaModal>` (`src/components/ui/MediaModal.{tsx,css}`) on top of `<Modal>` — track-based slider with Airbnb's spring easing (`linear(...)` curve, 450ms) and shrink-on-press effect on prev/next + keyboard arrows; mobile uses native `scroll-snap-type: x mandatory` + `overflow-x: auto` for momentum-driven free swipe (no nav arrows). 28px gap between slots. Handles YouTube + Vimeo embed conversion.
 - [x] Wire Certificates page to use `<MediaModal>`; delete the old inline `cert-modal-*` CSS
 
-## Phase 6.9: Reviews → MediaGallery + per-image captions
+## Phase 6.9: Reviews + Travel → MediaGallery + per-image captions
 - [x] Build `<MediaGallery>` (`src/components/ui/MediaGallery.tsx`) — inline hero + thumbnail strip with Option B interaction: thumb click swaps the inline hero, hero click opens `<MediaModal>` at the active index. Modal navigation also updates the inline `activeIndex` so closing returns to the last image viewed.
 - [x] Active-thumb visual mirrors `FilterCardRow`: `box-sizing: border-box` + `padding: 4px` + `box-shadow: inset 0 0 0 2px var(--color-text)` + `var(--color-bg)` fills the gap; image inside has its own `border-radius: 4px` so the curve survives the padding. Outer dimensions stay 80×52 — no neighbour shift.
-- [x] Add `caption` field to every image in `yearlyReview` (both `thumbnail` and `gallery[]` items) — editable in Studio
+- [x] Add `caption` field to every image in `yearlyReview` and `travelDestination` (both `thumbnail` and `gallery[]` items) — editable in Studio
 - [x] `MediaModalItem` gains optional `caption` field; `<MediaModal>` derives the topbar title from `items[index].caption` (falls back to the modal-level `title` prop for usages like Certificates that don't use per-item captions)
-- [x] Reviews detail page swaps `<Gallery>` → `<MediaGallery>` and pulls captions from Sanity
-- [x] Seed captions for all 5 review thumbnails + every gallery item
+- [x] Reviews and Travel detail pages swap `<Gallery>` → `<MediaGallery>` and pull captions from Sanity
+- [x] Seed captions for all 5 review thumbnails + every gallery item, and for all 11 travel destinations + their gallery items
 
 ## Phase 7: Polish & Deploy
 - [ ] Add `<head>` metadata + OG images for all pages

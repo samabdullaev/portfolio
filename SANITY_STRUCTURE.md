@@ -120,7 +120,7 @@ portfolio/                              ← This repo (Next.js app)
 
 **certificateIssuer** — `name, slug, logo, order` (filter card on `/certificates`; reference target for `certificate.issuer`)
 
-**travelDestination** — `title, slug, flag, thumbnail, gallery[], overview, placesToTravel[], personalTips[], sections[], order` (thumbnail leads the detail-page `<Gallery>`; gallery items follow)
+**travelDestination** — `title, slug, flag, thumbnail{ caption }, gallery[]{ caption }, overview, placesToTravel[], personalTips[], sections[], order` (thumbnail leads the detail-page `<MediaGallery>`; every image — thumbnail and gallery items — carries its own `caption` shown as the modal title)
 
 **yearlyReview** — `year, slug, thumbnail{ caption }, gallery[]{ caption }, sections[]{ title, items[] }` (thumbnail drives the hub card and leads the detail-page gallery; every image — thumbnail and gallery items — carries its own `caption` shown as the modal title)
 

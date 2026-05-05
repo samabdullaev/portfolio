@@ -156,7 +156,7 @@ src/
 │   │   └── certificates.css           ← Filtered-grid + cert modal styles
 │   ├── travel/
 │   │   ├── page.tsx                   ← Travel hub (`card-grid-filtered` — vertical full-width on mobile)
-│   │   └── [slug]/page.tsx            ← Travel detail (uses `<Gallery>`: thumbnail leads, then `gallery[]`)
+│   │   └── [slug]/page.tsx            ← Travel detail (uses `<MediaGallery>`: thumb-swap-inline + click-to-modal; thumbnail leads, gallery items follow, every image carries its own `caption`)
 │   ├── reviews/
 │   │   ├── page.tsx                   ← Reviews hub (`card-grid-filtered`; thumbnail covers, no year overlay)
 │   │   └── [year]/page.tsx            ← Review detail (uses `<MediaGallery>`: thumb-swap-inline + click-to-modal; thumbnail leads, gallery items follow, every image carries its own `caption`)
@@ -179,7 +179,7 @@ src/components/
 │   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
 │   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 20px ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). Used by Certificates, Resources, Blog, Journey, Projects. Note: the `.card-grid-filtered` grid layout (used both for filtered hub results and for non-filter pages like Reviews/Travel/Mentorship) lives in `globals.css`, not here.
-│   ├── Gallery.tsx                    ← Inline main image + thumbnail strip (legacy; still used by Projects + Travel detail pages)
+│   ├── Gallery.tsx                    ← Inline main image + thumbnail strip (legacy; still used by Projects detail page)
 │   ├── VideoModal.tsx                 ← YouTube iframe overlay with autoplay (legacy; used by Gallery)
 │   ├── Modal.tsx + .css                ← Reusable Airbnb-style full-viewport modal: white surface, sticky 80px / 64px topbar (leading / centered title + counter / close), Esc-to-close, fade-in enter, instant close, body scroll-locked.
 │   ├── MediaModal.tsx + .css           ← Image/video gallery modal built on `<Modal>`. Track-based slider with Airbnb's spring easing on desktop (JS-controlled translateX, prev/next buttons + keyboard arrows with shrink-on-press), and native `scroll-snap-type: x mandatory` on mobile (no nav arrows, free swipe + momentum, 28px gap between slots). Handles YouTube + Vimeo URLs (autoplay + timestamp). `MediaModalItem.caption` overrides the topbar title per item; falls back to the modal-level `title` prop.
@@ -212,7 +212,7 @@ src/components/
 | `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks) — also acts as filter card on `/resources`. Holds an ordered array of references that can target either `resource` or `resourceCategory`. | `title`, `slug`, `logo`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
 | `certificate` | Certificate entry | `title`, `issuer` → ref `certificateIssuer`, `date`, `image`, `verifyUrl`, `order` |
 | `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Filter card on `/certificates`. | `name`, `slug`, `logo`, `order` |
-| `travelDestination` | Travel country/location | `title`, `slug`, `flag`, `thumbnail` (hub card cover), `gallery[]` (extras for the detail-page `<Gallery>`), `overview`, `placesToTravel[]`, `personalTips[]`, `sections[]`, `order` |
+| `travelDestination` | Travel country/location | `title`, `slug`, `flag`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `overview`, `placesToTravel[]`, `personalTips[]`, `sections[]`, `order`. Captions show as the modal's per-item title. |
 | `yearlyReview` | Yearly review | `year`, `slug`, `thumbnail` (required — `image` with `caption` field; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `sections[]` {title, items[]}. Captions are shown as the modal's centered top-bar title per item. |
 | `journeyUpdate` | Monthly journey entry | `title`, `month`, `year` (number — matches `journeyYear.year`), `thumbnail`, `linkedInUrl`, `order` |
 | `journeyYear` | Filter card on the Journey hub (one per year that has updates). Matched against `journeyUpdate.year` by number. | `year`, `slug`, `logo`, `order` |
