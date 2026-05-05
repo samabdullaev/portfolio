@@ -109,7 +109,9 @@
 - [x] Seed captions for all 5 review thumbnails + gallery items, all 11 travel destinations + gallery items, and all 14 projects + gallery items (incl. JoyBormi YouTube + Tech 2 Vimeo videos)
 
 ## Phase 6.10: AI-generated isometric filter icons + curve match
-- [x] Generate Airbnb-style isometric icons via Sanity's `mcp__Sanity__generate_image` for the 3 Project filter cards (Personal/Freelance/Hackathon). Prompt template: 1:1 canvas, isometric-left orientation, soft ambient lighting from top-right, satin/semi-matte materials, octane-style 3D rendering on plain white bg. Same template will be reused for other pages' filter cards.
+- [x] Generate Airbnb-style isometric icons via Sanity's `mcp__Sanity__generate_image`. Prompt template: 1:1 canvas, isometric-left orientation, soft ambient lighting from top-right, satin/semi-matte materials, octane-style 3D rendering on plain white bg, no text/numbers/words. Same template reused across pages.
+- [x] Project filter cards: Personal (laptop+plant+notebooks), Freelance (briefcase+document+pen), Hackathon (trophy+code-bracket+lightning)
+- [x] Journey filter cards: 2023 (airplane+globe+passport — travel), 2024 (textbooks+maple leaf — Concordia exchange), 2025 (graduation cap+diploma+briefcase — graduation/job hunt), 2026 (calendar+pencil+growth chart — planning/momentum)
 - [x] Active filter card image radius bumped from 12px → 20px (matches the outer ring's 20px radius so both curves read as the same shape). Padding and structural design preserved (2px border, 20px outer radius, 8px desktop / 6px mobile padding). `var(--color-bg)` fills the active gap so the curve is visible against the white-bg AI icons.
 
 ## Phase 7: Polish & Deploy
