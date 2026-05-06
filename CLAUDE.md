@@ -164,6 +164,7 @@ src/
 ├── lib/
 │   ├── constants.ts                   ← App-wide constants (`JOURNEY_START_YEAR`, `JOURNEY_START_MONTH`, `monthNumber()`)
 │   ├── cn.ts                          ← `cn(...inputs)` = `twMerge(clsx(...))` — combine + dedupe Tailwind class names
+│   ├── sanity-image-loader.ts         ← Custom `next/image` loader. Routes by hostname: Sanity URLs get `?w=<width>&q=<quality>&auto=format&fit=max` (Sanity serves webp/avif via Accept negotiation); external hosts (img.youtube.com, vumbnail.com) pass through. Wired in `next.config.ts` via `loader: "custom"` + `loaderFile` — opts the whole app out of Next.js's `/_next/image` proxy.
 │   └── sanity/
 │       ├── client.ts                  ← Sanity client + `sanityFetch` (env-driven via `NEXT_PUBLIC_SANITY_PROJECT_ID` + `NEXT_PUBLIC_SANITY_DATASET`)
 │       ├── types.ts                   ← Shared primitives (`SanityImage`, `SanitySlug`, `SanityProjectGalleryEntry`)

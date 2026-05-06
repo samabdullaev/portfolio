@@ -192,11 +192,14 @@
 **Outcomes**: globals.css 962 → 99 lines (-90%), project-detail.css deleted (-400 lines), certificates.css deleted (-10 lines). 14 commits. All 38 Playwright tests pass throughout.
 
 ## Phase 11: next/image migration
-- [ ] Add custom Sanity image loader (`src/lib/sanity-image-loader.ts`) for the Sanity CDN
-- [ ] Decide default `sizes` per usage pattern (hub thumbnail, detail hero, gallery thumb, avatar, bento media)
-- [ ] Replace `<img>` site-wide with `next/image`
-- [ ] Remove `eslint-disable @next/next/no-img-element` comments
-- [ ] Verify hub + detail page Lighthouse LCP improvement vs Phase 9 baseline
+- [x] Add custom Sanity image loader (`src/lib/sanity-image-loader.ts`) — per-host: Sanity URLs get `?w=<n>&q=<n>&auto=format&fit=max`, external hosts (img.youtube.com, vumbnail.com) pass through. `next.config.ts` opts whole app into `loader: "custom"` + `loaderFile`, so Next.js's `/_next/image` proxy isn't used and `remotePatterns` isn't needed.
+- [x] `sizes` per usage pattern: hero photo (fixed 180/380px + `priority` on home), bento media (40×40), filter logo (153×146 fluid), HubCard fill (`(max-width: 640px) 80vw, (max-width: 768px) 50vw, 25vw`), MediaGallery hero (`(max-width: 640px) 100vw, 640px`), MediaModal viewer (100vw with 2400×1600 hints).
+- [x] Replace `<img>` site-wide with `<Image>` (12 spots across 8 files). HubCard + CertCard moved from `background-image` → `<Image fill>` inside a positioned aspect-video container so `object-cover` + `group-hover:scale-105` carry over.
+- [x] All `eslint-disable @next/next/no-img-element` comments removed.
+- [x] Test infrastructure for lazy loading: `settle()` helper in snapshot specs (scroll-to-bottom + networkidle + scroll-back), updated `hubs.spec.ts` broken-image filter to require `currentSrc`, replaced sync `naturalWidth` evaluate with `expect.poll` in about + home specs to avoid race conditions.
+- [ ] ~~Verify hub + detail page Lighthouse LCP improvement vs Phase 9 baseline~~ → **deferred to Phase 13** (which already does baseline → optimize → compare). Snapshot file sizes shrunk meaningfully from `auto=format` (e.g. certificates 1.23MB → 1.02MB, travel 673KB → 543KB).
+
+**Outcomes**: 12 image renders now go through Sanity-CDN-optimized pipeline with srcset-driven width selection. Build clean (58 static pages). Full suite 38/38, verified stable across 5 consecutive runs.
 
 ## Phase 12: Sanity Studio refactor (`../portfolio-sanity` repo)
 - [ ] Build desk structure with 7 groups: Pages / Projects / Blog / Resources / Certificates / Travel / Reviews / Journey / Mentorship
