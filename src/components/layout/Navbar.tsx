@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/components/ui/ThemeProvider";
 import { directLinks, dropdowns } from "@/data/navigation";
+import { cn } from "@/lib/cn";
 
 function ChevronDown() {
   return (
@@ -203,7 +204,7 @@ export default function Navbar() {
               <li key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className={`${NAV_LINK_CLASSES} ${isActive(link.href) ? NAV_LINK_ACTIVE : ""}`}
+                  className={cn(NAV_LINK_CLASSES, isActive(link.href) && NAV_LINK_ACTIVE)}
                 >
                   {link.label}
                 </Link>
@@ -217,7 +218,12 @@ export default function Navbar() {
               return (
                 <li key={dropdown.label} className="relative">
                   <button
-                    className={`${DROPDOWN_TOGGLE_CLASSES} ${hasActiveChild ? NAV_LINK_ACTIVE : ""} [&_svg]:size-3 [&_svg]:transition-transform [&_svg]:duration-200 ${isOpen ? "[&_svg]:rotate-180" : ""}`}
+                    className={cn(
+                      DROPDOWN_TOGGLE_CLASSES,
+                      "[&_svg]:size-3 [&_svg]:transition-transform [&_svg]:duration-200",
+                      hasActiveChild && NAV_LINK_ACTIVE,
+                      isOpen && "[&_svg]:rotate-180",
+                    )}
                     onClick={(e) => {
                       e.stopPropagation();
                       setOpenDropdown(isOpen ? null : dropdown.label);
@@ -227,13 +233,19 @@ export default function Navbar() {
                     <ChevronDown />
                   </button>
                   <ul
-                    className={`absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 bg-card border border-border rounded-xl p-1.5 min-w-45 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-[opacity,visibility] duration-150 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                    className={cn(
+                      "absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 bg-card border border-border rounded-xl p-1.5 min-w-45 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-[opacity,visibility] duration-150",
+                      isOpen ? "opacity-100 visible" : "opacity-0 invisible",
+                    )}
                   >
                     {dropdown.items.map((item) => (
                       <li key={item.href}>
                         <Link
                           href={item.href}
-                          className={`block text-sm font-medium text-text-secondary hover:text-text hover:bg-hover px-3 py-2 rounded-lg whitespace-nowrap ${isActive(item.href) ? "text-text bg-hover font-semibold" : ""}`}
+                          className={cn(
+                            "block text-sm font-medium text-text-secondary hover:text-text hover:bg-hover px-3 py-2 rounded-lg whitespace-nowrap",
+                            isActive(item.href) && "text-text bg-hover font-semibold",
+                          )}
                         >
                           {item.label}
                         </Link>
@@ -269,18 +281,23 @@ export default function Navbar() {
       <div
         aria-hidden="true"
         onClick={() => setDrawerOpen(false)}
-        className={`fixed inset-0 bg-black/30 z-[998] transition-opacity duration-250 ${drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={cn(
+          "fixed inset-0 bg-black/30 z-[998] transition-opacity duration-250",
+          drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        )}
       />
       <aside
         id="mobile-drawer"
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`hidden fixed top-20 inset-x-3 bg-card border border-border rounded-[20px] z-[999] p-3 max-h-[calc(100dvh-96px)] overflow-y-auto shadow-[var(--navbar-shadow)] flex-col gap-1.5 max-md:flex ${DRAWER_TRANSITION} ${
+        className={cn(
+          "hidden fixed top-20 inset-x-3 bg-card border border-border rounded-[20px] z-[999] p-3 max-h-[calc(100dvh-96px)] overflow-y-auto shadow-[var(--navbar-shadow)] flex-col gap-1.5 max-md:flex",
+          DRAWER_TRANSITION,
           drawerOpen
             ? "opacity-100 translate-y-0 visible pointer-events-auto"
-            : "opacity-0 -translate-y-3 invisible pointer-events-none"
-        }`}
+            : "opacity-0 -translate-y-3 invisible pointer-events-none",
+        )}
       >
         <nav aria-label="Main pages" className="flex flex-col gap-1.5">
           {directLinks.map((link) => {
@@ -290,7 +307,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setDrawerOpen(false)}
-                className={`flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border ${active ? "bg-border font-bold" : ""}`}
+                className={cn(
+                  "flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border",
+                  active && "bg-border font-bold",
+                )}
               >
                 {link.label}
               </Link>
@@ -309,7 +329,10 @@ export default function Navbar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setDrawerOpen(false)}
-                    className={`flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border ${active ? "bg-border font-bold" : ""}`}
+                    className={cn(
+                  "flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border",
+                  active && "bg-border font-bold",
+                )}
                   >
                     {item.label}
                   </Link>

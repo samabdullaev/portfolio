@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import MediaModal, { MediaModalItem } from "./MediaModal";
+import { cn } from "@/lib/cn";
 
 interface MediaGalleryProps {
   items: MediaModalItem[];
@@ -82,7 +83,7 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                 <button
                   type="button"
                   key={i}
-                  className={`${THUMB_BASE} ${isActive ? THUMB_ACTIVE : ""}`}
+                  className={cn(THUMB_BASE, isActive && THUMB_ACTIVE)}
                   onClick={() => setActiveIndex(i)}
                   aria-label={`Show image ${i + 1}`}
                 >
