@@ -68,16 +68,16 @@ function SunIcon() {
 function LogoIcon() {
   return (
     <svg
-      className="navbar-logo-icon"
+      className="block shrink-0 max-md:size-10"
       width="32"
       height="32"
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <rect className="navbar-logo-bg" width="64" height="64" rx="14" />
+      <rect className="fill-[#171717] dark:fill-[#faf8f4]" width="64" height="64" rx="14" />
       <text
-        className="navbar-logo-fg"
+        className="fill-[#faf8f4] dark:fill-[#171717]"
         x="32"
         y="43"
         textAnchor="middle"
@@ -120,6 +120,16 @@ function HamburgerIcon({ open }: { open: boolean }) {
     </svg>
   );
 }
+
+const NAV_LINK_CLASSES =
+  "text-sm font-medium text-text-secondary hover:text-text hover:bg-hover px-3.5 py-2 rounded-full cursor-pointer transition-colors duration-200";
+
+const NAV_LINK_ACTIVE = "text-text bg-hover font-semibold";
+
+const DROPDOWN_TOGGLE_CLASSES = `${NAV_LINK_CLASSES} inline-flex items-center gap-1 bg-transparent border-none font-sans`;
+
+const DRAWER_TRANSITION =
+  "transition-[opacity,transform,visibility] duration-300 ease-[var(--navbar-ease)]";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -173,19 +183,27 @@ export default function Navbar() {
 
   return (
     <>
-      <nav ref={navRef} className="navbar" aria-label="Main navigation">
-        <div className="navbar-inner">
-          <Link href="/" className="navbar-logo" aria-label="Sam Abdullaev — Home">
+      <nav
+        ref={navRef}
+        aria-label="Main navigation"
+        className="sticky top-0 z-[1000] h-18 bg-[var(--navbar-bg)] backdrop-blur-md border-b border-[var(--navbar-border)] transition-[background-color,border-color] duration-300"
+      >
+        <div className="max-w-[1440px] mx-auto px-8 h-full grid grid-cols-[1fr_auto_1fr] items-center gap-6 max-md:px-5 max-md:grid-cols-[auto_1fr_auto] max-md:gap-3 max-sm:px-4">
+          <Link
+            href="/"
+            aria-label="Sam Abdullaev — Home"
+            className="inline-flex items-center gap-2.5 text-lg font-extrabold tracking-tight text-text justify-self-start transition-opacity duration-200 hover:opacity-70"
+          >
             <LogoIcon />
-            <span className="navbar-logo-text">Sam Abdullaev</span>
+            <span className="max-md:hidden">Sam Abdullaev</span>
           </Link>
 
-          <ul className="navbar-links">
+          <ul className="flex items-center gap-1 justify-self-center max-md:hidden">
             {directLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className={isActive(link.href) ? "active" : ""}
+                  className={`${NAV_LINK_CLASSES} ${isActive(link.href) ? NAV_LINK_ACTIVE : ""}`}
                 >
                   {link.label}
                 </Link>
@@ -197,12 +215,9 @@ export default function Navbar() {
               const hasActiveChild = isDropdownActive(dropdown.items);
 
               return (
-                <li
-                  key={dropdown.label}
-                  className={`navbar-dropdown${isOpen ? " open" : ""}`}
-                >
+                <li key={dropdown.label} className="relative">
                   <button
-                    className={`navbar-dropdown-toggle${hasActiveChild ? " active" : ""}`}
+                    className={`${DROPDOWN_TOGGLE_CLASSES} ${hasActiveChild ? NAV_LINK_ACTIVE : ""} [&_svg]:size-3 [&_svg]:transition-transform [&_svg]:duration-200 ${isOpen ? "[&_svg]:rotate-180" : ""}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setOpenDropdown(isOpen ? null : dropdown.label);
@@ -211,12 +226,14 @@ export default function Navbar() {
                     {dropdown.label}
                     <ChevronDown />
                   </button>
-                  <ul className="navbar-dropdown-menu">
+                  <ul
+                    className={`absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 bg-card border border-border rounded-xl p-1.5 min-w-45 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-[opacity,visibility] duration-150 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                  >
                     {dropdown.items.map((item) => (
                       <li key={item.href}>
                         <Link
                           href={item.href}
-                          className={isActive(item.href) ? "active" : ""}
+                          className={`block text-sm font-medium text-text-secondary hover:text-text hover:bg-hover px-3 py-2 rounded-lg whitespace-nowrap ${isActive(item.href) ? "text-text bg-hover font-semibold" : ""}`}
                         >
                           {item.label}
                         </Link>
@@ -228,20 +245,20 @@ export default function Navbar() {
             })}
           </ul>
 
-          <div className="navbar-actions">
+          <div className="flex items-center gap-2 justify-self-end">
             <button
-              className="theme-toggle"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
+              className="size-10 border border-border rounded-full bg-transparent cursor-pointer flex items-center justify-center text-text shrink-0 transition-[background-color,border-color,color] duration-200 hover:bg-hover"
             >
               {theme === "dark" ? <SunIcon /> : <MoonIcon />}
             </button>
             <button
-              className="navbar-hamburger"
               aria-label={drawerOpen ? "Close menu" : "Open menu"}
               aria-expanded={drawerOpen}
               aria-controls="mobile-drawer"
               onClick={() => setDrawerOpen((v) => !v)}
+              className="hidden size-10 items-center justify-center bg-text text-bg border-none rounded-xl cursor-pointer transition-opacity duration-200 hover:opacity-85 max-md:inline-flex"
             >
               <HamburgerIcon open={drawerOpen} />
             </button>
@@ -250,42 +267,54 @@ export default function Navbar() {
       </nav>
 
       <div
-        className={`navbar-drawer-backdrop${drawerOpen ? " open" : ""}`}
         aria-hidden="true"
         onClick={() => setDrawerOpen(false)}
+        className={`fixed inset-0 bg-black/30 z-[998] transition-opacity duration-250 ${drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       />
       <aside
         id="mobile-drawer"
-        className={`navbar-mobile-menu${drawerOpen ? " open" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
+        className={`hidden fixed top-20 inset-x-3 bg-card border border-border rounded-[20px] z-[999] p-3 max-h-[calc(100dvh-96px)] overflow-y-auto shadow-[var(--navbar-shadow)] flex-col gap-1.5 max-md:flex ${DRAWER_TRANSITION} ${
+          drawerOpen
+            ? "opacity-100 translate-y-0 visible pointer-events-auto"
+            : "opacity-0 -translate-y-3 invisible pointer-events-none"
+        }`}
       >
-        <nav className="navbar-drawer-links" aria-label="Main pages">
-          {directLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={isActive(link.href) ? "active" : ""}
-              onClick={() => setDrawerOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav aria-label="Main pages" className="flex flex-col gap-1.5">
+          {directLinks.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setDrawerOpen(false)}
+                className={`flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border ${active ? "bg-border font-bold" : ""}`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
 
           {dropdowns.map((dropdown) => (
-            <div key={dropdown.label} className="navbar-drawer-group">
-              <div className="navbar-drawer-group-label">{dropdown.label}</div>
-              {dropdown.items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={isActive(item.href) ? "active" : ""}
-                  onClick={() => setDrawerOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+            <div key={dropdown.label} className="flex flex-col gap-1.5 mt-2">
+              <div className="text-[11px] font-bold tracking-[0.12em] uppercase text-text-secondary px-2 pt-1 pb-0.5">
+                {dropdown.label}
+              </div>
+              {dropdown.items.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setDrawerOpen(false)}
+                    className={`flex items-center px-4 py-3.5 bg-hover rounded-xl text-[15px] font-semibold text-text transition-colors duration-200 hover:bg-border ${active ? "bg-border font-bold" : ""}`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           ))}
         </nav>
