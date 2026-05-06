@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import { blogSeriesQuery, type BlogSeries } from "@/lib/sanity/queries/blog";
 import { formatLongDate } from "@/lib/dates";
@@ -7,6 +8,12 @@ import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Articles on tech, study abroad, and software development by Sam Abdullaev — published on Medium.",
+};
 
 export default async function BlogPage({
   searchParams,

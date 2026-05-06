@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import {
   resourceTopicsQuery,
@@ -9,6 +10,12 @@ import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
+
+export const metadata: Metadata = {
+  title: "Resources",
+  description:
+    "Tools, platforms, and libraries Sam Abdullaev uses and recommends.",
+};
 
 export default async function ResourcesPage({
   searchParams,

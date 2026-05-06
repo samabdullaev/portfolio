@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import {
   mentorshipArticlesQuery,
@@ -8,6 +9,12 @@ import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import CardGrid from "@/components/layout/CardGrid";
+
+export const metadata: Metadata = {
+  title: "Mentorship",
+  description:
+    "Guidance articles from university to career by Sam Abdullaev — published on Publink.",
+};
 
 export default async function MentorshipPage() {
   const articles = await sanityFetch<MentorshipArticle[]>(mentorshipArticlesQuery);

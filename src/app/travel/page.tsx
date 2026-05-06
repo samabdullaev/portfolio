@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import {
   travelDestinationsQuery,
@@ -7,6 +8,11 @@ import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import CardGrid from "@/components/layout/CardGrid";
+
+export const metadata: Metadata = {
+  title: "Travel",
+  description: "Countries and places Sam Abdullaev has explored.",
+};
 
 export default async function TravelPage() {
   const destinations = await sanityFetch<TravelCard[]>(travelDestinationsQuery);

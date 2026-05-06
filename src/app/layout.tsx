@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -13,9 +15,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sam Abdullaev — Frontend Software Engineer",
+  metadataBase: new URL("https://samabdullaev.com"),
+  title: {
+    default: "Sam Abdullaev — Frontend Software Engineer",
+    template: "%s — Sam Abdullaev",
+  },
   description:
-    "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
+    "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK. Projects, blog, travel, certificates, and more.",
+  authors: [{ name: "Sam Abdullaev", url: "https://samabdullaev.com" }],
+  creator: "Sam Abdullaev",
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://samabdullaev.com",
+    siteName: "Sam Abdullaev",
+    title: "Sam Abdullaev — Frontend Software Engineer",
+    description:
+      "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sam Abdullaev — Frontend Software Engineer",
+    description:
+      "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
+  },
 };
 
 export const viewport: Viewport = {
@@ -62,6 +85,8 @@ export default function RootLayout({
           <main id="main-content">{children}</main>
           <Footer />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

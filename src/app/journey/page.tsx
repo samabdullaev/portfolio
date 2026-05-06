@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import {
   journeyUpdatesQuery,
@@ -12,6 +13,12 @@ import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
+
+export const metadata: Metadata = {
+  title: "Journey",
+  description:
+    "Monthly updates on Sam Abdullaev's professional growth — published on LinkedIn.",
+};
 
 export default async function JourneyPage({
   searchParams,

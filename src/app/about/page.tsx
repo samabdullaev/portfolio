@@ -1,4 +1,5 @@
 import "./about.css";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { sanityFetch } from "@/lib/sanity";
 import { aboutPageQuery, type AboutPageData } from "@/lib/sanity/queries/about";
@@ -7,6 +8,12 @@ import ContributionsBentoCreative from "@/components/sections/ContributionsBento
 import HobbiesList from "@/components/sections/HobbiesList";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "More about Sam Abdullaev — bio, contributions across the developer community, and personal interests.",
+};
 
 export const revalidate = 3600;
 

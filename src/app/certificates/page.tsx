@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/lib/sanity";
 import {
   certificateIssuersQuery,
@@ -7,6 +8,12 @@ import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import CertificatesContent from "./CertificatesContent";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
+
+export const metadata: Metadata = {
+  title: "Certificates",
+  description:
+    "Certifications, hackathon awards, and course completions earned by Sam Abdullaev.",
+};
 
 export default async function CertificatesPage({
   searchParams,
