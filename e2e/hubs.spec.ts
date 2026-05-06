@@ -21,8 +21,7 @@ for (const { path, heading } of hubs) {
 
     await expect(page.getByRole("heading", { name: heading, level: 1 })).toBeVisible();
 
-    // Either a card grid (card-grid-filtered or always-visible) or filter
-    // row exists with at least one item.
+    // Either a card grid or filter row exists with at least one item.
     const anyCardOrChip = page
       .locator(".hub-card, .filter-card, .card-grid-filtered > *")
       .first();

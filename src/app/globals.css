@@ -742,65 +742,6 @@ main {
   background: var(--color-border);
 }
 
-/* Show All — desktop: inline in section-header */
-.show-all-btn {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  background: none;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-  padding: 4px 0;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
-}
-
-.show-all-btn:hover {
-  color: var(--color-text);
-}
-
-/* Show All — mobile: below card-grid */
-.show-all-btn-mobile {
-  display: none;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  padding: 8px 0;
-  margin-top: 16px;
-  width: 100%;
-  text-align: center;
-  transition: color 0.2s ease;
-}
-
-.show-all-btn-mobile:hover {
-  color: var(--color-text);
-}
-
-/* Card visibility — hide overflow cards */
-.card-grid .hub-card:nth-child(n+5) {
-  display: none;
-}
-
-.card-grid.expanded .hub-card:nth-child(n+5) {
-  display: block;
-}
-
-.card-grid.always-visible .hub-card {
-  display: block !important;
-}
-
 /* ===== Filtered-mode card grid =====
    Used by hub pages when a filter is active (one section visible) and by
    pages without filters that want the same vertical-stacked layout. */
@@ -928,7 +869,6 @@ main {
     flex: 0 0 80%;
     min-width: 0;
     scroll-snap-align: start;
-    display: block !important;
   }
 
   .topic-section {
@@ -949,14 +889,5 @@ main {
 
   .section-header h2 {
     font-size: 18px;
-  }
-
-  /* Swap buttons: hide header button, show mobile button */
-  .section-header .show-all-btn {
-    display: none !important;
-  }
-
-  .show-all-btn-mobile {
-    display: block;
   }
 }

@@ -1,28 +1,33 @@
 import { test, expect } from "@playwright/test";
 
-// Visual baselines for the routes that take the heaviest CSS load and
-// will get migrated to Tailwind in Phase 10. Re-run with
-// `npm run test:e2e:update` after intentional visual changes; otherwise
-// any pixel diff fails the run.
+// Visual baselines for every route Phase 10 (Tailwind migration) will
+// touch. Re-run with `npm run test:e2e:update` after intentional visual
+// changes; otherwise any pixel diff fails the run.
 //
 // Caveat: pixel-perfect snapshots are machine-specific (font rendering,
 // GPU). Treat these as a local-dev safety net; they're not yet wired to
-// CI. Will revisit in Phase 14 when CI is set up.
+// CI. Will revisit in Phase 14.
+//
+// Light-mode only — dark-mode tokens flow through the same CSS vars,
+// so a regression in either typically shows up in both, and the theme
+// toggle is exercised by interactions.spec.ts.
 
-const routes = [
+const hubs = [
   { name: "home", path: "/" },
   { name: "about", path: "/about" },
   { name: "projects", path: "/projects" },
-  { name: "certificates", path: "/certificates" },
   { name: "blog", path: "/blog" },
+  { name: "journey", path: "/journey" },
+  { name: "resources", path: "/resources" },
+  { name: "certificates", path: "/certificates" },
+  { name: "travel", path: "/travel" },
+  { name: "reviews", path: "/reviews" },
+  { name: "mentorship", path: "/mentorship" },
 ];
 
-for (const { name, path } of routes) {
+for (const { name, path } of hubs) {
   test(`visual: ${name}`, async ({ page }) => {
     await page.goto(path);
-
-    // Settle: wait for fonts to load + any LCP image to paint, so
-    // baselines aren't captured mid-render.
     await page.waitForLoadState("networkidle");
     await page.evaluate(() => document.fonts.ready);
 
@@ -32,3 +37,41 @@ for (const { name, path } of routes) {
     });
   });
 }
+
+// Detail pages — one representative per type. Slugs are discovered at
+// runtime so the test doesn't need updating when Sanity content shifts.
+
+const details = [
+  { name: "detail-project", hubPath: "/projects" },
+  { name: "detail-travel", hubPath: "/travel" },
+  { name: "detail-review", hubPath: "/reviews" },
+];
+
+for (const { name, hubPath } of details) {
+  test(`visual: ${name}`, async ({ page }) => {
+    await page.goto(hubPath);
+    await page.locator(".hub-card a, .hub-card").first().click();
+    await page.waitForLoadState("networkidle");
+    await page.evaluate(() => document.fonts.ready);
+
+    await expect(page).toHaveScreenshot(`${name}.png`, {
+      fullPage: true,
+      maxDiffPixelRatio: 0.01,
+    });
+  });
+}
+
+// Resource categories live under /resources/<slug>; external `resource`
+// items link out, so we filter for internal hrefs to land on a category
+// detail page.
+test("visual: detail-resource-category", async ({ page }) => {
+  await page.goto("/resources");
+  await page.locator('.hub-card a[href^="/resources/"]').first().click();
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+
+  await expect(page).toHaveScreenshot("detail-resource-category.png", {
+    fullPage: true,
+    maxDiffPixelRatio: 0.01,
+  });
+});

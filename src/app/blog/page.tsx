@@ -48,7 +48,7 @@ export default async function BlogPage({
           </div>
           <div
             className={
-              activeSlug ? "card-grid-filtered" : "card-grid always-visible"
+              activeSlug ? "card-grid-filtered" : "card-grid"
             }
           >
             {s.articles.map((article) => (

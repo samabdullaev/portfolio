@@ -70,7 +70,7 @@ export default async function ProjectsPage({
             </div>
             <div
               className={
-                activeSlug ? "card-grid-filtered" : "card-grid always-visible"
+                activeSlug ? "card-grid-filtered" : "card-grid"
               }
             >
               {items.map((project) => (

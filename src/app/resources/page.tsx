@@ -48,7 +48,7 @@ export default async function ResourcesPage({
           </div>
           <div
             className={
-              activeSlug ? "card-grid-filtered" : "card-grid always-visible"
+              activeSlug ? "card-grid-filtered" : "card-grid"
             }
           >
             {topic.items.map((item) => {

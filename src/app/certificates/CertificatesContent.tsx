@@ -125,7 +125,7 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
           <div className="section-header">
             <h2>{group.name}</h2>
           </div>
-          <div className="card-grid always-visible">
+          <div className="card-grid">
             {group.certs.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}

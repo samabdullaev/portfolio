@@ -71,7 +71,7 @@ export default async function JourneyPage({
           </div>
           <div
             className={
-              activeSlug ? "card-grid-filtered" : "card-grid always-visible"
+              activeSlug ? "card-grid-filtered" : "card-grid"
             }
           >
             {yearGroups[year].map((entry) => (
