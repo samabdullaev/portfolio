@@ -51,7 +51,7 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
 
   return (
     <>
-      <div className="project-gallery mb-3">
+      <div data-testid="project-gallery" className="mb-3">
         <button
           type="button"
           className={HERO_CLASSES}

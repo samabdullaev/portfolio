@@ -21,11 +21,10 @@ for (const { path, heading } of hubs) {
 
     await expect(page.getByRole("heading", { name: heading, level: 1 })).toBeVisible();
 
-    // Either a card grid or filter row exists with at least one item.
-    const anyCardOrChip = page
-      .locator(".hub-card, .filter-card, .card-grid-filtered > *")
-      .first();
-    await expect(anyCardOrChip).toBeVisible();
+    // Either a card or filter chip exists with at least one item.
+    const cardCount = await page.getByTestId("hub-card").count();
+    const chipCount = await page.getByRole("tab").count();
+    expect(cardCount + chipCount).toBeGreaterThan(0);
 
     // No broken images on this page (anything in src that resolved to a
     // 0-naturalWidth image is broken). Empty or absent <img> = OK.

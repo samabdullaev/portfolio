@@ -9,7 +9,7 @@ export default function DetailBack({ href, label }: DetailBackProps) {
   return (
     <Link
       href={href}
-      className="project-back inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-text mb-8 transition-colors duration-200 [&_svg]:size-4"
+      className="inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-text mb-8 transition-colors duration-200 [&_svg]:size-4"
     >
       <svg
         viewBox="0 0 24 24"

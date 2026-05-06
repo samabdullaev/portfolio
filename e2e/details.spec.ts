@@ -9,46 +9,40 @@ test.describe("Detail pages", () => {
   test("project detail renders gallery + sections", async ({ page }) => {
     await page.goto("/projects");
 
-    // First project card
-    const firstCard = page.locator(".hub-card a, .hub-card").first();
-    await expect(firstCard).toBeVisible();
-    await firstCard.click();
-
-    // URL should be /projects/{slug}
+    await page.getByTestId("hub-card").first().click();
     await expect(page).toHaveURL(/\/projects\/[^/]+$/);
 
-    // Detail components
-    await expect(page.locator(".project-title")).toBeVisible();
-    await expect(page.locator(".project-gallery")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByTestId("project-gallery")).toBeVisible();
 
     // At least the "about" section (every project has one)
     await expect(
-      page.locator(".project-section-title").filter({ hasText: /about/i }),
+      page.getByRole("heading", { level: 2, name: /about/i }),
     ).toBeVisible();
 
     // Back link works
-    await page.locator(".project-back").click();
+    await page.getByRole("link", { name: /back to projects/i }).click();
     await expect(page).toHaveURL(/\/projects$/);
   });
 
   test("travel destination detail renders gallery + content", async ({ page }) => {
     await page.goto("/travel");
 
-    await page.locator(".hub-card a, .hub-card").first().click();
+    await page.getByTestId("hub-card").first().click();
     await expect(page).toHaveURL(/\/travel\/[^/]+$/);
 
-    await expect(page.locator(".project-title")).toBeVisible();
-    await expect(page.locator(".project-gallery")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByTestId("project-gallery")).toBeVisible();
   });
 
   test("yearly review detail renders sections", async ({ page }) => {
     await page.goto("/reviews");
 
-    await page.locator(".hub-card a, .hub-card").first().click();
+    await page.getByTestId("hub-card").first().click();
     await expect(page).toHaveURL(/\/reviews\/[^/]+$/);
 
-    await expect(page.locator(".project-title")).toContainText(/Yearly Review/i);
-    await expect(page.locator(".project-section").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/Yearly Review/i);
+    await expect(page.getByTestId("project-section").first()).toBeVisible();
   });
 
   test("resource category detail renders item list", async ({ page }) => {
@@ -57,14 +51,16 @@ test.describe("Detail pages", () => {
     // that points at /resources/* — those are the categories.
     await page.goto("/resources");
 
-    const internalLink = page
-      .locator('.hub-card a[href^="/resources/"]')
+    const internalCard = page
+      .getByTestId("hub-card")
+      .filter({ has: page.locator('a[href^="/resources/"]') })
       .first();
-    await expect(internalLink).toBeVisible();
-    await internalLink.click();
+    await expect(internalCard).toBeVisible();
+    await internalCard.click();
 
     await expect(page).toHaveURL(/\/resources\/[^/]+$/);
-    await expect(page.locator(".project-title")).toBeVisible();
-    await expect(page.locator(".resource-list li").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    // Resource list items are <li> inside a <ul> (semantic list)
+    await expect(page.getByRole("listitem").first()).toBeVisible();
   });
 });

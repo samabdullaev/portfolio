@@ -64,7 +64,7 @@ export default async function ReviewDetailPage({
     <DetailPage>
       <DetailBack href="/reviews" label="Back to Reviews" />
 
-      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+      <h1 className="text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
         {review.year} Yearly Review
       </h1>
 

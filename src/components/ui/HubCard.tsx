@@ -53,7 +53,7 @@ export default function HubCard({
   );
 
   return (
-    <div className="hub-card">
+    <div data-testid="hub-card">
       {external ? (
         <a
           href={href}

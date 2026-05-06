@@ -23,7 +23,8 @@ function CertCard({
 }) {
   return (
     <div
-      className="hub-card group cursor-pointer"
+      data-testid="hub-card"
+      className="group cursor-pointer"
       onClick={() => onOpen(cert)}
     >
       <div className="flex flex-col bg-card rounded-2xl p-2 overflow-hidden transition-colors duration-300">

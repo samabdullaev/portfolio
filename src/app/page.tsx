@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <section className="flex flex-col items-center justify-center text-center flex-1 p-6 gap-9 max-sm:p-5 max-sm:gap-6">
       {home.profileImage?.asset?.url && (
-        <div className="hero-photo">
+        <div data-testid="hero-photo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={home.profileImage.asset.url}
@@ -53,7 +53,7 @@ export default async function Home() {
       </div>
 
       {home.socials?.length > 0 && (
-        <div className="hero-socials flex items-center gap-3 mt-1">
+        <div data-testid="hero-socials" className="flex items-center gap-3 mt-1">
           {home.socials.map((s) => {
             const platform = s.platform.toLowerCase();
             return (
@@ -70,7 +70,7 @@ export default async function Home() {
         </div>
       )}
 
-      <div className="hero-actions flex items-center gap-3 mt-2 max-sm:flex-col max-sm:w-full">
+      <div data-testid="hero-actions" className="flex items-center gap-3 mt-2 max-sm:flex-col max-sm:w-full">
         {home.resumeFile?.asset?.url && (
           <a
             href={home.resumeFile.asset.url}

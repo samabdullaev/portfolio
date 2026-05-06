@@ -15,7 +15,8 @@ export default function ExpandText({ summary, expanded }: ExpandTextProps) {
       {summary}
       {!isExpanded && (
         <button
-          className="expand-btn relative -top-px ml-1 inline-flex items-center gap-0.5 align-middle cursor-pointer border border-border bg-hover hover:bg-border text-xs font-medium text-text-secondary hover:text-text py-px px-1.5 rounded-md transition-colors duration-150"
+          data-testid="expand-toggle"
+          className="relative -top-px ml-1 inline-flex items-center gap-0.5 align-middle cursor-pointer border border-border bg-hover hover:bg-border text-xs font-medium text-text-secondary hover:text-text py-px px-1.5 rounded-md transition-colors duration-150"
           onClick={() => setIsExpanded(true)}
         >
           <svg
@@ -33,7 +34,11 @@ export default function ExpandText({ summary, expanded }: ExpandTextProps) {
           </svg>
         </button>
       )}
-      {isExpanded && <span className="expand-content">{expanded}</span>}
+      {isExpanded && (
+        <span data-testid="expand-content" className="expand-content">
+          {expanded}
+        </span>
+      )}
     </p>
   );
 }

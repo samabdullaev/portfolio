@@ -17,7 +17,6 @@ const PLATFORM_CLASSES: Record<SocialTileProps["platform"], string> = {
 };
 
 const BASE_CLASSES = [
-  "social-tile",
   "relative flex items-center justify-center",
   "size-15 rounded-2xl",
   "border border-border bg-card",

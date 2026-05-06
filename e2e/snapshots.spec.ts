@@ -50,7 +50,7 @@ const details = [
 for (const { name, hubPath } of details) {
   test(`visual: ${name}`, async ({ page }) => {
     await page.goto(hubPath);
-    await page.locator(".hub-card a, .hub-card").first().click();
+    await page.getByTestId("hub-card").first().click();
     await page.waitForLoadState("networkidle");
     await page.evaluate(() => document.fonts.ready);
 
@@ -66,7 +66,11 @@ for (const { name, hubPath } of details) {
 // detail page.
 test("visual: detail-resource-category", async ({ page }) => {
   await page.goto("/resources");
-  await page.locator('.hub-card a[href^="/resources/"]').first().click();
+  await page
+    .getByTestId("hub-card")
+    .filter({ has: page.locator('a[href^="/resources/"]') })
+    .first()
+    .click();
   await page.waitForLoadState("networkidle");
   await page.evaluate(() => document.fonts.ready);
 

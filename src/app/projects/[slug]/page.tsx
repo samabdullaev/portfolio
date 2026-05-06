@@ -65,7 +65,7 @@ export default async function ProjectPage({
     <DetailPage>
       <DetailBack href="/projects" label="Back to Projects" />
 
-      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+      <h1 className="text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
         {project.title}
       </h1>
       <p className="text-base text-text-secondary leading-normal mb-8">

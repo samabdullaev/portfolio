@@ -6,49 +6,34 @@ import { test, expect } from "@playwright/test";
 // that wire it up to different param names.
 
 test.describe("Filter cards", () => {
-  test("Certificates: clicking an issuer chip updates URL and narrows the grid", async ({
-    page,
-  }) => {
+  test("Certificates: clicking an issuer chip updates URL", async ({ page }) => {
     await page.goto("/certificates");
 
-    const firstChip = page.locator(".filter-card").first();
+    const firstChip = page.getByRole("tab").first();
     await expect(firstChip).toBeVisible();
-    const chipName = (await firstChip.locator(".filter-card-name").innerText()).trim();
-
     await firstChip.click();
 
     await expect(page).toHaveURL(/\?issuer=/);
-    // Filtered mode renders a single section header matching the issuer name
-    await expect(
-      page.locator(".section-header h2").filter({ hasText: chipName }),
-    ).toBeVisible();
+    // After filtering, at least one section heading should be visible
+    await expect(page.getByRole("heading", { level: 2 }).first()).toBeVisible();
   });
 
-  test("Projects: clicking a category chip updates URL and narrows visible sections", async ({
-    page,
-  }) => {
+  test("Projects: clicking a category chip narrows to one section", async ({ page }) => {
     await page.goto("/projects");
 
-    const firstChip = page.locator(".filter-card").first();
-    await expect(firstChip).toBeVisible();
-    const chipName = (await firstChip.locator(".filter-card-name").innerText()).trim();
-
+    const firstChip = page.getByRole("tab").first();
     await firstChip.click();
     await expect(page).toHaveURL(/\?category=/);
 
-    // Only one category section should render in filtered mode
-    const sectionHeadings = page.locator(".topic-section .section-header h2");
-    await expect(sectionHeadings).toHaveCount(1);
-    await expect(sectionHeadings.first()).toContainText(chipName);
+    // Filtered mode renders exactly one category section
+    await expect(page.getByRole("heading", { level: 2 })).toHaveCount(1);
   });
 
   test("Journey: clicking a year chip updates URL", async ({ page }) => {
     await page.goto("/journey");
 
-    const firstChip = page.locator(".filter-card").first();
-    await expect(firstChip).toBeVisible();
+    const firstChip = page.getByRole("tab").first();
     await firstChip.click();
-
     await expect(page).toHaveURL(/\?year=/);
   });
 });

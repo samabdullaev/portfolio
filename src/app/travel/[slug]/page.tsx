@@ -65,7 +65,7 @@ export default async function TravelDetailPage({
     <DetailPage>
       <DetailBack href="/travel" label="Back to Travel" />
 
-      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+      <h1 className="text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
         {dest.title} {dest.flag}
       </h1>
 

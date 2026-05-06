@@ -45,6 +45,7 @@ export default function ContributionsBentoCreative({ items, latestPosts, latestA
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
+            data-testid={`bento-${slot}`}
             className={`bento-c bento-c-${slot}`}
           >
             {renderSlotContent(slot, item, { latestPosts, latestArticle })}

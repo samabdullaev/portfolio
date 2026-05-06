@@ -55,7 +55,7 @@ function ExternalLinkIcon() {
 
 function ResourceItemList({ items }: { items: ResourceItem[] }) {
   return (
-    <ul className="resource-list list-none p-0 flex flex-col">
+    <ul className="list-none p-0 flex flex-col">
       {items.map((item) => (
         <li
           key={item.url}
@@ -98,11 +98,11 @@ export default async function ResourceDetailPage({
     <DetailPage>
       <DetailBack href="/resources" label="Back to Resources" />
 
-      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+      <h1 className="text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
         {resource.title}
       </h1>
 
-      <div className="project-gallery mb-3">
+      <div data-testid="project-gallery" className="mb-3">
         <div className="w-full rounded-2xl overflow-hidden border border-border relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={resource.thumbnail.asset.url} alt={resource.title} className="w-full block" />

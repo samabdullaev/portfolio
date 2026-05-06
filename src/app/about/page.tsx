@@ -23,7 +23,7 @@ export default async function AboutPage() {
         <h2 className="about-section-title">About</h2>
         <div className="about-row">
           {about.profileImage?.asset?.url && (
-            <div className="about-photo">
+            <div data-testid="about-photo" className="about-photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={about.profileImage.asset.url}
@@ -33,7 +33,7 @@ export default async function AboutPage() {
               />
             </div>
           )}
-          <div className="about-text">
+          <div data-testid="about-text" className="about-text">
             {about.bioParagraphs?.map((p) => (
               <ExpandText key={p._key} summary={p.summary} expanded={p.expandedText} />
             ))}
