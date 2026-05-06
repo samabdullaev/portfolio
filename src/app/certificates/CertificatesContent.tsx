@@ -5,7 +5,6 @@ import MediaModal from "@/components/ui/MediaModal";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
 import type { Certificate } from "@/lib/sanity/queries/certificates";
-import "./certificates.css";
 
 export type { Certificate };
 
@@ -46,6 +45,7 @@ function CertCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
+                className="hover:underline hover:underline-offset-2"
               >
                 {cert.title}
               </a>
