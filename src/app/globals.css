@@ -571,91 +571,6 @@ main {
   gap: 20px;
 }
 
-.hub-card a {
-  display: block;
-}
-
-.hub-card-inner {
-  display: flex;
-  flex-direction: column;
-  background: var(--color-card);
-  border-radius: 20px;
-  padding: 8px;
-  overflow: hidden;
-  transition: background 0.3s ease;
-}
-
-.hub-card-thumb {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid var(--color-border);
-  background: var(--color-card);
-}
-
-.hub-card-thumb-img {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.3s ease;
-}
-
-.hub-card a:hover .hub-card-thumb-img {
-  transform: scale(1.03);
-}
-
-.hub-card-content {
-  padding: 16px 12px 8px;
-}
-
-.hub-card-content h3 {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.hub-card-subtitle {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  line-height: 1.4;
-  margin-top: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.hub-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-
-.hub-card-tag {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  background: var(--color-hover);
-  padding: 2px 8px;
-  border-radius: 100px;
-  white-space: nowrap;
-}
-
-[data-theme="dark"] .hub-card-tag {
-  background: var(--color-border);
-}
-
 /* ===== Filtered-mode card grid =====
    Used by hub pages when a filter is active (one section visible) and by
    pages without filters that want the same vertical-stacked layout. */
@@ -787,18 +702,6 @@ main {
 
   .topic-section {
     margin-bottom: 40px;
-  }
-
-  .hub-card-content {
-    padding: 12px 8px 4px;
-  }
-
-  .hub-card-content h3 {
-    font-size: 15px;
-  }
-
-  .hub-card-subtitle {
-    font-size: 13px;
   }
 
   .section-header h2 {
