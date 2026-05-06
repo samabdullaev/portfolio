@@ -86,6 +86,27 @@ background instead of just icon hover.
 
 ---
 
+### Modal focus trap + restoration
+**What**: `<Modal>` (and `<MediaModal>` which extends it) opens without
+trapping focus. Tab can move focus to elements behind the modal,
+breaking keyboard navigation.
+
+**How**:
+- On open: save `document.activeElement`, move focus to a focusable
+  element inside the modal (close button is conventional).
+- While open: intercept Tab / Shift+Tab to cycle within the modal's
+  focusable elements (querySelector for the standard list:
+  `a, button, input, [tabindex]:not([tabindex="-1"])`).
+- On close: restore focus to the saved element.
+
+Lives in `src/components/ui/Modal.tsx`. Pure addition (~30 lines of
+focus-management logic), no API change needed. Test with keyboard
+navigation in browser + a11y tools.
+
+**Effort**: ~30 min including testing.
+
+---
+
 ### Mobile drawer — active page ring
 **What**: When the mobile burger drawer is open, the active page's link
 looks identical to inactive ones. Hard to tell where you are.

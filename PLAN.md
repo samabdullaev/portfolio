@@ -373,7 +373,7 @@ Items:
 - [ ] Modal focus trap + focus restoration on close
 - [ ] Skip-to-content link in root layout
 - [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
-- [ ] Contrast audit on `--color-text-secondary` against `--color-bg` (both modes); adjust tokens if needed
+- [x] Contrast audit on `--color-text-secondary` against `--color-bg`: light mode 5.10:1, dark mode 6.86:1 — both pass WCAG AA. Sam opted to keep current values (AA-passing) for design reasons rather than bump to AAA.
 - [ ] Light/dark mode icon swap (replace current Sun/Moon glyphs with picks Sam likes more)
 - [ ] Lazy-load offscreen card grids and images
 - [ ] Re-run bundle analyzer + Lighthouse; compare to baseline; document deltas
