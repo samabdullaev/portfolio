@@ -7,6 +7,9 @@ import {
 } from "@/lib/sanity/queries/journey";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
+import TopicSection from "@/components/layout/TopicSection";
 
 export default async function JourneyPage({
   searchParams,
@@ -15,21 +18,17 @@ export default async function JourneyPage({
 }) {
   const { year: activeSlug } = await searchParams;
 
-  // Fetch updates and year filter cards in parallel via two GROQ queries.
   const [updates, journeyYears] = await Promise.all([
     sanityFetch<JourneyUpdate[]>(journeyUpdatesQuery),
     sanityFetch<JourneyYear[]>(journeyYearsQuery),
   ]);
 
-  // Group updates by year
   const yearGroups: Record<number, JourneyUpdate[]> = {};
   for (const u of updates) {
     if (!yearGroups[u.year]) yearGroups[u.year] = [];
     yearGroups[u.year].push(u);
   }
 
-  // Filter row uses journeyYear documents (with logos editable in Studio).
-  // Skip any years that have no updates yet.
   const filterItems: FilterCardItem[] = journeyYears
     .filter((y) => (yearGroups[y.year]?.length ?? 0) > 0)
     .map((y) => ({
@@ -40,7 +39,6 @@ export default async function JourneyPage({
       thumbnail: y.logo?.asset?.url,
     }));
 
-  // Visible year sections
   const visibleYears = activeSlug
     ? journeyYears
         .filter((y) => y.slug.current === activeSlug)
@@ -49,13 +47,11 @@ export default async function JourneyPage({
     : journeyYears.map((y) => y.year).filter((y) => yearGroups[y]?.length);
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>My Journey</h1>
-        <p className="hub-subtitle">
-          Monthly updates on my professional growth — published on LinkedIn
-        </p>
-      </div>
+    <HubPage>
+      <HubHeader
+        title="My Journey"
+        subtitle="Monthly updates on my professional growth — published on LinkedIn"
+      />
 
       <FilterCardRow
         items={filterItems}
@@ -65,10 +61,7 @@ export default async function JourneyPage({
       />
 
       {visibleYears.map((year) => (
-        <div className="topic-section" key={year}>
-          <div className="section-header">
-            <h2>{year}</h2>
-          </div>
+        <TopicSection key={year} title={String(year)}>
           <div
             className={
               activeSlug ? "card-grid-filtered" : "card-grid"
@@ -84,8 +77,8 @@ export default async function JourneyPage({
               />
             ))}
           </div>
-        </div>
+        </TopicSection>
       ))}
-    </main>
+    </HubPage>
   );
 }

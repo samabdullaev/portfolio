@@ -4,16 +4,15 @@ import {
   type TravelCard,
 } from "@/lib/sanity/queries/travel";
 import HubCard from "@/components/ui/HubCard";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
 
 export default async function TravelPage() {
   const destinations = await sanityFetch<TravelCard[]>(travelDestinationsQuery);
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>Travel</h1>
-        <p className="hub-subtitle">Countries and places I&apos;ve explored</p>
-      </div>
+    <HubPage>
+      <HubHeader title="Travel" subtitle="Countries and places I&apos;ve explored" />
 
       <div className="card-grid-filtered">
         {destinations.map((d) => (
@@ -25,6 +24,6 @@ export default async function TravelPage() {
           />
         ))}
       </div>
-    </main>
+    </HubPage>
   );
 }

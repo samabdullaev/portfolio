@@ -4,10 +4,9 @@ import { aboutPageQuery, type AboutPageData } from "@/lib/sanity/queries/about";
 import ExpandText from "@/components/ui/ExpandText";
 import ContributionsBentoCreative from "@/components/sections/ContributionsBentoCreative";
 import HobbiesList from "@/components/sections/HobbiesList";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
 
-// Re-fetch the page (and its `latestPosts` / `latestArticle` sub-queries)
-// at most once per hour so newly-published journey updates and Medium
-// articles surface in the bento without a redeploy.
 export const revalidate = 3600;
 
 export default async function AboutPage() {
@@ -17,11 +16,8 @@ export default async function AboutPage() {
   if (!about) return null;
 
   return (
-    <section className="hub-page">
-      <div className="hub-header">
-        <h1>About</h1>
-        <p className="hub-subtitle">A bit more about me, what I do, and what I enjoy</p>
-      </div>
+    <HubPage>
+      <HubHeader title="About" subtitle="A bit more about me, what I do, and what I enjoy" />
 
       <div className="about-section">
         <h2 className="about-section-title">About</h2>
@@ -62,6 +58,6 @@ export default async function AboutPage() {
           <HobbiesList items={about.hobbies} />
         </div>
       )}
-    </section>
+    </HubPage>
   );
 }

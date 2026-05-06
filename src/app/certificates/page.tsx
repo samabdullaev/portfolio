@@ -7,6 +7,8 @@ import {
 } from "@/lib/sanity/queries/certificates";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import CertificatesContent from "./CertificatesContent";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
 
 export default async function CertificatesPage({
   searchParams,
@@ -15,10 +17,8 @@ export default async function CertificatesPage({
 }) {
   const { issuer: activeSlug } = await searchParams;
 
-  // 1. All issuers with their cert counts (for the filter row)
   const issuers = await sanityFetch<IssuerWithCount[]>(certificateIssuersQuery);
 
-  // 2. Certificates — filtered server-side if an issuer is selected
   const certs = await sanityFetch<Certificate[]>(
     certificatesQuery(Boolean(activeSlug)),
     activeSlug ? { slug: activeSlug } : undefined,
@@ -35,13 +35,11 @@ export default async function CertificatesPage({
   const activeIssuer = activeSlug ? issuers.find((i) => i.slug.current === activeSlug) : null;
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>Certificates</h1>
-        <p className="hub-subtitle">
-          Certifications, hackathon awards, and course completions
-        </p>
-      </div>
+    <HubPage>
+      <HubHeader
+        title="Certificates"
+        subtitle="Certifications, hackathon awards, and course completions"
+      />
 
       <FilterCardRow
         items={filterItems}
@@ -55,6 +53,6 @@ export default async function CertificatesPage({
         mode={activeSlug ? "filtered" : "all"}
         filteredHeading={activeIssuer?.name}
       />
-    </main>
+    </HubPage>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import MediaModal from "@/components/ui/MediaModal";
+import TopicSection from "@/components/layout/TopicSection";
 import type { Certificate } from "@/lib/sanity/queries/certificates";
 import "./certificates.css";
 
@@ -77,22 +78,16 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
   }));
   const activeCert = modalIndex != null ? certs[modalIndex] : null;
 
-  // Filtered mode — single section, 1-column on mobile, normal grid on desktop
   if (mode === "filtered") {
     return (
       <>
-        <div className="topic-section">
-          {filteredHeading && (
-            <div className="section-header">
-              <h2>{filteredHeading}</h2>
-            </div>
-          )}
+        <TopicSection title={filteredHeading}>
           <div className="card-grid-filtered">
             {certs.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
           </div>
-        </div>
+        </TopicSection>
         <MediaModal
           open={modalIndex != null}
           onClose={closeModal}
@@ -119,16 +114,13 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
   return (
     <>
       {issuerGroups.map((group) => (
-        <div key={group.slug} className="topic-section">
-          <div className="section-header">
-            <h2>{group.name}</h2>
-          </div>
+        <TopicSection key={group.slug} title={group.name}>
           <div className="card-grid">
             {group.certs.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
           </div>
-        </div>
+        </TopicSection>
       ))}
       <MediaModal
         open={modalIndex != null}

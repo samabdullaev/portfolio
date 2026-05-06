@@ -4,18 +4,18 @@ import {
   type MentorshipArticle,
 } from "@/lib/sanity/queries/mentorship";
 import HubCard from "@/components/ui/HubCard";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
 
 export default async function MentorshipPage() {
   const articles = await sanityFetch<MentorshipArticle[]>(mentorshipArticlesQuery);
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>Mentorship</h1>
-        <p className="hub-subtitle">
-          Guidance articles from university to career — published on Publink
-        </p>
-      </div>
+    <HubPage>
+      <HubHeader
+        title="Mentorship"
+        subtitle="Guidance articles from university to career — published on Publink"
+      />
 
       <div className="card-grid-filtered">
         {articles.map((a) => (
@@ -30,6 +30,6 @@ export default async function MentorshipPage() {
           />
         ))}
       </div>
-    </main>
+    </HubPage>
   );
 }

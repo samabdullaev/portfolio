@@ -5,6 +5,9 @@ import {
 } from "@/lib/sanity/queries/resources";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
+import TopicSection from "@/components/layout/TopicSection";
 
 export default async function ResourcesPage({
   searchParams,
@@ -28,11 +31,11 @@ export default async function ResourcesPage({
     : topics;
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>Resources</h1>
-        <p className="hub-subtitle">Tools, platforms, and libraries I use and recommend</p>
-      </div>
+    <HubPage>
+      <HubHeader
+        title="Resources"
+        subtitle="Tools, platforms, and libraries I use and recommend"
+      />
 
       <FilterCardRow
         items={filterItems}
@@ -42,10 +45,7 @@ export default async function ResourcesPage({
       />
 
       {visibleTopics.map((topic) => (
-        <div className="topic-section" key={topic._id}>
-          <div className="section-header">
-            <h2>{topic.title}</h2>
-          </div>
+        <TopicSection key={topic._id} title={topic.title}>
           <div
             className={
               activeSlug ? "card-grid-filtered" : "card-grid"
@@ -68,8 +68,8 @@ export default async function ResourcesPage({
               );
             })}
           </div>
-        </div>
+        </TopicSection>
       ))}
-    </main>
+    </HubPage>
   );
 }

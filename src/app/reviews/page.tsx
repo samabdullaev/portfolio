@@ -1,16 +1,15 @@
 import { sanityFetch } from "@/lib/sanity";
 import { reviewsListQuery, type ReviewCard } from "@/lib/sanity/queries/reviews";
 import HubCard from "@/components/ui/HubCard";
+import HubPage from "@/components/layout/HubPage";
+import HubHeader from "@/components/layout/HubHeader";
 
 export default async function ReviewsPage() {
   const reviews = await sanityFetch<ReviewCard[]>(reviewsListQuery);
 
   return (
-    <main className="hub-page">
-      <div className="hub-header">
-        <h1>Yearly Reviews</h1>
-        <p className="hub-subtitle">A look back at each year</p>
-      </div>
+    <HubPage>
+      <HubHeader title="Yearly Reviews" subtitle="A look back at each year" />
 
       <div className="card-grid-filtered">
         {reviews.map((r) => (
@@ -22,6 +21,6 @@ export default async function ReviewsPage() {
           />
         ))}
       </div>
-    </main>
+    </HubPage>
   );
 }
