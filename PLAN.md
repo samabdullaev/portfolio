@@ -373,28 +373,28 @@ Items:
 - [ ] Modal focus trap → moved to BACKLOG (deferred a11y polish)
 - [x] Skip-to-content link in root layout
 - [x] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles, dropdown toggles, ExpandText button)
-- [ ] Modal focus trap + focus restoration on close
-- [ ] Skip-to-content link in root layout
-- [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
 - [x] Contrast audit on `--color-text-secondary` against `--color-bg`: light mode 5.10:1, dark mode 6.86:1 — both pass WCAG AA. Sam opted to keep current values (AA-passing) for design reasons rather than bump to AAA.
 - [x] Light/dark mode icon swap — Radix UI Sun/Moon SVG paths inlined (no dep added)
-- [ ] Lazy-load offscreen card grids and images → moved to BACKLOG (Lighthouse already 100/100/100/100; complexity-vs-gain ratio not worth it today)
 - [x] Re-run `next build`: artifact sizes unchanged from baseline (1.1 MB static, 219 KB largest JS chunk). Lighthouse re-check: Sam to confirm scores still 100 across the board (no perf-affecting changes were made — only a11y additions).
-- [ ] Light/dark mode icon swap (replace current Sun/Moon glyphs with picks Sam likes more)
-- [ ] Lazy-load offscreen card grids and images
-- [ ] Re-run bundle analyzer + Lighthouse; compare to baseline; document deltas
+- [ ] Lazy-load offscreen card grids and images → moved to BACKLOG (Lighthouse already 100/100/100/100; complexity-vs-gain ratio not worth it today)
 
 ## Phase 14: Public repo prep + deploy
-- [ ] Sweep both repos for `.env*`, hardcoded tokens, personal data not surfaced via Sanity
-- [ ] Create `.env.example` in both repos (var names only, no values)
-- [ ] `.gitignore` audit — build outputs, OS junk (`.DS_Store`), IDE configs, `seed/fixtures/`
-- [ ] Move Sanity project ID + dataset name to env vars (currently `p43tljnq` / `production` — public-readable but env-driven for hygiene)
-- [ ] **Seeder split** (deferred from Phase 12.8): move the inline real-data arrays in each `seeders/*.seeder.ts` to `seeders/fixtures/*.json` (gitignored) and add committed `seeders/example/*.json` placeholder docs (1–2 per type) so a stranger forking the repo can run `pnpm seed up` and see Studio populated end-to-end. Seeder runner gains `--from fixtures` (default) / `--from example` flag.
-- [ ] Write README for portfolio repo (tech stack, local setup, env vars, screenshots, deploy)
-- [ ] Write README for portfolio-sanity repo (Studio setup, seeding via `seed/example/`, schema groups)
-- [ ] Add `LICENSE` (MIT) to both repos
-- [ ] Configure Vercel deployment for portfolio
-- [ ] Set up Sanity webhook for on-demand revalidation (rolls in leftover Phase 6 ISR item)
-- [ ] Add `<head>` metadata + per-route `generateMetadata` + OG images
-- [ ] Final QA: full light/dark across pages, responsive at all 5 breakpoints, broken links / images
-- [ ] Flip both repositories to public
+- [x] **Secrets audit (2026-05-06)**: both histories clean. Only `.env.example` was ever committed (blank placeholder values, expected). Sanity-side `sk*`-shaped strings in pnpm-lock are base64 noise inside `sha512-...==` integrity hashes, not real tokens. No history rewrite needed.
+- [x] `.env.example` in both repos
+- [x] `.gitignore` audit — Sanity repo's `.gitignore` already covers `.env*`, `node_modules`, `dist`, `.next`, `.sanity`, OS junk, IDE configs ✓
+- [x] Move Sanity project ID + dataset to env vars in 3 places (sanity.cli.ts, sanity.config.ts, seeders/helpers.ts) via `SANITY_STUDIO_PROJECT_ID` + `SANITY_STUDIO_DATASET`
+- [ ] Seeder split → moved to BACKLOG (data is already public; forkers can edit seeders directly)
+- [x] README for portfolio (tech stack, setup, project structure, architecture notes, deploy, license)
+- [x] README for portfolio-sanity (setup with .env walkthrough, seeder usage + the createOrReplace gotcha, schema overview, Studio deploy)
+- [x] LICENSE (MIT) in both repos
+- [x] Vercel deployment is already live for the portfolio (auto-deploys on push to `main`)
+- [x] On-demand revalidation: `/api/revalidate?secret=<value>` route accepts a Sanity webhook and calls `revalidatePath('/', 'layout')`. Sanity-side webhook needs to be configured in Manage → API → Webhooks (URL + secret); also set `SANITY_REVALIDATE_SECRET` in Vercel project env.
+- [x] Per-route `generateMetadata` (hub pages got static `metadata` blocks; detail pages already had it) + auto-generated OG image at `/app/opengraph-image.tsx` (1200×630, brand-dark, SA monogram + name + tagline)
+- [x] Vercel Analytics + Speed Insights installed and mounted in root layout. Auto-enable when deployed to Vercel.
+- [x] Final QA: build clean across 58 routes; Playwright suite 38/38; OG image renders correctly; metadata wired up (verified for /projects: `Projects — Sam Abdullaev` title, page-specific description, summary_large_image twitter card)
+- [ ] **Manual final steps for Sam** (require dashboard access — can't be automated):
+  1. In Sanity Studio → Manage → API → Webhooks: create a webhook pointing at `https://samabdullaev.com/api/revalidate?secret=<value>`. Generate the secret with `openssl rand -base64 32`. Trigger on Create/Update/Delete.
+  2. Set `SANITY_REVALIDATE_SECRET` to the same value in Vercel → Project → Settings → Environment Variables.
+  3. Verify Vercel Analytics is enabled in Vercel → Project → Analytics tab.
+  4. Run Lighthouse one more time on the deployed URL to confirm scores still 100 (we only added a11y attributes, no perf-affecting code).
+  5. Flip both GitHub repos to public: portfolio → Settings → Danger Zone → Change visibility; same for portfolio-sanity.

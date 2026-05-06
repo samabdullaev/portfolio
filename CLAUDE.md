@@ -248,7 +248,7 @@ src/components/
 
 ## Roadmap
 
-Phases 1–12 are complete. The remaining work is performance + accessibility polish (Phase 13) and public-release prep + deploy (Phase 14).
+Phases 1–13 are complete. Phase 14 is code-complete; the only remaining work is dashboard-level (Sanity webhook config, Vercel env var, GitHub repo visibility flip) — see PLAN.md Phase 14 for the manual checklist.
 
 | # | Phase | Scope | State |
 |---|---|---|---|
@@ -258,7 +258,7 @@ Phases 1–12 are complete. The remaining work is performance + accessibility po
 | 10 | Tailwind migration (hybrid) | Bucket components → migrate pure-utility + hybrid; retain CSS for keyframes / complex compounds, realigned to design tokens. Add `clsx` + `tailwind-merge` | ✅ |
 | 11 | next/image migration | Custom Sanity loader, decide `sizes` per usage pattern, replace `<img>` site-wide | ✅ |
 | 12 | Sanity Studio refactor (`../portfolio-sanity`) | Flat desk + `@sanity/icons` + orderable D&D plugin, containment refactor (drop `project.category`/`certificate.issuer`/`blogArticle.partNumber`, add `projects[]`/`certificates[]` arrays), inlined seeder data, AI gallery image restoration, date type migration, Travel City dropdown, simplified `resourceCategory`. Seeder split (fixtures vs example) folded into Phase 14. | ✅ |
-| 13 | Performance + a11y | Bundle analyzer, Lighthouse baseline, modal focus trap, skip link, ARIA audit, contrast check, lazy-load | — |
-| 14 | Public repo prep + deploy | Env audit, `.env.example`, `.gitignore` audit, READMEs, LICENSE, Vercel deploy, Sanity webhook ISR, OG metadata, seeder fixtures/example split, flip both repos to public | — |
+| 13 | Performance + a11y | Skip link, ARIA audit (dropdowns, theme toggle, ExpandText), contrast audit (AA passing — kept), light/dark icon swap, animated state pages. Modal focus trap + lazy-load deferred to BACKLOG. | ✅ |
+| 14 | Public repo prep + deploy | Env-ified Sanity IDs, `.env.example` for both repos, READMEs, LICENSE, OG image (auto-generated via ImageResponse), per-route metadata, on-demand revalidation webhook, Vercel Analytics + Speed Insights. Seeder split deferred to BACKLOG. **Manual final**: configure Sanity webhook + revalidate secret in Vercel, flip both repos public on GitHub. | 🟡 (code done, dashboards pending) |
 
 See [PLAN.md](./PLAN.md) for the full task list with progress tracking and per-phase checklists.
