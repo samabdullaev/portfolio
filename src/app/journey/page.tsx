@@ -5,6 +5,7 @@ import {
   type JourneyUpdate,
   type JourneyYear,
 } from "@/lib/sanity/queries/journey";
+import { recapYear } from "@/lib/constants";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
@@ -24,10 +25,13 @@ export default async function JourneyPage({
     sanityFetch<JourneyYear[]>(journeyYearsQuery),
   ]);
 
+  // Group by recap year (publish date is 1st of next month — January
+  // publish belongs to the previous year's bucket).
   const yearGroups: Record<number, JourneyUpdate[]> = {};
   for (const u of updates) {
-    if (!yearGroups[u.year]) yearGroups[u.year] = [];
-    yearGroups[u.year].push(u);
+    const y = recapYear(u.date);
+    if (!yearGroups[y]) yearGroups[y] = [];
+    yearGroups[y].push(u);
   }
 
   const filterItems: FilterCardItem[] = journeyYears

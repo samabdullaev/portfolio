@@ -3,6 +3,7 @@ import {
   mentorshipArticlesQuery,
   type MentorshipArticle,
 } from "@/lib/sanity/queries/mentorship";
+import { formatLongDate } from "@/lib/dates";
 import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
@@ -25,7 +26,7 @@ export default async function MentorshipPage() {
             href={a.externalUrl}
             title={a.title}
             tag={a.task}
-            meta={a.date}
+            meta={formatLongDate(a.date)}
             thumbnail={a.thumbnail?.asset?.url}
             external
           />

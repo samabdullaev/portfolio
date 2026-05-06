@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { monthNumber } from "@/lib/constants";
+import { formatLongDate } from "@/lib/dates";
 
 interface ContributionItem {
   _key: string;
@@ -15,8 +16,8 @@ interface ContributionItem {
 
 interface LatestPost {
   title: string;
-  month: number;
-  year: number;
+  /** Publish date in ISO format (YYYY-MM-DD). */
+  date: string;
   linkedInUrl: string;
   thumbnailUrl: string | null;
 }
@@ -103,7 +104,7 @@ function FeatureHero({ item, latestPosts }: { item: ContributionItem; latestPost
           </div>
           {posts.map((post, i) => (
             <div
-              key={`${post.year}-${post.month}`}
+              key={post.date}
               className={`bento-c-post-row bento-c-post-row-${i + 1}`}
             >
               {post.thumbnailUrl ? (
@@ -119,7 +120,7 @@ function FeatureHero({ item, latestPosts }: { item: ContributionItem; latestPost
               )}
               <div className="bento-c-post-row-content">
                 <span className="bento-c-post-row-title">{post.title}</span>
-                <span className="bento-c-post-row-date">Month {monthNumber(post.year, post.month)}</span>
+                <span className="bento-c-post-row-date">Month {monthNumber(post.date)}</span>
               </div>
             </div>
           ))}
@@ -243,7 +244,7 @@ function ArticlePreviewCard({
         <div className="bento-c-mini-article" aria-hidden="true">
           <div className="bento-c-mini-thumb" />
           <p className="bento-c-mini-article-title">{latestArticle.title}</p>
-          <span className="bento-c-mini-article-date">{latestArticle.date}</span>
+          <span className="bento-c-mini-article-date">{formatLongDate(latestArticle.date)}</span>
         </div>
       )}
     </>

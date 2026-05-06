@@ -23,14 +23,15 @@ export interface AboutPage {
 
 export interface BentoLatestPost {
   title: string;
-  month: number;
-  year: number;
+  /** Publish date in ISO format (YYYY-MM-DD). */
+  date: string;
   linkedInUrl: string;
   thumbnailUrl: string | null;
 }
 
 export interface BentoLatestArticle {
   title: string;
+  /** ISO date string (YYYY-MM-DD). */
   date: string;
   externalUrl: string;
 }
@@ -51,8 +52,8 @@ export const aboutPageQuery = `{
     contributions[]{ _key, title, description, url, tag, subtitle, channelName, channelStatus, activities },
     hobbies[]{ _key, emoji, label }
   },
-  "latestPosts": *[_type == "journeyUpdate"] | order(year desc, month desc)[0...5]{
-    title, month, year, linkedInUrl, "thumbnailUrl": thumbnail.asset->url
+  "latestPosts": *[_type == "journeyUpdate"] | order(date desc)[0...5]{
+    title, date, linkedInUrl, "thumbnailUrl": thumbnail.asset->url
   },
   "latestArticle": *[_type == "blogArticle"] | order(date desc)[0]{
     title, date, externalUrl

@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/lib/sanity";
 import { blogSeriesQuery, type BlogSeries } from "@/lib/sanity/queries/blog";
+import { formatLongDate } from "@/lib/dates";
 import HubCard from "@/components/ui/HubCard";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
@@ -51,7 +52,7 @@ export default async function BlogPage({
                 href={article.externalUrl}
                 title={article.title}
                 tag={`Part ${i + 1}`}
-                meta={article.date}
+                meta={formatLongDate(article.date)}
                 thumbnail={article.thumbnail?.asset?.url}
                 external
               />

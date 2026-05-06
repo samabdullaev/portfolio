@@ -3,7 +3,8 @@ import type { SanitySlug } from "../types";
 export interface JourneyUpdate {
   _id: string;
   title: string;
-  year: number;
+  /** Publish date in ISO format (YYYY-MM-DD) — 1st of the month AFTER the recap month. */
+  date: string;
   linkedInUrl: string;
   thumbnail: { asset: { url: string } } | null;
 }
@@ -15,10 +16,10 @@ export interface JourneyYear {
   logo: { asset: { url: string } } | null;
 }
 
-export const journeyUpdatesQuery = `*[_type == "journeyUpdate"] | order(order asc){
-  _id, title, year, linkedInUrl, thumbnail{ asset->{ url } }
+export const journeyUpdatesQuery = `*[_type == "journeyUpdate"] | order(date desc){
+  _id, title, date, linkedInUrl, thumbnail{ asset->{ url } }
 }`;
 
-export const journeyYearsQuery = `*[_type == "journeyYear"] | order(orderRank asc){
+export const journeyYearsQuery = `*[_type == "journeyYear"] | order(year desc){
   _id, year, slug, logo{ asset->{ url } }
 }`;

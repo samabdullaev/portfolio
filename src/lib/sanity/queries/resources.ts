@@ -35,9 +35,7 @@ export interface ResourceCategory {
   slug: SanitySlug;
   subtitle: string | null;
   thumbnail: SanityImage;
-  sectionLabel: string | null;
-  items: ResourceItem[];
-  sections: ResourceSection[] | null;
+  sections: ResourceSection[];
 }
 
 // A topic-card item is either a Resource (links external) or a
@@ -66,16 +64,13 @@ export const resourceTopicsQuery = `*[_type == "resourceTopic"] | order(orderRan
 
 export interface ResourceCategoryDetail {
   title: string;
-  sectionLabel: string | null;
   thumbnail: SanityImage;
-  items: ResourceItem[];
-  sections: ResourceSection[] | null;
+  sections: ResourceSection[];
 }
 
 export const resourceCategoryDetailQuery = `*[_type == "resourceCategory" && slug.current == $slug][0]{
-  title, sectionLabel,
+  title,
   thumbnail{ asset->{ url } },
-  items[]{ _key, name, desc, url },
   sections[]{ _key, label, items[]{ _key, name, desc, url } }
 }`;
 

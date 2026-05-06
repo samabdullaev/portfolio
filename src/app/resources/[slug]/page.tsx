@@ -7,6 +7,7 @@ import {
   resourceCategoryTitleBySlugQuery,
   type ResourceCategoryDetail,
   type ResourceItem,
+  type ResourceSection,
 } from "@/lib/sanity/queries/resources";
 import DetailPage from "@/components/layout/DetailPage";
 import DetailBack from "@/components/layout/DetailBack";
@@ -116,17 +117,11 @@ export default async function ResourceDetailPage({
         </div>
       </div>
 
-      {resource.sections ? (
-        resource.sections.map((section) => (
-          <DetailSection key={section.label} title={section.label}>
-            <ResourceItemList items={section.items} />
-          </DetailSection>
-        ))
-      ) : (
-        <DetailSection title={resource.sectionLabel ?? undefined}>
-          <ResourceItemList items={resource.items} />
+      {resource.sections.map((section: ResourceSection) => (
+        <DetailSection key={section._key} title={section.label}>
+          <ResourceItemList items={section.items} />
         </DetailSection>
-      )}
+      ))}
     </DetailPage>
   );
 }
