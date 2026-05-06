@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Map Tailwind's dark: variant to the project's data-theme attribute
+   (set by ThemeProvider on the <html> element). Without this, dark:
+   utilities silently no-op since v4 defaults to prefers-color-scheme. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   /* Colors — Light mode defaults */
   --color-bg: #faf8f4;
@@ -445,85 +450,6 @@ main {
   align-items: center;
   gap: 12px;
   margin-top: 4px;
-}
-
-.social-tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
-  border: 1px solid var(--color-border);
-  background: var(--color-card);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  position: relative;
-}
-
-.social-tile svg {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease;
-}
-
-.social-tile:hover {
-  transform: translateY(-3px);
-}
-
-.social-tile:hover svg {
-  transform: scale(1.1);
-}
-
-.social-tile::after {
-  content: attr(aria-label);
-  position: absolute;
-  bottom: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-}
-
-.social-tile:hover::after {
-  opacity: 1;
-}
-
-/* Brand colors */
-.social-tile.linkedin { color: #0A66C2; }
-.social-tile.linkedin:hover {
-  background: #EFF6FF;
-  border-color: #BFDBFE;
-  box-shadow: 0 0 16px rgba(10, 102, 194, 0.2);
-}
-[data-theme="dark"] .social-tile.linkedin:hover {
-  background: #1e2a3a;
-  border-color: #1e4a7a;
-  box-shadow: 0 0 16px rgba(10, 102, 194, 0.3);
-}
-
-.social-tile.github { color: var(--color-text); }
-.social-tile.github:hover {
-  background: var(--color-hover);
-  border-color: var(--color-text-secondary);
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
-}
-[data-theme="dark"] .social-tile.github:hover {
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.08);
-}
-
-.social-tile.medium { color: var(--color-text); }
-.social-tile.medium:hover {
-  background: var(--color-hover);
-  border-color: var(--color-text-secondary);
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
-}
-[data-theme="dark"] .social-tile.medium:hover {
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.08);
 }
 
 /* ===== Action Buttons ===== */
