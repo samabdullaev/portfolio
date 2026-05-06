@@ -3,7 +3,6 @@ import type { SanityImage } from "../types";
 export interface HomePageData {
   name: string;
   title: string;
-  subtitle: string;
   location: string;
   profileImage: SanityImage;
   socials: { _key: string; platform: string; url: string }[];
