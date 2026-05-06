@@ -215,9 +215,13 @@ export default function Navbar() {
               const isOpen = openDropdown === dropdown.label;
               const hasActiveChild = isDropdownActive(dropdown.items);
 
+              const dropdownId = `nav-dropdown-${dropdown.label.toLowerCase()}`;
               return (
                 <li key={dropdown.label} className="relative">
                   <button
+                    aria-expanded={isOpen}
+                    aria-controls={dropdownId}
+                    aria-haspopup="menu"
                     className={cn(
                       DROPDOWN_TOGGLE_CLASSES,
                       "[&_svg]:size-3 [&_svg]:transition-transform [&_svg]:duration-200",
@@ -233,6 +237,8 @@ export default function Navbar() {
                     <ChevronDown />
                   </button>
                   <ul
+                    id={dropdownId}
+                    role="menu"
                     className={cn(
                       "absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 bg-card border border-border rounded-xl p-1.5 min-w-45 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-[opacity,visibility] duration-150",
                       isOpen ? "opacity-100 visible" : "opacity-0 invisible",
@@ -260,7 +266,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2 justify-self-end">
             <button
               onClick={toggleTheme}
-              aria-label="Toggle dark mode"
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               className="size-10 border border-border rounded-full bg-transparent cursor-pointer flex items-center justify-center text-text shrink-0 transition-[background-color,border-color,color] duration-200 hover:bg-hover"
             >
               {theme === "dark" ? <SunIcon /> : <MoonIcon />}

@@ -9,7 +9,7 @@ test.describe("Theme toggle", () => {
     const html = page.locator("html");
     const initial = await html.getAttribute("data-theme");
 
-    await page.getByRole("button", { name: /Toggle dark mode/i }).click();
+    await page.getByRole("button", { name: /Switch to (dark|light) mode/i }).click();
     const toggled = await html.getAttribute("data-theme");
     expect(toggled).not.toBe(initial);
 

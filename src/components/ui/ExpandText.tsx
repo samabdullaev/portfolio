@@ -16,6 +16,8 @@ export default function ExpandText({ summary, expanded }: ExpandTextProps) {
       {!isExpanded && (
         <button
           data-testid="expand-toggle"
+          aria-label="Read more"
+          aria-expanded={false}
           className="relative -top-px ml-1 inline-flex items-center gap-0.5 align-middle cursor-pointer border border-border bg-hover hover:bg-border text-xs font-medium text-text-secondary hover:text-text py-px px-1.5 rounded-md transition-colors duration-150"
           onClick={() => setIsExpanded(true)}
         >
@@ -28,6 +30,7 @@ export default function ExpandText({ summary, expanded }: ExpandTextProps) {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <polyline points="16 18 22 12 16 6" />
             <polyline points="8 6 2 12 8 18" />
