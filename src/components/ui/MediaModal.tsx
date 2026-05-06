@@ -207,8 +207,13 @@ export default function MediaModal({
                     width={2400}
                     height={1600}
                     draggable={false}
-                    priority={Math.abs(i - index) <= 1}
-                    sizes="100vw"
+                    // Modal viewer: load the original full-resolution
+                    // asset so the image stays sharp at any viewport
+                    // size. Sanity's auto=format optimization isn't
+                    // worth the lower-res srcset rendition for a
+                    // user-clicked viewer.
+                    unoptimized
+                    loading={Math.abs(i - index) <= 1 ? "eager" : "lazy"}
                   />
                 ) : i === index ? (
                   <iframe

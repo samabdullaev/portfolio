@@ -66,7 +66,12 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
               alt={active.alt ?? title ?? ""}
               width={1280}
               height={720}
-              sizes="(max-width: 640px) 100vw, 640px"
+              // Same URL as the matching thumb (see below) so swapping
+              // the hero on thumb-click reuses the browser cache and
+              // displays instantly. Optimization would split URLs by
+              // requested width and break that cache reuse.
+              unoptimized
+              priority
               className="w-full h-auto block"
             />
           ) : (
@@ -76,7 +81,8 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                 alt=""
                 width={1280}
                 height={720}
-                sizes="(max-width: 640px) 100vw, 640px"
+                unoptimized
+                priority
                 className="w-full h-auto block"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-[inherit] pointer-events-none">
@@ -106,6 +112,12 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                       alt={item.alt ?? ""}
                       width={80}
                       height={52}
+                      // Eager so the URL is in cache by the time the
+                      // user clicks this thumb to swap into the hero.
+                      // unoptimized = same URL the hero requests, so
+                      // the cache hit on swap is instant.
+                      unoptimized
+                      loading="eager"
                     />
                   ) : (
                     <>
@@ -114,6 +126,8 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                         alt=""
                         width={80}
                         height={52}
+                        unoptimized
+                        loading="eager"
                       />
                       <div
                         className={`absolute flex items-center justify-center bg-black/30 pointer-events-none ${
