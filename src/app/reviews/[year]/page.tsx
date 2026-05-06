@@ -45,19 +45,19 @@ export default async function ReviewDetailPage({
 
   if (!review) notFound();
 
-  // Thumbnail leads the gallery, followed by any extra images. Every image
-  // is expected to have a caption (set in Studio).
+  // Thumbnail leads the gallery, followed by any extra images. Items
+  // missing an asset ref are skipped — see project detail.
   const galleryImages = [
     {
       type: "image" as const,
       src: review.thumbnail.asset.url,
       caption: review.thumbnail.caption,
     },
-    ...(review.gallery ?? []).map((g) => ({
-      type: "image" as const,
-      src: g.asset.url,
-      caption: g.caption,
-    })),
+    ...(review.gallery ?? []).flatMap((g) =>
+      g.asset?.url
+        ? [{ type: "image" as const, src: g.asset.url, caption: g.caption }]
+        : [],
+    ),
   ];
 
   return (

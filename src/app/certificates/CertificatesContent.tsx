@@ -5,14 +5,16 @@ import Image from "next/image";
 import MediaModal from "@/components/ui/MediaModal";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
-import type { Certificate } from "@/lib/sanity/queries/certificates";
+import type {
+  Certificate,
+  IssuerWithCertificates,
+} from "@/lib/sanity/queries/certificates";
 
 export type { Certificate };
 
 interface Props {
-  certs: Certificate[];
+  issuers: IssuerWithCertificates[];
   mode: "all" | "filtered";
-  filteredHeading?: string;
 }
 
 function CertCard({
@@ -65,29 +67,34 @@ function CertCard({
   );
 }
 
-export default function CertificatesContent({ certs, mode, filteredHeading }: Props) {
+export default function CertificatesContent({ issuers, mode }: Props) {
   const [modalIndex, setModalIndex] = useState<number | null>(null);
 
+  // Flat list across all displayed issuers — modal navigates this in order.
+  const flatCerts = issuers.flatMap((i) => i.certificates ?? []);
+
   const openModal = (cert: Certificate) => {
-    const i = certs.findIndex((c) => c._id === cert._id);
+    const i = flatCerts.findIndex((c) => c._id === cert._id);
     if (i >= 0) setModalIndex(i);
   };
 
   const closeModal = () => setModalIndex(null);
 
-  const items = certs.map((c) => ({
+  const items = flatCerts.map((c) => ({
     type: "image" as const,
     src: c.image?.asset?.url ?? "",
     alt: c.title,
   }));
-  const activeCert = modalIndex != null ? certs[modalIndex] : null;
+  const activeCert = modalIndex != null ? flatCerts[modalIndex] : null;
 
   if (mode === "filtered") {
+    const issuer = issuers[0];
+    if (!issuer) return null;
     return (
       <>
-        <TopicSection title={filteredHeading}>
+        <TopicSection title={issuer.name}>
           <CardGrid filtered>
-            {certs.map((cert) => (
+            {issuer.certificates.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
           </CardGrid>
@@ -104,23 +111,12 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
     );
   }
 
-  // All mode — group by issuer (preserves existing per-section horizontal scroll on mobile)
-  const issuerGroups: { name: string; slug: string; certs: Certificate[] }[] = [];
-  for (const c of certs) {
-    let group = issuerGroups.find((g) => g.slug === c.issuerSlug);
-    if (!group) {
-      group = { name: c.issuerName, slug: c.issuerSlug, certs: [] };
-      issuerGroups.push(group);
-    }
-    group.certs.push(c);
-  }
-
   return (
     <>
-      {issuerGroups.map((group) => (
-        <TopicSection key={group.slug} title={group.name}>
+      {issuers.map((issuer) => (
+        <TopicSection key={issuer._id} title={issuer.name}>
           <CardGrid>
-            {group.certs.map((cert) => (
+            {issuer.certificates.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
           </CardGrid>

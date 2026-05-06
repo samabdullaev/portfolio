@@ -1,5 +1,23 @@
 # Portfolio Migration — Task List
 
+> **🔖 Resume pointer (2026-05-06)** — mid-Phase-12. Sanity schema + seeder
+> refactor is done (commit `c33ff30` in `../portfolio-sanity`, **not yet
+> pushed**). Production was re-seeded; project & travel galleries showed
+> empty because `images.seeder.ts` had a long-standing bug AND the AI
+> mockups were never wired in. Both fixed locally. **Next action:**
+>
+> 1. Re-run `pnpm seed up images gallery-images` from `../portfolio-sanity`
+>    to upload AI gallery images to production
+> 2. Verify project + travel detail pages show galleries in the browser
+> 3. Commit the website changes (queries, page rendering, defensive gallery
+>    filters, build)
+> 4. Commit the new `gallery-images.seeder.ts` + `seeders/assets/assets/{projects,travel}-gallery/*.jpg`
+>    + the `images.seeder.ts` cleanup, in `../portfolio-sanity`
+> 5. Run full Playwright suite, regen the one detail-project snapshot baseline
+>    that drifted, push everything
+>
+> See **Phase 12** below for the detailed checklist.
+
 ## Phase 1: Foundation
 - [x] Replace existing `globals.css` with portfolio design system (CSS variables, Inter font, light/dark tokens)
 - [x] Create `ThemeProvider.tsx` — client component with `localStorage` + system preference detection
@@ -202,20 +220,120 @@
 **Outcomes**: 12 image renders now go through Sanity-CDN-optimized pipeline with srcset-driven width selection. Build clean (58 static pages). Full suite 38/38, verified stable across 5 consecutive runs.
 
 ## Phase 12: Sanity Studio refactor (`../portfolio-sanity` repo)
-- [ ] Build desk structure with 7 groups: Pages / Projects / Blog / Resources / Certificates / Travel / Reviews / Journey / Mentorship
-- [ ] Migrate `string` date fields to `date` type — `certificate.date`, `blogArticle.date`, `mentorshipArticle.date`
-- [ ] Decide per-doc-type ordering strategy:
-  - **Drag-and-drop** (small, intentional): `projectCategory`, `blogSeries`, `resourceTopic`, `certificateIssuer`, `journeyYear`, `travelDestination`, `yearlyReview`
-  - **Date-based default sort** (drop `order` entirely): `certificate`, `blogArticle`, `journeyUpdate`
-- [ ] Install `@sanity/orderable-document-list` and configure for D&D types
-- [ ] Set `defaultOrdering: [{ field: 'date', direction: 'desc' }]` per date-sorted doc type for newest-first
-- [ ] Schema add/remove/edit as discovered during refactor (planned: `order` field removal where date-sort replaces it; field-type migration for date fields; any new fields to support better ordering or grouping)
-- [ ] Seeder split:
-  - `seed/fixtures/` — **gitignored**, real-data backup; refresh via `sanity dataset export production`
-  - `seed/example/` — **committed**, 1–2 placeholder docs per type so a stranger can fork and see Studio work end-to-end
-  - Seed runner reads either directory via flag (`--from fixtures` / `--from example`)
-- [ ] Update CLAUDE.md schema table to reflect any field/type changes
-- [ ] Update PLAN.md schema-related sections (Phase 5, 6.5–6.11) only if field renames break historical accuracy
+
+### 12.1 Desk structure + orderable plugin (✅ committed locally as `c33ff30`)
+- [x] Flat desk in website-nav order (Home → About → Settings → Projects →
+  Journey → Blog → Mentorship → Travel → Reviews → Resources → Certificates),
+  one divider between page singletons and content. `@sanity/icons` replace
+  folder icons. Shorter, clearer titles ("All Projects", "Resource Categories",
+  etc.).
+- [x] Install `@sanity/orderable-document-list` + wire D&D for 7 types
+  (`projectCategory`, `journeyYear`, `blogSeries`, `resourceTopic`,
+  `certificateIssuer`, `travelDestination`, `resource`). Each type's desk
+  list item wraps in `orderableDocumentListDeskItem({S, context, …})` and
+  gets an `orderRank` field via `orderRankField()`.
+- [x] CSS override (`studio.css`, scoped to `[data-ui="PaneLayout"]:not([data-collapsed])`)
+  caps orderable panes at ~350px on desktop so D&D lists match the default
+  narrow list panes. Drops the cap on mobile-collapsed panes.
+- [x] `yearlyReview` gets `defaultOrdering [{field: 'year', direction: 'desc'}]`
+  — no D&D needed.
+
+### 12.2 Containment refactor (✅ committed locally as `c33ff30`)
+- [x] `projectCategory` gains `projects[]` array (refs); drop `project.category`
+  string and `project.order`. Membership + display order both come from
+  parent's array.
+- [x] `certificateIssuer` gains `certificates[]` array (refs); drop
+  `certificate.issuer` ref and `certificate.order`. Same containment rule.
+- [x] Drop `blogArticle.partNumber` — derived from index in `blogSeries.articles[]`
+  on the website.
+- [x] `seed.ts` re-orders so `certificates` runs before `certificate-issuers`
+  (issuers reference cert IDs).
+
+### 12.3 Inline data + asset paths (✅ committed locally as `c33ff30`)
+- [x] `projects.seeder.ts` — inlined all 14 projects (was reading from a JSON
+  file that no longer exists since Phase 6, silently producing zero docs).
+- [x] `travel.seeder.ts` — inlined all 11 destinations.
+- [x] 5 filter-card seeders point at AI-generated isometric `.jpg` icons
+  downloaded from Sanity's CDN under `seeders/assets/assets/{section}/*.jpg`.
+
+### 12.4 Website coordination (⏳ NOT yet committed in `portfolio` repo)
+- [x] GROQ queries refactored: `projects.ts`, `blog.ts`, `certificates.ts`,
+  `journey.ts`, `resources.ts`, `travel.ts` — sort by `orderRank`,
+  dereference `projects[]` / `certificates[]` containment arrays, drop
+  references to dropped fields.
+- [x] Pages refactored: `projects/page.tsx` (read from `category.projects`),
+  `blog/page.tsx` (`Part N` from index, not `partNumber`),
+  `certificates/page.tsx` + `CertificatesContent.tsx` (read from
+  `issuer.certificates`).
+- [x] Defensive filter on broken gallery items (project + travel + reviews
+  detail pages) — image-type slots missing `asset.url` / video items missing
+  `videoUrl` are skipped instead of crashing the page (Sanity is a content
+  boundary; this is the right place to validate).
+- [x] Type-check passes; `npm run build` passes (58 routes); 37/38 Playwright
+  tests pass; 1 visual snapshot drift on `detail-project` (60px height
+  diff because gallery contents shifted — regen baseline at end).
+
+### 12.5 AI gallery images (⏳ NOT yet committed in `portfolio-sanity`)
+**Background:** When the user generated AI mockups via Sanity Studio's AI
+tool, asset uploads went to Sanity's content-addressed image library, then
+the docs got re-seeded with `createOrReplace` which wiped their `gallery[].asset`
+references. The orphaned assets remained in the asset library; their
+descriptive prompt-fragment filenames let us recover the mappings.
+
+Plus: `images.seeder.ts` had a long-standing typo (`item.type === 'image'`
+should be `item._type`) AND it was setting the wrong field name (`image:`
+instead of `asset:`), so even when image-type gallery slots were patched
+they never got their reference. Fixed.
+
+- [x] Downloaded 25 project + 14 travel AI gallery JPEGs from the Sanity CDN
+  to `seeders/assets/assets/projects-gallery/{slug}-N.jpg` and
+  `seeders/assets/assets/travel-gallery/{slug}-N.jpg`.
+- [x] New `seeders/gallery-images.seeder.ts` — uploads each per-doc image
+  list and patches the doc's gallery, replacing `asset` on each image-type
+  slot in order. Skips `galleryVideo` slots. Idempotent re-runs (Sanity
+  asset hashes are SHA1, so re-uploading the same bytes returns the same
+  asset `_id`).
+- [x] `images.seeder.ts` cleanup — removed the buggy `patchGalleryAssets`
+  helper. Thumbnails are still uploaded there; gallery items are now the
+  new seeder's job.
+- [x] `seed.ts` registers `gallery-images` after `images` (so the gallery
+  items created in `projects.seeder` + `travel.seeder` exist before the
+  patch runs).
+
+### 12.6 Resume actions
+1. **Run gallery-images seeder against production:**
+   ```
+   cd /Users/samabdullaev/Projects/portfolio-sanity
+   pnpm seed up images gallery-images
+   ```
+   `images` is re-run because its bug fix means thumbnails get written
+   correctly (no asset diff if thumbnails were already correct). Then
+   `gallery-images` patches the AI mockups onto every project + travel
+   gallery slot.
+2. **Verify in browser** at `localhost:3000/projects/codemaster`,
+   `localhost:3000/projects/locus`, `localhost:3000/travel/uzbekistan`,
+   etc. — each detail page should now show its AI gallery images.
+3. **Run full Playwright suite** + regen baselines:
+   ```
+   cd /Users/samabdullaev/Projects/portfolio
+   npm run test:e2e:update
+   ```
+4. **Commit + push** in this order:
+   - Portfolio repo: queries + pages + defensive gallery filters + new
+     snapshots
+   - Sanity repo: `gallery-images.seeder.ts` + 39 AI image files +
+     `images.seeder.ts` cleanup + `seed.ts` registration
+
+### 12.7 Deferred to a follow-up phase
+- Migrate string date fields to `date` type — `certificate.date`,
+  `blogArticle.date`, `mentorshipArticle.date`, `journeyUpdate` (currently
+  `month` + `year` numbers).
+- Switch date-sorted types to `defaultOrdering` and drop `order` field —
+  `journeyUpdate`, `blogArticle` ordering still uses the `order` integer.
+- Seeder split fixtures (gitignored real-data backup) vs example
+  (committed placeholder docs).
+- Update CLAUDE.md schema table to reflect Phase 12 changes (in progress
+  in this resume cycle).
 
 ## Phase 13: Performance + a11y polish
 - [ ] Run `next build` + bundle analyzer; record baseline numbers

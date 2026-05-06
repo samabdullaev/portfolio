@@ -8,6 +8,7 @@ import {
   type ProjectDetail,
 } from "@/lib/sanity/queries/projects";
 import MediaGallery from "@/components/ui/MediaGallery";
+import type { MediaModalItem } from "@/components/ui/MediaModal";
 import DetailPage from "@/components/layout/DetailPage";
 import DetailBack from "@/components/layout/DetailBack";
 import DetailSection from "@/components/layout/DetailSection";
@@ -40,25 +41,24 @@ export default async function ProjectPage({
   const project = await sanityFetch<ProjectDetail | null>(projectDetailQuery, { slug });
   if (!project) notFound();
 
-  const galleryItems = [
+  // Image gallery items missing an `asset` ref (e.g. an unpublished draft
+  // where the editor hasn't uploaded yet) are filtered out rather than
+  // crashing the page — Sanity is a content boundary, so missing data is
+  // possible. Same for galleryVideo items missing `videoUrl`.
+  const galleryItems: MediaModalItem[] = [
     {
-      type: "image" as const,
+      type: "image",
       src: project.thumbnail.asset.url,
       caption: project.thumbnail.caption,
     },
-    ...(project.gallery ?? []).map((g) =>
-      g._type === "image"
-        ? {
-            type: "image" as const,
-            src: g.asset.url,
-            caption: g.caption,
-          }
-        : {
-            type: "video" as const,
-            src: g.videoUrl,
-            caption: g.caption,
-          },
-    ),
+    ...(project.gallery ?? []).flatMap<MediaModalItem>((g) => {
+      if (g._type === "image") {
+        if (!g.asset?.url) return [];
+        return [{ type: "image", src: g.asset.url, caption: g.caption }];
+      }
+      if (!g.videoUrl) return [];
+      return [{ type: "video", src: g.videoUrl, caption: g.caption }];
+    }),
   ];
 
   return (

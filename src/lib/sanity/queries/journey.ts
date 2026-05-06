@@ -19,6 +19,6 @@ export const journeyUpdatesQuery = `*[_type == "journeyUpdate"] | order(order as
   _id, title, year, linkedInUrl, thumbnail{ asset->{ url } }
 }`;
 
-export const journeyYearsQuery = `*[_type == "journeyYear"] | order(year desc){
+export const journeyYearsQuery = `*[_type == "journeyYear"] | order(orderRank asc){
   _id, year, slug, logo{ asset->{ url } }
 }`;

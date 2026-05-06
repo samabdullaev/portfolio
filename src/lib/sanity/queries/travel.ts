@@ -9,7 +9,7 @@ export interface TravelCard {
   thumbnail: SanityImage | null;
 }
 
-export const travelDestinationsQuery = `*[_type == "travelDestination"] | order(order asc){
+export const travelDestinationsQuery = `*[_type == "travelDestination"] | order(orderRank asc){
   title, slug, flag, thumbnail{ asset->{ url } }
 }`;
 

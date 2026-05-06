@@ -6,33 +6,23 @@ export interface Certificate {
   date: string;
   image: { asset: { url: string } } | null;
   verifyUrl: string | null;
-  issuerName: string;
-  issuerSlug: string;
 }
 
-export interface IssuerWithCount {
+// Membership + display order both come from `certificateIssuer.certificates[]`
+// (containment). The issuer doc owns its certs in the order it renders
+// them; the hub iterates issuers, then each issuer's certificates.
+export interface IssuerWithCertificates {
   _id: string;
   name: string;
   slug: SanitySlug;
   logo: { asset: { url: string } } | null;
-  count: number;
+  certificates: Certificate[];
 }
 
-// Issuer filter cards — each carries a derived `count` of certificates
-// referencing it, used to label the FilterCardRow chips.
-export const certificateIssuersQuery = `*[_type == "certificateIssuer"] | order(order asc){
+export const certificateIssuersQuery = `*[_type == "certificateIssuer"] | order(orderRank asc){
   _id, name, slug,
   logo{ asset->{ url } },
-  "count": count(*[_type=="certificate" && references(^._id)])
+  "certificates": certificates[]->{
+    _id, title, date, image{ asset->{ url } }, verifyUrl
+  }
 }`;
-
-// Certificates list — optionally filtered by issuer slug. The caller
-// passes `{ slug }` only when an issuer is active so the filter is
-// applied server-side rather than in the browser.
-export function certificatesQuery(filteredByIssuer: boolean) {
-  return `*[_type == "certificate"${filteredByIssuer ? ` && issuer->slug.current == $slug` : ""}] | order(order asc){
-    _id, title, date, image{ asset->{ url } }, verifyUrl,
-    "issuerName": issuer->name,
-    "issuerSlug": issuer->slug.current
-  }`;
-}

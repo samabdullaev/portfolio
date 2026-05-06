@@ -48,17 +48,18 @@ export default async function TravelDetailPage({
 
   if (!dest) notFound();
 
+  // Gallery items missing an asset ref are skipped — see project detail.
   const galleryImages = [
     {
       type: "image" as const,
       src: dest.thumbnail.asset.url,
       caption: dest.thumbnail.caption,
     },
-    ...(dest.gallery ?? []).map((g) => ({
-      type: "image" as const,
-      src: g.asset.url,
-      caption: g.caption,
-    })),
+    ...(dest.gallery ?? []).flatMap((g) =>
+      g.asset?.url
+        ? [{ type: "image" as const, src: g.asset.url, caption: g.caption }]
+        : [],
+    ),
   ];
 
   return (

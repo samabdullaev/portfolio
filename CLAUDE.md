@@ -218,37 +218,43 @@ src/components/
 |------|-------------|------------|
 | `homePage` | Home page content (singleton) | `name`, `title`, `subtitle`, `location`, `profileImage`, `socials[]` {platform, url, icon}, `resumeFile`, `ctaLinks[]` {label, url} |
 | `aboutPage` | About page content (singleton) | `profileImage`, `bioParagraphs[]` {summary, expandedText}, `contributions[]` {title, description, url, tag, subtitle, channelName, channelStatus, activities[]}, `hobbies[]` {emoji, label}. Order of `contributions[]` maps to the 6 bento slots (LinkedIn → UzTech → GitHub → Publink → Medium → LeetCode). `tag` is shown in every slot; the others are only used by their specific slots (`subtitle` → Quote/Publink; `channelName`/`channelStatus`/`activities` → Community/UzTech). |
-| `project` | Portfolio project | `title`, `slug`, `category` (string — matches `projectCategory.slug`), `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (mixed: `image` items with `caption`, or `galleryVideo` items with `videoUrl` + `caption`), `liveUrl`, `githubUrl`, `order`. Captions show as the modal's per-item title. |
-| `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Matched against `project.category` by slug. | `title`, `slug`, `logo`, `order` |
-| `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `order` |
-| `blogArticle` | Individual blog post | `title`, `partNumber`, `date`, `externalUrl`, `thumbnail` |
-| `resource` | Single external resource (tool/app/library) shown as a hub card with no detail page | `title`, `slug`, `subtitle`, `thumbnail`, `externalUrl` |
+| `project` | Portfolio project. Membership in a category + display order both come from `projectCategory.projects[]` (containment) — there is no `category` or `order` field on the project itself. | `title`, `slug`, `description`, `about`, `features[]`, `techStack[]`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (mixed: `image` items with `caption`, or `galleryVideo` items with `videoUrl` + `caption`), `liveUrl`, `githubUrl`. Captions show as the modal's per-item title. |
+| `projectCategory` | Filter card on the Projects hub (Personal, Freelance, Hackathon). Owns its projects in display order via `projects[]`. D&D-orderable in Studio via `orderRank`. | `title`, `slug`, `logo`, `projects[]` → ref `project`, `orderRank` |
+| `blogSeries` | Blog series grouping. `shortTitle` is the compact label shown on the filter card on `/blog` (falls back to `title`). D&D-orderable in Studio via `orderRank`. Article position inside the series IS the part number — rendered on the website as `Part ${i + 1}` from the array index. | `title`, `slug`, `shortTitle`, `logo`, `articles[]` → ref `blogArticle`, `orderRank` |
+| `blogArticle` | Individual blog post | `title`, `date`, `externalUrl`, `thumbnail` |
+| `resource` | Single external resource (tool/app/library) shown as a hub card with no detail page. D&D-orderable in Studio via `orderRank`. | `title`, `slug`, `subtitle`, `thumbnail`, `externalUrl`, `orderRank` |
 | `resourceCategory` | Curated category with its own detail page on `/resources/{slug}` | `title`, `slug`, `subtitle`, `thumbnail`, `sectionLabel`, `items[]` {name, desc, url}, `sections[]` {label, items[]} |
-| `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks) — also acts as filter card on `/resources`. Holds an ordered array of references that can target either `resource` or `resourceCategory`. | `title`, `slug`, `logo`, `order`, `items[]` → ref `resource` \| `resourceCategory` |
-| `certificate` | Certificate entry | `title`, `issuer` → ref `certificateIssuer`, `date`, `image`, `verifyUrl`, `order` |
-| `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Filter card on `/certificates`. | `name`, `slug`, `logo`, `order` |
-| `travelDestination` | Travel country/location | `title`, `slug`, `flag`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `overview`, `placesToTravel[]`, `personalTips[]`, `sections[]`, `order`. Captions show as the modal's per-item title. |
-| `yearlyReview` | Yearly review | `year`, `slug`, `thumbnail` (required — `image` with `caption` field; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `sections[]` {title, items[]}. Captions are shown as the modal's centered top-bar title per item. |
-| `journeyUpdate` | Monthly journey entry | `title`, `month`, `year` (number — matches `journeyYear.year`), `thumbnail`, `linkedInUrl`, `order` |
-| `journeyYear` | Filter card on the Journey hub (one per year that has updates). Matched against `journeyUpdate.year` by number. | `year`, `slug`, `logo`, `order` |
+| `resourceTopic` | Hub-page grouping (e.g. Tools, Apps, Playbooks) — also acts as filter card on `/resources`. Holds an ordered array of references that can target either `resource` or `resourceCategory`. D&D-orderable in Studio via `orderRank`. | `title`, `slug`, `logo`, `orderRank`, `items[]` → ref `resource` \| `resourceCategory` |
+| `certificate` | Certificate entry. Membership in an issuer + display order both come from `certificateIssuer.certificates[]` (containment) — there is no `issuer` ref or `order` field on the cert itself. | `title`, `date`, `image`, `verifyUrl` |
+| `certificateIssuer` | Source that issued one or more certificates (e.g. Coursera, CS50, HackerRank). Filter card on `/certificates`. Owns its certificates in display order via `certificates[]`. D&D-orderable in Studio via `orderRank`. | `name`, `slug`, `logo`, `certificates[]` → ref `certificate`, `orderRank` |
+| `travelDestination` | Travel country/location. D&D-orderable in Studio via `orderRank`. | `title`, `slug`, `flag`, `thumbnail` (`image` with `caption`; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `overview`, `placesToTravel[]`, `personalTips[]`, `sections[]`, `orderRank`. Captions show as the modal's per-item title. |
+| `yearlyReview` | Yearly review. Sorted by `year desc` via `defaultOrdering` — no D&D needed. | `year`, `slug`, `thumbnail` (required — `image` with `caption` field; hub card cover & first item in detail-page gallery), `gallery[]` (`image` items, each with `caption`), `sections[]` {title, items[]}. Captions are shown as the modal's centered top-bar title per item. |
+| `journeyUpdate` | Monthly journey entry. Currently sorted by integer `order` (date-type migration deferred to a later phase). | `title`, `month`, `year` (number — matches `journeyYear.year`), `thumbnail`, `linkedInUrl`, `order` |
+| `journeyYear` | Filter card on the Journey hub (one per year that has updates). Matched against `journeyUpdate.year` by number. D&D-orderable in Studio via `orderRank`. | `year`, `slug`, `logo`, `orderRank` |
 | `mentorshipArticle` | Mentorship article | `title`, `slug`, `task`, `date`, `thumbnail`, `externalUrl` |
 | `siteSettings` | Global settings (singleton) | `siteTitle`, `footerText`, `navLinks[]`, `socialLinks[]` |
+
+**Phase 12 schema migration notes:**
+- 7 doc types gained an `orderRank` string field (lexicographically sorted by `@sanity/orderable-document-list`) and lost their integer `order` field.
+- Membership relationships are now **containment-based** (parent owns child IDs in an array) instead of **reference-based** (child holds a ref to parent). This makes the parent's array the single source of truth for both *which* children belong and *what order* they render in. Affected: `projectCategory.projects[]` replaces `project.category`+`project.order`; `certificateIssuer.certificates[]` replaces `certificate.issuer`+`certificate.order`.
+- `blogArticle.partNumber` removed — derived from index in `blogSeries.articles[]`.
+- Date string fields (`certificate.date`, `blogArticle.date`, `mentorshipArticle.date`) and `journeyUpdate.month`/`year` numerics are NOT yet migrated to the `date` type — deferred.
 
 ---
 
 ## Roadmap
 
-Phases 1–6.11 (initial build → Sanity migration → bento + filter system) are complete. The site is live-feature-complete; the remaining phases are a structured cleanup + refactor cycle in preparation for a public release.
+Phases 1–11 are complete. Phase 12 (Sanity Studio refactor) is **in progress** — see the Resume pointer at the top of [PLAN.md](./PLAN.md) for current state and next actions.
 
-| # | Phase | Scope |
-|---|---|---|
-| 7 | Cleanup & Audit | Read-only inventory: dead code, `"use client"` overuse, hardcoded data, sensitive data, naming, version cruft. Report → approve → execute |
-| 8 | Reorganize structure | Move static data, extract GROQ queries to `src/lib/sanity/queries/`, split `sanity-types.ts`, add `loading.tsx`/`error.tsx`, apply naming fixes |
-| 9 | Playwright E2E baseline | Per-route happy paths + critical interactions (filters, modals, theme toggle, mobile drawer). Becomes regression net for everything after |
-| 10 | Tailwind migration (hybrid) | Bucket components → migrate pure-utility + hybrid; retain CSS for keyframes / complex compounds, realigned to design tokens. Add `clsx` + `tailwind-merge` |
-| 11 | next/image migration | Custom Sanity loader, decide `sizes` per usage pattern, replace `<img>` site-wide |
-| 12 | Sanity Studio refactor (`../portfolio-sanity`) | Desk groups, date-type migration, drag-and-drop vs date-sort per doc type, schema add/remove/edit as discovered, seeder split (gitignored fixtures + committed example) |
-| 13 | Performance + a11y | Bundle analyzer, Lighthouse baseline, modal focus trap, skip link, ARIA audit, contrast check, lazy-load |
-| 14 | Public repo prep + deploy | Env audit, `.env.example`, `.gitignore` audit, READMEs, LICENSE, Vercel deploy, Sanity webhook ISR, OG metadata, flip both repos to public |
+| # | Phase | Scope | State |
+|---|---|---|---|
+| 7 | Cleanup & Audit | Read-only inventory: dead code, `"use client"` overuse, hardcoded data, sensitive data, naming, version cruft. Report → approve → execute | ✅ |
+| 8 | Reorganize structure | Move static data, extract GROQ queries to `src/lib/sanity/queries/`, split `sanity-types.ts`, add `loading.tsx`/`error.tsx`, apply naming fixes | ✅ |
+| 9 | Playwright E2E baseline | Per-route happy paths + critical interactions (filters, modals, theme toggle, mobile drawer). Becomes regression net for everything after | ✅ |
+| 10 | Tailwind migration (hybrid) | Bucket components → migrate pure-utility + hybrid; retain CSS for keyframes / complex compounds, realigned to design tokens. Add `clsx` + `tailwind-merge` | ✅ |
+| 11 | next/image migration | Custom Sanity loader, decide `sizes` per usage pattern, replace `<img>` site-wide | ✅ |
+| 12 | Sanity Studio refactor (`../portfolio-sanity`) | Flat desk + `@sanity/icons` + orderable D&D plugin, containment refactor (drop `project.category`/`certificate.issuer`/`blogArticle.partNumber`, add `projects[]`/`certificates[]` arrays), inlined seeder data, AI gallery image restoration. Date-type migration + seeder fixtures/example split deferred. | 🟡 in progress |
+| 13 | Performance + a11y | Bundle analyzer, Lighthouse baseline, modal focus trap, skip link, ARIA audit, contrast check, lazy-load | — |
+| 14 | Public repo prep + deploy | Env audit, `.env.example`, `.gitignore` audit, READMEs, LICENSE, Vercel deploy, Sanity webhook ISR, OG metadata, flip both repos to public | — |
 
 See [PLAN.md](./PLAN.md) for the full task list with progress tracking and per-phase checklists.

@@ -49,12 +49,11 @@ export interface ResourceTopic {
   title: string;
   slug: SanitySlug;
   logo: SanityImage | null;
-  order: number;
   items: ResourceTopicItem[];
 }
 
-export const resourceTopicsQuery = `*[_type == "resourceTopic"] | order(order asc){
-  _id, title, slug, order,
+export const resourceTopicsQuery = `*[_type == "resourceTopic"] | order(orderRank asc){
+  _id, title, slug,
   logo{ asset->{ url } },
   "items": items[]->{
     _id, _type, title, slug, subtitle,

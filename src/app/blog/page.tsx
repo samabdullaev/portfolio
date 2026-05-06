@@ -45,12 +45,12 @@ export default async function BlogPage({
       {visibleSeries.map((s) => (
         <TopicSection key={s._id} title={s.title}>
           <CardGrid filtered={!!activeSlug}>
-            {s.articles.map((article) => (
+            {s.articles.map((article, i) => (
               <HubCard
                 key={article._id}
                 href={article.externalUrl}
                 title={article.title}
-                tag={`Part ${article.partNumber}`}
+                tag={`Part ${i + 1}`}
                 meta={article.date}
                 thumbnail={article.thumbnail?.asset?.url}
                 external

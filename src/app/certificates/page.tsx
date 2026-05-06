@@ -1,9 +1,7 @@
 import { sanityFetch } from "@/lib/sanity";
 import {
   certificateIssuersQuery,
-  certificatesQuery,
-  type Certificate,
-  type IssuerWithCount,
+  type IssuerWithCertificates,
 } from "@/lib/sanity/queries/certificates";
 import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import CertificatesContent from "./CertificatesContent";
@@ -17,22 +15,21 @@ export default async function CertificatesPage({
 }) {
   const { issuer: activeSlug } = await searchParams;
 
-  const issuers = await sanityFetch<IssuerWithCount[]>(certificateIssuersQuery);
-
-  const certs = await sanityFetch<Certificate[]>(
-    certificatesQuery(Boolean(activeSlug)),
-    activeSlug ? { slug: activeSlug } : undefined,
+  const issuers = await sanityFetch<IssuerWithCertificates[]>(
+    certificateIssuersQuery,
   );
 
   const filterItems: FilterCardItem[] = issuers.map((i) => ({
     id: i._id,
     name: i.name,
     slug: i.slug.current,
-    count: i.count,
+    count: i.certificates?.length ?? 0,
     thumbnail: i.logo?.asset?.url,
   }));
 
-  const activeIssuer = activeSlug ? issuers.find((i) => i.slug.current === activeSlug) : null;
+  const displayedIssuers = activeSlug
+    ? issuers.filter((i) => i.slug.current === activeSlug)
+    : issuers;
 
   return (
     <HubPage>
@@ -49,9 +46,8 @@ export default async function CertificatesPage({
       />
 
       <CertificatesContent
-        certs={certs}
+        issuers={displayedIssuers}
         mode={activeSlug ? "filtered" : "all"}
-        filteredHeading={activeIssuer?.name}
       />
     </HubPage>
   );

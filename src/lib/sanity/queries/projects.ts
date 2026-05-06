@@ -4,31 +4,33 @@ import type {
   SanityProjectGalleryEntry,
 } from "../types";
 
-export type ProjectCategory = "personal" | "freelance" | "hackathon";
-
 // ===== Hub =====
 
 export interface ProjectCard {
+  _id: string;
   title: string;
   slug: SanitySlug;
-  category: ProjectCategory;
   description: string;
   thumbnail: SanityImage | null;
 }
 
-export interface ProjectCategoryCard {
+// Membership + display order both come from `projectCategory.projects[]`
+// (containment). The category doc owns its projects in the order it
+// renders them; reordering happens via D&D in Studio.
+export interface ProjectCategoryWithProjects {
   _id: string;
   title: string;
   slug: SanitySlug;
   logo: { asset: { url: string } } | null;
+  projects: ProjectCard[];
 }
 
-export const projectsListQuery = `*[_type == "project"] | order(order asc){
-  title, slug, category, description, thumbnail{ asset->{ url } }
-}`;
-
-export const projectCategoriesQuery = `*[_type == "projectCategory"] | order(order asc){
-  _id, title, slug, logo{ asset->{ url } }
+export const projectCategoriesQuery = `*[_type == "projectCategory"] | order(orderRank asc){
+  _id, title, slug,
+  logo{ asset->{ url } },
+  "projects": projects[]->{
+    _id, title, slug, description, thumbnail{ asset->{ url } }
+  }
 }`;
 
 // ===== Detail =====
