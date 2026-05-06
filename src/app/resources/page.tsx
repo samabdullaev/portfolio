@@ -8,6 +8,7 @@ import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function ResourcesPage({
   searchParams,
@@ -46,11 +47,7 @@ export default async function ResourcesPage({
 
       {visibleTopics.map((topic) => (
         <TopicSection key={topic._id} title={topic.title}>
-          <div
-            className={
-              activeSlug ? "card-grid-filtered" : "card-grid"
-            }
-          >
+          <CardGrid filtered={!!activeSlug}>
             {topic.items.map((item) => {
               const isExternal = item._type === "resource";
               const href = isExternal
@@ -67,7 +64,7 @@ export default async function ResourcesPage({
                 />
               );
             })}
-          </div>
+          </CardGrid>
         </TopicSection>
       ))}
     </HubPage>

@@ -3,6 +3,7 @@ import { reviewsListQuery, type ReviewCard } from "@/lib/sanity/queries/reviews"
 import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function ReviewsPage() {
   const reviews = await sanityFetch<ReviewCard[]>(reviewsListQuery);
@@ -11,7 +12,7 @@ export default async function ReviewsPage() {
     <HubPage>
       <HubHeader title="Yearly Reviews" subtitle="A look back at each year" />
 
-      <div className="card-grid-filtered">
+      <CardGrid filtered>
         {reviews.map((r) => (
           <HubCard
             key={r.year}
@@ -20,7 +21,7 @@ export default async function ReviewsPage() {
             thumbnail={r.thumbnail.asset.url}
           />
         ))}
-      </div>
+      </CardGrid>
     </HubPage>
   );
 }

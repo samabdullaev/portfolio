@@ -6,6 +6,7 @@ import {
 import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function TravelPage() {
   const destinations = await sanityFetch<TravelCard[]>(travelDestinationsQuery);
@@ -14,7 +15,7 @@ export default async function TravelPage() {
     <HubPage>
       <HubHeader title="Travel" subtitle="Countries and places I&apos;ve explored" />
 
-      <div className="card-grid-filtered">
+      <CardGrid filtered>
         {destinations.map((d) => (
           <HubCard
             key={d.slug.current}
@@ -23,7 +24,7 @@ export default async function TravelPage() {
             thumbnail={d.thumbnail?.asset?.url}
           />
         ))}
-      </div>
+      </CardGrid>
     </HubPage>
   );
 }

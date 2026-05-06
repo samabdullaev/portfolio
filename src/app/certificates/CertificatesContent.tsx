@@ -3,6 +3,7 @@
 import { useState } from "react";
 import MediaModal from "@/components/ui/MediaModal";
 import TopicSection from "@/components/layout/TopicSection";
+import CardGrid from "@/components/layout/CardGrid";
 import type { Certificate } from "@/lib/sanity/queries/certificates";
 import "./certificates.css";
 
@@ -82,11 +83,11 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
     return (
       <>
         <TopicSection title={filteredHeading}>
-          <div className="card-grid-filtered">
+          <CardGrid filtered>
             {certs.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
-          </div>
+          </CardGrid>
         </TopicSection>
         <MediaModal
           open={modalIndex != null}
@@ -115,11 +116,11 @@ export default function CertificatesContent({ certs, mode, filteredHeading }: Pr
     <>
       {issuerGroups.map((group) => (
         <TopicSection key={group.slug} title={group.name}>
-          <div className="card-grid">
+          <CardGrid>
             {group.certs.map((cert) => (
               <CertCard key={cert._id} cert={cert} onOpen={openModal} />
             ))}
-          </div>
+          </CardGrid>
         </TopicSection>
       ))}
       <MediaModal

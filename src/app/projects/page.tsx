@@ -10,6 +10,7 @@ import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function ProjectsPage({
   searchParams,
@@ -62,11 +63,7 @@ export default async function ProjectsPage({
         if (items.length === 0) return null;
         return (
           <TopicSection key={category._id} title={category.title}>
-            <div
-              className={
-                activeSlug ? "card-grid-filtered" : "card-grid"
-              }
-            >
+            <CardGrid filtered={!!activeSlug}>
               {items.map((project) => (
                 <HubCard
                   key={project.slug.current}
@@ -76,7 +73,7 @@ export default async function ProjectsPage({
                   thumbnail={project.thumbnail?.asset?.url}
                 />
               ))}
-            </div>
+            </CardGrid>
           </TopicSection>
         );
       })}

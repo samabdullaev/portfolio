@@ -6,6 +6,7 @@ import {
 import HubCard from "@/components/ui/HubCard";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function MentorshipPage() {
   const articles = await sanityFetch<MentorshipArticle[]>(mentorshipArticlesQuery);
@@ -17,7 +18,7 @@ export default async function MentorshipPage() {
         subtitle="Guidance articles from university to career — published on Publink"
       />
 
-      <div className="card-grid-filtered">
+      <CardGrid filtered>
         {articles.map((a) => (
           <HubCard
             key={a._id}
@@ -29,7 +30,7 @@ export default async function MentorshipPage() {
             external
           />
         ))}
-      </div>
+      </CardGrid>
     </HubPage>
   );
 }

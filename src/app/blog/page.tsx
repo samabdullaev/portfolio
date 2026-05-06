@@ -5,6 +5,7 @@ import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function BlogPage({
   searchParams,
@@ -43,11 +44,7 @@ export default async function BlogPage({
 
       {visibleSeries.map((s) => (
         <TopicSection key={s._id} title={s.title}>
-          <div
-            className={
-              activeSlug ? "card-grid-filtered" : "card-grid"
-            }
-          >
+          <CardGrid filtered={!!activeSlug}>
             {s.articles.map((article) => (
               <HubCard
                 key={article._id}
@@ -59,7 +56,7 @@ export default async function BlogPage({
                 external
               />
             ))}
-          </div>
+          </CardGrid>
         </TopicSection>
       ))}
     </HubPage>

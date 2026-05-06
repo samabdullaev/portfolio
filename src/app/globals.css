@@ -396,41 +396,6 @@
   padding: 4px 8px 2px;
 }
 
-/* ===== Card Grid ===== */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-/* ===== Filtered-mode card grid =====
-   Used by hub pages when a filter is active (one section visible) and by
-   pages without filters that want the same vertical-stacked layout. */
-.card-grid-filtered {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .card-grid-filtered {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-}
-
-@media (max-width: 600px) {
-  .card-grid-filtered {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    overflow: visible;
-  }
-  .card-grid-filtered .hub-card {
-    flex: none;
-    min-width: 0;
-  }
-}
-
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
   .navbar-inner {
@@ -459,37 +424,10 @@
   .navbar-mobile-menu {
     display: flex;
   }
-
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
 }
 
 @media (max-width: 600px) {
   .navbar-inner {
     padding: 0 16px;
   }
-
-  .card-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-  }
-
-  .card-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .card-grid .hub-card {
-    flex: 0 0 80%;
-    min-width: 0;
-    scroll-snap-align: start;
-  }
-
 }

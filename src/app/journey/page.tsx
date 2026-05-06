@@ -10,6 +10,7 @@ import FilterCardRow, { FilterCardItem } from "@/components/ui/FilterCardRow";
 import HubPage from "@/components/layout/HubPage";
 import HubHeader from "@/components/layout/HubHeader";
 import TopicSection from "@/components/layout/TopicSection";
+import CardGrid from "@/components/layout/CardGrid";
 
 export default async function JourneyPage({
   searchParams,
@@ -62,11 +63,7 @@ export default async function JourneyPage({
 
       {visibleYears.map((year) => (
         <TopicSection key={year} title={String(year)}>
-          <div
-            className={
-              activeSlug ? "card-grid-filtered" : "card-grid"
-            }
-          >
+          <CardGrid filtered={!!activeSlug}>
             {yearGroups[year].map((entry) => (
               <HubCard
                 key={entry._id}
@@ -76,7 +73,7 @@ export default async function JourneyPage({
                 external
               />
             ))}
-          </div>
+          </CardGrid>
         </TopicSection>
       ))}
     </HubPage>
