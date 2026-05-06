@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import "./FilterCardRow.css";
 
 export interface FilterCardItem {
@@ -46,8 +47,7 @@ export default function FilterCardRow({
           >
             <div className="filter-card-logo">
               {item.thumbnail && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.thumbnail} alt="" />
+                <Image src={item.thumbnail} alt="" width={153} height={146} />
               )}
             </div>
             <div className="filter-card-name">{item.name}</div>

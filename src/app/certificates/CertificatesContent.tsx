@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import MediaModal from "@/components/ui/MediaModal";
 import TopicSection from "@/components/layout/TopicSection";
 import CardGrid from "@/components/layout/CardGrid";
@@ -29,14 +30,15 @@ function CertCard({
     >
       <div className="flex flex-col bg-card rounded-2xl p-2 overflow-hidden transition-colors duration-300">
         <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-border bg-card">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-            style={{
-              backgroundImage: cert.image?.asset?.url
-                ? `url(${cert.image.asset.url})`
-                : undefined,
-            }}
-          />
+          {cert.image?.asset?.url && (
+            <Image
+              src={cert.image.asset.url}
+              alt={cert.title}
+              fill
+              sizes="(max-width: 640px) 80vw, (max-width: 768px) 50vw, 25vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          )}
         </div>
         <div className="pt-4 px-3 pb-2 max-sm:pt-3 max-sm:px-2 max-sm:pb-1">
           <h3 className="text-base font-semibold tracking-tight line-clamp-2 max-sm:text-sm">

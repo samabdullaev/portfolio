@@ -25,11 +25,23 @@ const hubs = [
   { name: "mentorship", path: "/mentorship" },
 ];
 
+// next/image lazy-loads below-fold images, so a snapshot taken right
+// after networkidle captures the page mid-load (top images filled,
+// bottom blank). Scroll-to-bottom + scroll-back-to-top + networkidle
+// triggers every IntersectionObserver and lets the resulting fetches
+// settle, giving a deterministic baseline.
+async function settle(page: import("@playwright/test").Page) {
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => document.fonts.ready);
+}
+
 for (const { name, path } of hubs) {
   test(`visual: ${name}`, async ({ page }) => {
     await page.goto(path);
-    await page.waitForLoadState("networkidle");
-    await page.evaluate(() => document.fonts.ready);
+    await settle(page);
 
     await expect(page).toHaveScreenshot(`${name}.png`, {
       fullPage: true,
@@ -51,8 +63,7 @@ for (const { name, hubPath } of details) {
   test(`visual: ${name}`, async ({ page }) => {
     await page.goto(hubPath);
     await page.getByTestId("hub-card").first().click();
-    await page.waitForLoadState("networkidle");
-    await page.evaluate(() => document.fonts.ready);
+    await settle(page);
 
     await expect(page).toHaveScreenshot(`${name}.png`, {
       fullPage: true,
@@ -71,8 +82,7 @@ test("visual: detail-resource-category", async ({ page }) => {
     .filter({ has: page.locator('a[href^="/resources/"]') })
     .first()
     .click();
-  await page.waitForLoadState("networkidle");
-  await page.evaluate(() => document.fonts.ready);
+  await settle(page);
 
   await expect(page).toHaveScreenshot("detail-resource-category.png", {
     fullPage: true,

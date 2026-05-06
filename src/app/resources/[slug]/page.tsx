@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { sanityFetch } from "@/lib/sanity";
 import {
   resourceCategoryDetailQuery,
@@ -104,8 +105,14 @@ export default async function ResourceDetailPage({
 
       <div data-testid="project-gallery" className="mb-3">
         <div className="w-full rounded-2xl overflow-hidden border border-border relative">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={resource.thumbnail.asset.url} alt={resource.title} className="w-full block" />
+          <Image
+            src={resource.thumbnail.asset.url}
+            alt={resource.title}
+            width={1280}
+            height={720}
+            sizes="(max-width: 640px) 100vw, 640px"
+            className="w-full h-auto block"
+          />
         </div>
       </div>
 

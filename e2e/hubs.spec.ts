@@ -26,10 +26,15 @@ for (const { path, heading } of hubs) {
     const chipCount = await page.getByRole("tab").count();
     expect(cardCount + chipCount).toBeGreaterThan(0);
 
-    // No broken images on this page (anything in src that resolved to a
-    // 0-naturalWidth image is broken). Empty or absent <img> = OK.
+    // No broken images. next/image lazy-loads below-fold images, so
+    // scroll to the bottom first to trigger every IntersectionObserver,
+    // then wait for the network to settle before checking. Filter to
+    // images that actually attempted a load (currentSrc set) — lazy
+    // images that never came into view have naturalWidth=0 by design.
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForLoadState("networkidle");
     const broken = await page.evaluate(() =>
-      [...document.images].filter((img) => img.src && img.naturalWidth === 0).length,
+      [...document.images].filter((img) => img.currentSrc && img.naturalWidth === 0).length,
     );
     expect(broken).toBe(0);
   });

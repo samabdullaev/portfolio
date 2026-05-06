@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { monthNumber } from "@/lib/constants";
 
 interface ContributionItem {
@@ -106,10 +107,11 @@ function FeatureHero({ item, latestPosts }: { item: ContributionItem; latestPost
               className={`bento-c-post-row bento-c-post-row-${i + 1}`}
             >
               {post.thumbnailUrl ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
+                <Image
                   src={post.thumbnailUrl}
                   alt=""
+                  width={40}
+                  height={40}
                   className="bento-c-post-row-image"
                 />
               ) : (

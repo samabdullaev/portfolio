@@ -1,4 +1,5 @@
 import "./about.css";
+import Image from "next/image";
 import { sanityFetch } from "@/lib/sanity";
 import { aboutPageQuery, type AboutPageData } from "@/lib/sanity/queries/about";
 import ExpandText from "@/components/ui/ExpandText";
@@ -24,8 +25,7 @@ export default async function AboutPage() {
         <div className="about-row">
           {about.profileImage?.asset?.url && (
             <div data-testid="about-photo" className="about-photo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={about.profileImage.asset.url}
                 alt="Sam Abdullaev"
                 width={380}

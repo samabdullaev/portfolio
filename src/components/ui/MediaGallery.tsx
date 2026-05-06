@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import MediaModal, { MediaModalItem } from "./MediaModal";
 import { cn } from "@/lib/cn";
 
@@ -60,12 +61,24 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
           aria-label={`Open ${active.caption ?? title ?? "image"} viewer`}
         >
           {active.type === "image" ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={active.src} alt={active.alt ?? title ?? ""} />
+            <Image
+              src={active.src}
+              alt={active.alt ?? title ?? ""}
+              width={1280}
+              height={720}
+              sizes="(max-width: 640px) 100vw, 640px"
+              className="w-full h-auto block"
+            />
           ) : (
             <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={videoPreviewSrc(active.src) ?? ""} alt="" />
+              <Image
+                src={videoPreviewSrc(active.src) ?? ""}
+                alt=""
+                width={1280}
+                height={720}
+                sizes="(max-width: 640px) 100vw, 640px"
+                className="w-full h-auto block"
+              />
               <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-[inherit] pointer-events-none">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32" className="text-white">
                   <polygon points="5,3 19,12 5,21" />
@@ -88,12 +101,20 @@ export default function MediaGallery({ items, title }: MediaGalleryProps) {
                   aria-label={`Show image ${i + 1}`}
                 >
                   {item.type === "image" ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.src} alt={item.alt ?? ""} />
+                    <Image
+                      src={item.src}
+                      alt={item.alt ?? ""}
+                      width={80}
+                      height={52}
+                    />
                   ) : (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={videoPreviewSrc(item.src) ?? ""} alt="" />
+                      <Image
+                        src={videoPreviewSrc(item.src) ?? ""}
+                        alt=""
+                        width={80}
+                        height={52}
+                      />
                       <div
                         className={`absolute flex items-center justify-center bg-black/30 pointer-events-none ${
                           isActive ? "inset-1 rounded-sm" : "inset-0 rounded-[inherit]"

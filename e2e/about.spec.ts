@@ -9,10 +9,13 @@ test.describe("About", () => {
     // Bio: at least one paragraph rendered
     await expect(page.getByTestId("about-text").locator("p").first()).toBeVisible();
 
-    // Profile photo loads
+    // Profile photo loads. next/image is async — poll naturalWidth so a
+    // late-arriving image fetch doesn't false-fail the test.
     const photo = page.getByTestId("about-photo").locator("img").first();
     await expect(photo).toBeVisible();
-    expect(await photo.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+    await expect
+      .poll(() => photo.evaluate((el: HTMLImageElement) => el.naturalWidth))
+      .toBeGreaterThan(0);
 
     // Contributions bento — at least the LinkedIn slot (slot 'a')
     const linkedInSlot = page.getByTestId("bento-a");

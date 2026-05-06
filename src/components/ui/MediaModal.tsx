@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Image from "next/image";
 import Modal from "./Modal";
 import "./MediaModal.css";
 
@@ -200,12 +201,14 @@ export default function MediaModal({
             <div className="media-modal-slot" key={i}>
               <div className="media-modal-frame">
                 {it.type === "image" ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={it.src}
                     alt={it.alt ?? title ?? ""}
+                    width={2400}
+                    height={1600}
                     draggable={false}
-                    loading={Math.abs(i - index) <= 1 ? "eager" : "lazy"}
+                    priority={Math.abs(i - index) <= 1}
+                    sizes="100vw"
                   />
                 ) : i === index ? (
                   <iframe

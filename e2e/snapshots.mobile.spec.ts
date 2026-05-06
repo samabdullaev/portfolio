@@ -14,7 +14,12 @@ const routes = [
 for (const { name, path } of routes) {
   test(`visual: ${name}`, async ({ page }) => {
     await page.goto(path);
+    // Trigger lazy-loaded next/image fetches: scroll to bottom +
+    // settle network + scroll back. See snapshots.spec.ts for context.
     await page.waitForLoadState("networkidle");
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForLoadState("networkidle");
+    await page.evaluate(() => window.scrollTo(0, 0));
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page).toHaveScreenshot(`${name}.png`, {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { sanityFetch } from "@/lib/sanity";
 import { homePageQuery, type HomePageData } from "@/lib/sanity/queries/home";
 import SocialTile from "@/components/ui/SocialTile";
@@ -13,12 +14,12 @@ export default async function Home() {
     <section className="flex flex-col items-center justify-center text-center flex-1 p-6 gap-9 max-sm:p-5 max-sm:gap-6">
       {home.profileImage?.asset?.url && (
         <div data-testid="hero-photo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={home.profileImage.asset.url}
             alt={home.name}
             width={180}
             height={180}
+            priority
             className="size-45 rounded-full border-2 border-border bg-card object-cover max-sm:size-35"
           />
         </div>

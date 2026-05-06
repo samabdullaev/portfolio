@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface HubCardProps {
   href: string;
@@ -23,9 +24,12 @@ export default function HubCard({
     <div className="flex flex-col bg-card rounded-2xl p-2 overflow-hidden transition-colors duration-300">
       {thumbnail && (
         <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-border bg-card">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-            style={{ backgroundImage: `url(${thumbnail})` }}
+          <Image
+            src={thumbnail}
+            alt={title}
+            fill
+            sizes="(max-width: 640px) 80vw, (max-width: 768px) 50vw, 25vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
       )}
