@@ -593,18 +593,6 @@ main {
   transform: translateX(3px);
 }
 
-/* ===== Footer ===== */
-.site-footer {
-  display: flex;
-  justify-content: center;
-  padding: 24px 24px 48px;
-}
-
-.site-footer p {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-}
-
 /* ===== Hub Page Layout ===== */
 .hub-page {
   max-width: var(--max-width);

@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="site-footer">
-      <p>&copy; samabdullaev.com</p>
+    <footer className="flex justify-center px-6 pt-6 pb-12">
+      <p className="text-sm text-text-secondary">&copy; samabdullaev.com</p>
     </footer>
   );
 }
