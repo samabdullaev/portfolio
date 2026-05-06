@@ -9,7 +9,7 @@ import type {
   Certificate,
   IssuerWithCertificates,
 } from "@/lib/sanity/queries/certificates";
-import { formatMonthYear } from "@/lib/dates";
+import { formatLongDate } from "@/lib/dates";
 
 export type { Certificate };
 
@@ -60,7 +60,7 @@ function CertCard({
             )}
           </h3>
           <div className="flex items-center gap-2 mt-2 text-xs text-text-secondary">
-            <span>{formatMonthYear(cert.date)}</span>
+            <span>{formatLongDate(cert.date)}</span>
           </div>
         </div>
       </div>
