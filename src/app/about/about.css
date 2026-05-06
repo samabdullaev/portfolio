@@ -774,37 +774,6 @@
   .bento-c-e .bento-c-article-title { font-size: 22px; }
 }
 
-/* Hobbies pills */
-.hobbies-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.hobby-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-text);
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  padding: 10px 20px;
-  border-radius: 100px;
-  white-space: nowrap;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.hobby-pill:hover {
-  background: var(--color-hover);
-}
-
-.hobby-emoji {
-  font-size: 18px;
-  line-height: 1;
-}
-
 /* Responsive */
 @media (max-width: 900px) {
   .about-row {
@@ -830,12 +799,5 @@
 @media (max-width: 600px) {
   .about-text p {
     font-size: 15px;
-  }
-  .hobby-pill {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-  .hobbies-list {
-    gap: 8px;
   }
 }
