@@ -86,6 +86,28 @@ background instead of just icon hover.
 
 ---
 
+### Seeder fixtures vs example split (Phase 14 deferred)
+**What**: Move each `seeders/*.seeder.ts` inline data array to a paired
+`seeders/fixtures/<name>.ts` (gitignored) + `seeders/example/<name>.ts`
+(committed) so a forker gets placeholder data instead of Sam's real
+content.
+
+**Why deferred**: All the "real" data is already publicly visible on
+the live site (project descriptions, travel destinations, blog URLs,
+certificates). There's no privacy gain. Forkers can edit the inline
+arrays directly — the split adds a `try { require(fixture) } catch
+{ require(example) }` pattern in every seeder for marginal utility.
+
+**Revisit when**: a forker actively complains, OR Sam adds genuinely
+private data (something not on the live site) to a seeder.
+
+**How (sketch)**: per data-heavy seeder, extract the array to two
+files (fixture + example), update the seeder to import via fallback,
+add `seeders/fixtures/` to .gitignore. ~1.5 hours for the 7 affected
+seeders.
+
+---
+
 ### Lazy-load offscreen content
 **What**: Below-the-fold `<TopicSection>` blocks on hub pages currently
 render eagerly. Could defer their JSX trees + image children behind an
