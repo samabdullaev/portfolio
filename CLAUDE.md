@@ -163,6 +163,7 @@ src/
 │   └── mentorship/page.tsx            ← Mentorship hub (`card-grid-filtered`)
 ├── lib/
 │   ├── constants.ts                   ← App-wide constants (`JOURNEY_START_YEAR`, `JOURNEY_START_MONTH`, `monthNumber()`)
+│   ├── cn.ts                          ← `cn(...inputs)` = `twMerge(clsx(...))` — combine + dedupe Tailwind class names
 │   └── sanity/
 │       ├── client.ts                  ← Sanity client + `sanityFetch` (env-driven via `NEXT_PUBLIC_SANITY_PROJECT_ID` + `NEXT_PUBLIC_SANITY_DATASET`)
 │       ├── types.ts                   ← Shared primitives (`SanityImage`, `SanitySlug`, `SanityProjectGalleryEntry`)
@@ -181,11 +182,17 @@ src/
 ```
 src/components/
 ├── layout/
-│   ├── Navbar.tsx                     ← Sticky transparent navbar with backdrop blur, inline SA monogram, dropdowns, theme toggle, mobile drawer
-│   └── Footer.tsx                     ← Copyright footer
+│   ├── Navbar.tsx                     ← Sticky transparent navbar with backdrop blur, inline SA monogram, dropdowns, theme toggle, mobile drawer (Tailwind utilities throughout)
+│   ├── Footer.tsx                     ← Copyright footer (Tailwind)
+│   ├── HubPage.tsx                    ← Outer `<section>` wrapper for hub + system pages: max-w 1440, mx-auto, responsive padding. Used by 12 consumers; fixes the nested-`<main>` bug (layout.tsx already wraps children in `<main>`)
+│   ├── HubHeader.tsx                  ← Hub page h1 + optional subtitle. text-3xl extrabold tracking-tight; subtitle is `ReactNode` for flexibility
+│   ├── TopicSection.tsx               ← Section wrapper used inside hub pages (Projects categories, Blog series, Journey years, Resources topics, Certificates issuer groups). Optional title; rendered as h2 with responsive sizing (text-2xl → max-md:text-xl → max-sm:text-lg). data-testid="topic-section"
+│   ├── CardGrid.tsx                   ← Card grid with `filtered={false|true}` mode. Default: 4-col → 2-col tablet → mobile horizontal-scroll-snap (children sized 80% wide, snap-start, hidden scrollbar). Filtered: 4-col → 2-col → 1-col vertical. Marker class `card-grid` / `card-grid-filtered` preserved for snapshot matching
+│   ├── DetailPage.tsx                 ← Outer `<article>` for /projects/[slug], /resources/[slug], /travel/[slug], /reviews/[year]: max-w 640, mx-auto, responsive padding. Also fixes nested-`<main>` bug
+│   ├── DetailBack.tsx                 ← Back link with arrow icon. Takes `href` + `label`; renders `<Link>` with hover-color transition
+│   └── DetailSection.tsx              ← Section + optional h2 title. Used inside DetailPage for the lowercase section labels (about / features / technology / etc). data-testid="project-section"
 ├── ui/
 │   ├── ThemeProvider.tsx              ← Dark/light mode context + localStorage
-│   ├── CardGrid.tsx                   ← Simple grid wrapper (no state)
 │   ├── HubCard.tsx                    ← Thumbnail + title + subtitle card
 │   ├── FilterCardRow.tsx + .css       ← Reusable Airbnb-style filter row (logo cards w/ count, 2px solid 20px-radius ring on active, image-shrinks-via-padding so neighbors don't shift, URL-driven via search params, mobile horizontal scroll w/ rubber-band, cards always sized to 1/9-of-row so fewer items leave empty space rather than stretching). When active: `padding: 8px` (6px mobile), `var(--color-bg)` fills the gap, and the image's own `border-radius: 20px` matches the outer ring's radius so both curves read as the same shape — see Airbnb Services page (which uses `clip-path: inset(0 round 20px)` on the image). Used by Certificates, Resources, Blog, Journey, Projects. Note: the `.card-grid-filtered` grid layout (used both for filtered hub results and for non-filter pages like Reviews/Travel/Mentorship) lives in `globals.css`, not here.
 │   ├── Modal.tsx + .css                ← Reusable Airbnb-style full-viewport modal: white surface, sticky 80px / 64px topbar (leading / centered title + counter / close), Esc-to-close, fade-in enter, instant close, body scroll-locked.

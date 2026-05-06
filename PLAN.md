@@ -177,12 +177,19 @@
 - [ ] CI hook deferred until deploy host is decided in Phase 14
 
 ## Phase 10: Tailwind migration (hybrid)
-- [ ] Inventory components into three buckets: **pure utilities** (HubCard, hobby pills, layout shells), **hybrid** (page layouts, simple sections), **CSS-stays** (bento system, MediaModal slider, expand animations, any keyframe-heavy block)
-- [ ] Migrate pure-utility components first; replace per-component `.css` imports with utility classes
-- [ ] Migrate hybrid components; thin their CSS files to only the parts utilities can't express
-- [ ] Realign retained CSS to design tokens via `var(--color-*)` so both worlds share the system
-- [ ] Add `clsx` + `tailwind-merge` once classnames go conditional
-- [ ] Visual regression check after each cluster (compare against Phase 9 snapshots)
+- [x] Inventory components into three buckets: **pure utilities** (Footer, HobbiesList, SocialTile, ExpandText, HubCard), **hybrid** (Hero, hub chrome, card grids, detail chrome, Navbar), **CSS-stays** (bento system, MediaModal slider, Modal, FilterCardRow)
+- [x] Migrate pure-utility components: 5 components, 1 commit each
+- [x] Migrate hybrid components: 5 surfaces via 7 new shared layout components (HubPage, HubHeader, TopicSection, CardGrid, DetailPage, DetailBack, DetailSection)
+- [x] Realign retained CSS to design tokens (audit confirmed `var(--color-*)` used everywhere chrome lives; hardcoded values are intentional brand/mockup colors). Bonus find: dropped dead certificates.css.
+- [x] Add `clsx` + `tailwind-merge` with `src/lib/cn.ts` helper; refactor Navbar + MediaGallery conditionals
+- [x] Visual regression check after each cluster — all 38 tests pass at every commit
+- [x] **Snap-to-defaults policy**: Tailwind default scale, accept 1-2px diffs, no leading-normal workarounds (saved as memory)
+- [x] **Marker class strategy → end-of-phase test refactor**: preserved class names as test hooks during migration, then refactored 7 e2e specs to data-testid + semantic locators (`getByRole`, `getByText`) and dropped marker classes. Zero class-based locators remain.
+- [x] **Dark mode infrastructure**: `@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *))` so Tailwind `dark:` maps to project's data-theme attribute
+- [x] **CRITICAL**: wrap base styles in `@layer base { ... }` so Tailwind utilities can override anchor `color: inherit` (caught when Resume button rendered as featureless rectangle in dark mode; fix also restored LinkedIn brand color silently broken since SocialTile migration)
+- [x] Bug fixes uncovered during migration: nested `<main>` (4 hub + 4 detail pages), broken `.btn-secondary` reference in error.tsx + not-found.tsx, broken `.hub-card-*` references in Reviews + Certificates after HubCard migration
+
+**Outcomes**: globals.css 962 → 99 lines (-90%), project-detail.css deleted (-400 lines), certificates.css deleted (-10 lines). 14 commits. All 38 Playwright tests pass throughout.
 
 ## Phase 11: next/image migration
 - [ ] Add custom Sanity image loader (`src/lib/sanity-image-loader.ts`) for the Sanity CDN
