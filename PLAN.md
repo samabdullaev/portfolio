@@ -1,23 +1,5 @@
 # Portfolio Migration — Task List
 
-> **🔖 Resume pointer (2026-05-06)** — mid-Phase-12. Sanity schema + seeder
-> refactor is done (commit `c33ff30` in `../portfolio-sanity`, **not yet
-> pushed**). Production was re-seeded; project & travel galleries showed
-> empty because `images.seeder.ts` had a long-standing bug AND the AI
-> mockups were never wired in. Both fixed locally. **Next action:**
->
-> 1. Re-run `pnpm seed up images gallery-images` from `../portfolio-sanity`
->    to upload AI gallery images to production
-> 2. Verify project + travel detail pages show galleries in the browser
-> 3. Commit the website changes (queries, page rendering, defensive gallery
->    filters, build)
-> 4. Commit the new `gallery-images.seeder.ts` + `seeders/assets/assets/{projects,travel}-gallery/*.jpg`
->    + the `images.seeder.ts` cleanup, in `../portfolio-sanity`
-> 5. Run full Playwright suite, regen the one detail-project snapshot baseline
->    that drifted, push everything
->
-> See **Phase 12** below for the detailed checklist.
-
 ## Phase 1: Foundation
 - [x] Replace existing `globals.css` with portfolio design system (CSS variables, Inter font, light/dark tokens)
 - [x] Create `ThemeProvider.tsx` — client component with `localStorage` + system preference detection
@@ -256,7 +238,7 @@
 - [x] 5 filter-card seeders point at AI-generated isometric `.jpg` icons
   downloaded from Sanity's CDN under `seeders/assets/assets/{section}/*.jpg`.
 
-### 12.4 Website coordination (⏳ NOT yet committed in `portfolio` repo)
+### 12.4 Website coordination (✅ committed in `portfolio` as `78379e9`)
 - [x] GROQ queries refactored: `projects.ts`, `blog.ts`, `certificates.ts`,
   `journey.ts`, `resources.ts`, `travel.ts` — sort by `orderRank`,
   dereference `projects[]` / `certificates[]` containment arrays, drop
@@ -269,11 +251,10 @@
   detail pages) — image-type slots missing `asset.url` / video items missing
   `videoUrl` are skipped instead of crashing the page (Sanity is a content
   boundary; this is the right place to validate).
-- [x] Type-check passes; `npm run build` passes (58 routes); 37/38 Playwright
-  tests pass; 1 visual snapshot drift on `detail-project` (60px height
-  diff because gallery contents shifted — regen baseline at end).
+- [x] Type-check passes; `npm run build` passes (58 routes); Playwright
+  suite green after baseline regen.
 
-### 12.5 AI gallery images (⏳ NOT yet committed in `portfolio-sanity`)
+### 12.5 AI gallery images (✅ committed in `portfolio-sanity` as `6dcb02d`)
 **Background:** When the user generated AI mockups via Sanity Studio's AI
 tool, asset uploads went to Sanity's content-addressed image library, then
 the docs got re-seeded with `createOrReplace` which wiped their `gallery[].asset`
@@ -300,40 +281,83 @@ they never got their reference. Fixed.
   items created in `projects.seeder` + `travel.seeder` exist before the
   patch runs).
 
-### 12.6 Resume actions
-1. **Run gallery-images seeder against production:**
-   ```
-   cd /Users/samabdullaev/Projects/portfolio-sanity
-   pnpm seed up images gallery-images
-   ```
-   `images` is re-run because its bug fix means thumbnails get written
-   correctly (no asset diff if thumbnails were already correct). Then
-   `gallery-images` patches the AI mockups onto every project + travel
-   gallery slot.
-2. **Verify in browser** at `localhost:3000/projects/codemaster`,
-   `localhost:3000/projects/locus`, `localhost:3000/travel/uzbekistan`,
-   etc. — each detail page should now show its AI gallery images.
-3. **Run full Playwright suite** + regen baselines:
-   ```
-   cd /Users/samabdullaev/Projects/portfolio
-   npm run test:e2e:update
-   ```
-4. **Commit + push** in this order:
-   - Portfolio repo: queries + pages + defensive gallery filters + new
-     snapshots
-   - Sanity repo: `gallery-images.seeder.ts` + 39 AI image files +
-     `images.seeder.ts` cleanup + `seed.ts` registration
+### 12.6 Date types + Studio UX (✅ committed in `portfolio-sanity` as `49ab128` + `b59e749`, `portfolio` as `f2ea106`)
+Migrated string date fields to Sanity's `date` type, plus a handful of
+Studio UX improvements requested during review.
 
-### 12.7 Deferred to a follow-up phase
-- Migrate string date fields to `date` type — `certificate.date`,
-  `blogArticle.date`, `mentorshipArticle.date`, `journeyUpdate` (currently
-  `month` + `year` numbers).
-- Switch date-sorted types to `defaultOrdering` and drop `order` field —
-  `journeyUpdate`, `blogArticle` ordering still uses the `order` integer.
-- Seeder split fixtures (gitignored real-data backup) vs example
-  (committed placeholder docs).
-- Update CLAUDE.md schema table to reflect Phase 12 changes (in progress
-  in this resume cycle).
+- [x] Schema migrations:
+  - `certificate.date`, `blogArticle.date`, `mentorshipArticle.date` —
+    `string` → `date` type with proper Studio date picker.
+  - `journeyUpdate` — dropped `month`, `year`, `order` fields; replaced
+    with a single `date` field storing the publish date (1st of the month
+    AFTER the recap month, since updates are published once each month
+    ends).
+  - `journeyYear` — dropped `orderRank` (year is the natural sort key).
+  - `mentorshipArticle` — dropped `order` (date desc replaces it).
+- [x] Studio `defaultOrdering` for "All-X" flat list views: certificates,
+  blog articles, mentorship, journey updates → date desc; yearly reviews,
+  journey years → year desc. Set via `S.documentTypeList(...).defaultOrdering(...)`
+  in `sanity.config.ts` so editors see newest-first by default.
+- [x] **Travel City dropdown** — new `components/CityInput.tsx` uses
+  Sanity's `useFormValue` to read sibling `overview.citiesVisited` and
+  render a `<Select>`. Disabled with hint text when the source array is
+  empty, nudging editors to fill citiesVisited first. Wired to
+  `travelDestination.placesToTravel[].city`.
+- [x] **resourceCategory simplification** — dropped the legacy
+  `sectionLabel + items[]` shape; everything now flows through
+  `sections[]` (single-section pages = one entry). Added `orderRank` +
+  drag-and-drop in Studio. Seeder migrates legacy data on first run.
+- [x] Seeder data:
+  - `certificates.seeder.ts`: 42 entries → `YYYY-MM-01` ISO dates.
+  - `blog.seeder.ts`: 23 entries → faithful `YYYY-MM-DD` ISO dates.
+  - `mentorship.seeder.ts`: ISO date; dropped `order` write.
+  - `journey.seeder.ts`: 31 entries with ISO publish dates; doc IDs
+    derived from recap month via `recapMonthFromPublish()` helper to
+    preserve stable `journey-YYYY-MM` IDs.
+- [x] Website coordination:
+  - `src/lib/dates.ts`: `formatMonthYear` (Aug 2022) and `formatLongDate`
+    (Aug 11, 2025) parse ISO strings without timezone surprises.
+  - `src/lib/constants.ts`: `monthNumber()` now takes ISO publish date,
+    derives recap month internally; new `recapYear()` helper for grouping
+    on the Journey hub.
+  - Queries (journey, mentorship, about) sort by `date desc`.
+  - Pages format dates via the new helpers; Journey groups by `recapYear()`.
+
+### 12.7 Closing refinements (✅ committed in `portfolio-sanity` as `100b2a3`, `portfolio` as `89d7b92`)
+Four review-driven tweaks after seeing the Phase 12 closing changes
+in the browser.
+
+- [x] **Blog series articles[] reversed to oldest-first** so Part 1 is the
+  foundational chronological start of each series (Part N = latest).
+  All 4 series flipped. Studio's "All Blog Articles" flat list keeps date
+  desc.
+- [x] **Travel placesToTravel city consistency**: every entry now matches
+  an entry in `overview.citiesVisited`.
+  - Uzbekistan: 5 cities had `(descriptor)` suffixes that didn't match
+    `citiesVisited` — renamed to bare names. The "Western & Southern
+    Regions" meta-grouping (which bundled places for 8 separate visited
+    cities) was split into 8 individual entries. The "Bukhara region —
+    Rabati Malik" item folded into Bukhara. Result: 15 entries matching
+    15 citiesVisited.
+  - Switzerland: "Interlaken & Surroundings" bundled places for 3 other
+    cities (Lauterbrunnen, Mürren, Grindelwald), and Interlaken itself
+    had no specific places. Split into 5 entries; added real Interlaken
+    places (Harder Kulm, Höhematte Park, Lake Thun & Brienz, Old Town).
+- [x] **Certificates show full date** — swapped `formatMonthYear` →
+  `formatLongDate` so "Aug 1, 2022" reads consistently with blog and
+  mentorship cards. Day=1 placeholder remains overrideable in Studio.
+- [x] **resource.orderRank dropped** — D&D never affected website
+  ordering (resources are surfaced through their parent topic's
+  `items[]` array). Schema field removed; sanity.config.ts swaps the
+  orderable plugin item for `S.documentTypeList(...)` with title-asc
+  default. Seeder unsets the field on migrated docs. resourceCategory
+  keeps orderRank — it's a small, intentional set where D&D matters.
+
+### 12.8 Deferred to Phase 14
+- Seeder split: real-data fixtures (gitignored) vs example placeholder
+  docs (committed). Currently the seeders inline real data — a stranger
+  forking the repo would seed Sam's actual content. This belongs with
+  the broader public-release prep (env audit, READMEs, LICENSE).
 
 ## Phase 13: Performance + a11y polish
 - [ ] Run `next build` + bundle analyzer; record baseline numbers
@@ -350,6 +374,7 @@ they never got their reference. Fixed.
 - [ ] Create `.env.example` in both repos (var names only, no values)
 - [ ] `.gitignore` audit — build outputs, OS junk (`.DS_Store`), IDE configs, `seed/fixtures/`
 - [ ] Move Sanity project ID + dataset name to env vars (currently `p43tljnq` / `production` — public-readable but env-driven for hygiene)
+- [ ] **Seeder split** (deferred from Phase 12.8): move the inline real-data arrays in each `seeders/*.seeder.ts` to `seeders/fixtures/*.json` (gitignored) and add committed `seeders/example/*.json` placeholder docs (1–2 per type) so a stranger forking the repo can run `pnpm seed up` and see Studio populated end-to-end. Seeder runner gains `--from fixtures` (default) / `--from example` flag.
 - [ ] Write README for portfolio repo (tech stack, local setup, env vars, screenshots, deploy)
 - [ ] Write README for portfolio-sanity repo (Studio setup, seeding via `seed/example/`, schema groups)
 - [ ] Add `LICENSE` (MIT) to both repos
