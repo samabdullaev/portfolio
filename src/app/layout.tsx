@@ -50,8 +50,16 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          {/* Skip-to-content link — hidden until keyboard-focused, lets
+              screen-reader and keyboard users jump past the navbar. */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[1001] focus:px-4 focus:py-2 focus:bg-card focus:text-text focus:border-2 focus:border-text focus:rounded-lg focus:shadow-lg focus:outline-hidden focus:font-semibold"
+          >
+            Skip to content
+          </a>
           <Navbar />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
