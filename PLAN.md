@@ -366,6 +366,7 @@ in the browser.
 - [ ] Skip-to-content link in root layout
 - [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
 - [ ] Contrast audit on `--color-text-secondary` against `--color-bg` (both modes); adjust tokens if needed
+- [ ] Light/dark mode icon swap (replace current Sun/Moon glyphs with picks Sam likes more)
 - [ ] Lazy-load offscreen card grids and images
 - [ ] Re-run bundle analyzer + Lighthouse; compare to baseline; document deltas
 

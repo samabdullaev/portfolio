@@ -41,18 +41,6 @@ you like — no rush.
 
 ## Frontend polish
 
-### Loading / not-found / error animations
-**What**: The current `loading.tsx`, `not-found.tsx`, `error.tsx` are
-plain text. Find better animations or designs.
-
-**How**: Look at libraries like Framer Motion, Lottie, or hand-rolled CSS.
-Skeleton loaders for `loading.tsx`. Friendly illustration for `not-found.tsx`.
-Subtle shake / fade for `error.tsx`.
-
-**Effort**: ~2-4 hours depending on how custom you go.
-
----
-
 ### About: Kamran-style inner openers
 **What**: Personal Story Openers on `/about` currently sit at the END of
 each paragraph (the "show more" toggle is in trailing position). Kamran
