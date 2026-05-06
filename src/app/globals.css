@@ -43,42 +43,44 @@
 }
 
 /* ===== Base ===== */
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-}
+/* Wrapped in @layer base so Tailwind utilities (in @layer utilities) can
+   override these. Without this, an unlayered `a { color: inherit }` defeats
+   utility classes like `text-white` and `dark:text-[#171717]` regardless of
+   specificity — unlayered styles beat any @layer in the CSS cascade. */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: var(--font-sans);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  line-height: 1.5;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 
-/* ===== Layout ===== */
-body {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* ===== Navbar tokens ===== */
@@ -394,131 +396,6 @@ main {
   padding: 4px 8px 2px;
 }
 
-/* ===== Hero ===== */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex: 1;
-  padding: 24px;
-  gap: 36px;
-}
-
-.hero-photo img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  border: 3px solid var(--color-border);
-  background: var(--color-card);
-  object-fit: cover;
-}
-
-.hero-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.hero-name {
-  font-size: 48px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-}
-
-.hero-title {
-  font-size: 22px;
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.hero-location {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 16px;
-  color: var(--color-text-secondary);
-  margin-top: 2px;
-}
-
-/* ===== Social Tiles ===== */
-.hero-socials {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 4px;
-}
-
-/* ===== Action Buttons ===== */
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.btn-resume {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  background: #222;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-}
-
-.btn-resume:hover {
-  background: #444;
-  transform: translateY(-1px);
-}
-
-[data-theme="dark"] .btn-resume {
-  background: #f0f0f0;
-  color: #171717;
-}
-
-[data-theme="dark"] .btn-resume:hover {
-  background: #ddd;
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text);
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  padding: 14px 32px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background: var(--color-hover);
-  transform: translateY(-1px);
-}
-
-.btn-secondary svg {
-  transition: transform 0.2s ease;
-}
-
-.btn-secondary:hover svg {
-  transform: translateX(3px);
-}
-
 /* ===== Hub Page Layout ===== */
 .hub-page {
   max-width: var(--max-width);
@@ -639,34 +516,6 @@ main {
 }
 
 @media (max-width: 600px) {
-  .hero {
-    padding: 20px;
-    gap: 24px;
-  }
-
-  .hero-photo img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .hero-name {
-    font-size: 36px;
-  }
-
-  .hero-title {
-    font-size: 18px;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .btn-resume, .btn-secondary {
-    width: 100%;
-    justify-content: center;
-  }
-
   .navbar-inner {
     padding: 0 16px;
   }

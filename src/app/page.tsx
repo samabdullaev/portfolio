@@ -10,7 +10,7 @@ export default async function Home() {
   if (!home) return null;
 
   return (
-    <section className="hero">
+    <section className="flex flex-col items-center justify-center text-center flex-1 p-6 gap-9 max-sm:p-5 max-sm:gap-6">
       {home.profileImage?.asset?.url && (
         <div className="hero-photo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -19,15 +19,20 @@ export default async function Home() {
             alt={home.name}
             width={180}
             height={180}
+            className="size-45 rounded-full border-2 border-border bg-card object-cover max-sm:size-35"
           />
         </div>
       )}
 
-      <div className="hero-text">
-        <h1 className="hero-name">{home.name}</h1>
-        <p className="hero-title">{home.title}</p>
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-5xl font-extrabold tracking-tight leading-tight max-sm:text-4xl">
+          {home.name}
+        </h1>
+        <p className="text-2xl text-text-secondary font-medium max-sm:text-lg">
+          {home.title}
+        </p>
         {home.location && (
-          <span className="hero-location">
+          <span className="inline-flex items-center gap-1 text-base text-text-secondary mt-0.5">
             <svg
               width="14"
               height="14"
@@ -48,7 +53,7 @@ export default async function Home() {
       </div>
 
       {home.socials?.length > 0 && (
-        <div className="hero-socials">
+        <div className="hero-socials flex items-center gap-3 mt-1">
           {home.socials.map((s) => {
             const platform = s.platform.toLowerCase();
             return (
@@ -65,12 +70,12 @@ export default async function Home() {
         </div>
       )}
 
-      <div className="hero-actions">
+      <div className="hero-actions flex items-center gap-3 mt-2 max-sm:flex-col max-sm:w-full">
         {home.resumeFile?.asset?.url && (
           <a
             href={home.resumeFile.asset.url}
             download
-            className="btn-resume"
+            className="inline-flex items-center justify-center gap-2 text-base font-semibold text-white bg-[#222] hover:bg-[#444] py-3.5 px-8 rounded-xl transition-all duration-200 hover:-translate-y-px dark:bg-[#f0f0f0] dark:text-[#171717] dark:hover:bg-[#ddd] max-sm:w-full"
           >
             <svg
               width="16"
@@ -92,7 +97,10 @@ export default async function Home() {
         )}
 
         {home.ctaLabel && home.ctaUrl && (
-          <Link href={home.ctaUrl} className="btn-secondary">
+          <Link
+            href={home.ctaUrl}
+            className="inline-flex items-center justify-center gap-2 text-base font-semibold text-text bg-card border border-border hover:bg-hover py-3.5 px-8 rounded-xl transition-all duration-200 hover:-translate-y-px [&_svg]:transition-transform [&_svg]:duration-200 hover:[&_svg]:translate-x-1 max-sm:w-full"
+          >
             {home.ctaLabel}
             <svg
               width="16"
