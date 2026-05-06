@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
 import {
   yearlyReviewDetailQuery,
@@ -8,7 +7,9 @@ import {
   type YearlyReviewDetail,
 } from "@/lib/sanity/queries/reviews";
 import MediaGallery from "@/components/ui/MediaGallery";
-import "@/app/project-detail.css";
+import DetailPage from "@/components/layout/DetailPage";
+import DetailBack from "@/components/layout/DetailBack";
+import DetailSection from "@/components/layout/DetailSection";
 
 export async function generateStaticParams() {
   const all = await sanityFetch<{ slug: { current: string } }[]>(yearlyReviewSlugsQuery);
@@ -60,40 +61,26 @@ export default async function ReviewDetailPage({
   ];
 
   return (
-    <main>
-      <article className="project-detail">
-        <Link href="/reviews" className="project-back">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Reviews
-        </Link>
+    <DetailPage>
+      <DetailBack href="/reviews" label="Back to Reviews" />
 
-        <h1 className="project-title">{review.year} Yearly Review</h1>
+      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+        {review.year} Yearly Review
+      </h1>
 
-        <MediaGallery items={galleryImages} title={`${review.year} Yearly Review`} />
+      <MediaGallery items={galleryImages} title={`${review.year} Yearly Review`} />
 
-        {review.sections.map((section) => (
-          <div className="project-section" key={section.title}>
-            <h2 className="project-section-title">{section.title}</h2>
-            <ul className="project-features">
-              {section.items.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </article>
-    </main>
+      {review.sections.map((section) => (
+        <DetailSection key={section.title} title={section.title}>
+          <ul className="list-disc pl-5 flex flex-col gap-1.5">
+            {section.items.map((item, i) => (
+              <li key={i} className="text-base leading-normal text-text">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </DetailSection>
+      ))}
+    </DetailPage>
   );
 }

@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
 import {
   travelDestinationDetailQuery,
@@ -8,7 +7,9 @@ import {
   type TravelDestinationDetail,
 } from "@/lib/sanity/queries/travel";
 import MediaGallery from "@/components/ui/MediaGallery";
-import "@/app/project-detail.css";
+import DetailPage from "@/components/layout/DetailPage";
+import DetailBack from "@/components/layout/DetailBack";
+import DetailSection from "@/components/layout/DetailSection";
 
 export async function generateStaticParams() {
   const all = await sanityFetch<{ slug: { current: string } }[]>(travelDestinationSlugsQuery);
@@ -30,6 +31,9 @@ export async function generateMetadata({
     title: `${dest.title} — Travel — Sam Abdullaev`,
   };
 }
+
+const FEATURES_LIST_CLASSES = "list-disc pl-5 flex flex-col gap-1.5";
+const FEATURES_ITEM_CLASSES = "text-base leading-normal text-text";
 
 export default async function TravelDetailPage({
   params,
@@ -58,100 +62,77 @@ export default async function TravelDetailPage({
   ];
 
   return (
-    <main>
-      <article className="project-detail">
-        <Link href="/travel" className="project-back">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Travel
-        </Link>
+    <DetailPage>
+      <DetailBack href="/travel" label="Back to Travel" />
 
-        <h1 className="project-title">
-          {dest.title} {dest.flag}
-        </h1>
+      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+        {dest.title} {dest.flag}
+      </h1>
 
-        <MediaGallery items={galleryImages} title={dest.title} />
+      <MediaGallery items={galleryImages} title={dest.title} />
 
-        {/* travel-tips: has sections array instead of structured overview */}
-        {dest.sections ? (
-          dest.sections.map((section) => (
-            <div className="project-section" key={section.title}>
-              <h2 className="project-section-title">{section.title}</h2>
-              <ul className="project-features">
-                {section.items.map((item, i) => (
-                  <li key={i}>{item}</li>
+      {/* travel-tips: has sections array instead of structured overview */}
+      {dest.sections ? (
+        dest.sections.map((section) => (
+          <DetailSection key={section.title} title={section.title}>
+            <ul className={FEATURES_LIST_CLASSES}>
+              {section.items.map((item, i) => (
+                <li key={i} className={FEATURES_ITEM_CLASSES}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </DetailSection>
+        ))
+      ) : (
+        <>
+          {dest.overview && (
+            <DetailSection title="overview">
+              <ul className={FEATURES_LIST_CLASSES}>
+                <li className={FEATURES_ITEM_CLASSES}>
+                  Cities visited: {dest.overview.citiesVisited.join(", ")}
+                </li>
+                <li className={FEATURES_ITEM_CLASSES}>
+                  Accommodation references: {dest.overview.accommodation.join(", ")}
+                </li>
+              </ul>
+            </DetailSection>
+          )}
+
+          {dest.placesToTravel && dest.placesToTravel.length > 0 && (
+            <DetailSection title="places to travel">
+              <div className="text-base leading-relaxed">
+                {dest.placesToTravel.map((entry, i) => (
+                  <div key={i}>
+                    <h3 className="text-base font-semibold mt-6 mb-2 first:mt-0">
+                      {entry.city}
+                    </h3>
+                    <ul className={FEATURES_LIST_CLASSES}>
+                      {entry.places.map((place, j) => (
+                        <li key={j} className={FEATURES_ITEM_CLASSES}>
+                          {place}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </DetailSection>
+          )}
+
+          {dest.personalTips && dest.personalTips.length > 0 && (
+            <DetailSection title="personal tips">
+              <ul className={FEATURES_LIST_CLASSES}>
+                {dest.personalTips.map((tip, i) => (
+                  <li key={i} className={FEATURES_ITEM_CLASSES}>
+                    {tip}
+                  </li>
                 ))}
               </ul>
-            </div>
-          ))
-        ) : (
-          <>
-            {/* Overview: cities visited + accommodation */}
-            {dest.overview && (
-              <div className="project-section">
-                <h2 className="project-section-title">overview</h2>
-                <ul className="project-features">
-                  <li>
-                    Cities visited:{" "}
-                    {dest.overview.citiesVisited.join(", ")}
-                  </li>
-                  <li>
-                    Accommodation references:{" "}
-                    {dest.overview.accommodation.join(", ")}
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            {/* Places to travel: city headings + place bullets */}
-            {dest.placesToTravel && dest.placesToTravel.length > 0 && (
-              <div className="project-section">
-                <h2 className="project-section-title">places to travel</h2>
-                <div className="travel-notes">
-                  {dest.placesToTravel.map((entry, i) => (
-                    <div key={i}>
-                      <h3
-                        className="travel-city"
-                        style={i === 0 ? { marginTop: 0 } : undefined}
-                      >
-                        {entry.city}
-                      </h3>
-                      <ul className="project-features">
-                        {entry.places.map((place, j) => (
-                          <li key={j}>{place}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Personal tips */}
-            {dest.personalTips && dest.personalTips.length > 0 && (
-              <div className="project-section">
-                <h2 className="project-section-title">personal tips</h2>
-                <ul className="project-features">
-                  {dest.personalTips.map((tip, i) => (
-                    <li key={i}>{tip}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </>
-        )}
-      </article>
-    </main>
+            </DetailSection>
+          )}
+        </>
+      )}
+    </DetailPage>
   );
 }

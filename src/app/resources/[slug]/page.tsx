@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { sanityFetch } from "@/lib/sanity";
 import {
   resourceCategoryDetailQuery,
@@ -8,7 +7,9 @@ import {
   type ResourceCategoryDetail,
   type ResourceItem,
 } from "@/lib/sanity/queries/resources";
-import "@/app/project-detail.css";
+import DetailPage from "@/components/layout/DetailPage";
+import DetailBack from "@/components/layout/DetailBack";
+import DetailSection from "@/components/layout/DetailSection";
 
 export const dynamicParams = false;
 
@@ -54,13 +55,23 @@ function ExternalLinkIcon() {
 
 function ResourceItemList({ items }: { items: ResourceItem[] }) {
   return (
-    <ul className="resource-list">
+    <ul className="resource-list list-none p-0 flex flex-col">
       {items.map((item) => (
-        <li key={item.url}>
-          <a href={item.url} target="_blank" rel="noopener noreferrer">
-            <span className="resource-name">{item.name}</span>
+        <li
+          key={item.url}
+          className="border-b border-border first:border-t"
+        >
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 py-3.5 px-1 text-base text-text rounded-sm transition-[background-color,padding] duration-150 hover:bg-hover hover:px-2.5 hover:-mx-1.5 hover:rounded-lg max-sm:py-3 max-sm:text-sm [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:text-text-secondary [&_svg]:ml-auto"
+          >
+            <span className="font-medium">{item.name}</span>
             {item.desc && (
-              <span className="resource-desc">{item.desc}</span>
+              <span className="text-xs text-text-secondary shrink-0 max-sm:hidden before:content-['—'] before:mr-1.5">
+                {item.desc}
+              </span>
             )}
             <ExternalLinkIcon />
           </a>
@@ -84,48 +95,31 @@ export default async function ResourceDetailPage({
   if (!resource) notFound();
 
   return (
-    <main>
-      <article className="project-detail">
-        <Link href="/resources" className="project-back">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Resources
-        </Link>
+    <DetailPage>
+      <DetailBack href="/resources" label="Back to Resources" />
 
-        <h1 className="project-title">{resource.title}</h1>
+      <h1 className="project-title text-3xl font-extrabold tracking-tight leading-tight mb-2 max-sm:text-2xl">
+        {resource.title}
+      </h1>
 
-        <div className="project-gallery">
-          <div className="project-gallery-main">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={resource.thumbnail.asset.url} alt={resource.title} />
-          </div>
+      <div className="project-gallery mb-3">
+        <div className="w-full rounded-2xl overflow-hidden border border-border relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={resource.thumbnail.asset.url} alt={resource.title} className="w-full block" />
         </div>
+      </div>
 
-        {resource.sections ? (
-          resource.sections.map((section) => (
-            <div className="project-section" key={section.label}>
-              <h2 className="project-section-title">{section.label}</h2>
-              <ResourceItemList items={section.items} />
-            </div>
-          ))
-        ) : (
-          <div className="project-section">
-            <h2 className="project-section-title">{resource.sectionLabel}</h2>
-            <ResourceItemList items={resource.items} />
-          </div>
-        )}
-      </article>
-    </main>
+      {resource.sections ? (
+        resource.sections.map((section) => (
+          <DetailSection key={section.label} title={section.label}>
+            <ResourceItemList items={section.items} />
+          </DetailSection>
+        ))
+      ) : (
+        <DetailSection title={resource.sectionLabel ?? undefined}>
+          <ResourceItemList items={resource.items} />
+        </DetailSection>
+      )}
+    </DetailPage>
   );
 }
