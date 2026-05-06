@@ -86,6 +86,27 @@ background instead of just icon hover.
 
 ---
 
+### Lazy-load offscreen content
+**What**: Below-the-fold `<TopicSection>` blocks on hub pages currently
+render eagerly. Could defer their JSX trees + image children behind an
+Intersection Observer so they only mount when scrolled near.
+
+**Why deferred**: Lighthouse already 100/100/100/100, total static
+payload is 1.1MB, largest JS chunk 219KB. There's no measurable
+problem to fix today. Complexity (IO timing, hydration boundaries,
+Playwright snapshot stability under async mounting) is real cost
+against marginal gain.
+
+**Revisit when**: substantially more content or a heavy interactive
+component is added — at that point re-measure first to confirm the
+gain is worth the complexity.
+
+**How (sketch)**: a `<LazySection>` wrapper that uses
+`useIntersectionObserver` (or the new `view-transition` API) to defer
+children until visible. ~30 lines + tests.
+
+---
+
 ### Modal focus trap + restoration
 **What**: `<Modal>` (and `<MediaModal>` which extends it) opens without
 trapping focus. Tab can move focus to elements behind the modal,

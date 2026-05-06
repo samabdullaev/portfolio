@@ -370,10 +370,16 @@ in the browser.
 Items:
 - [x] Run `next build` + record baseline numbers (above)
 - [x] Lighthouse baseline (per-user report, recorded above)
+- [ ] Modal focus trap → moved to BACKLOG (deferred a11y polish)
+- [x] Skip-to-content link in root layout
+- [x] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles, dropdown toggles, ExpandText button)
 - [ ] Modal focus trap + focus restoration on close
 - [ ] Skip-to-content link in root layout
 - [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
 - [x] Contrast audit on `--color-text-secondary` against `--color-bg`: light mode 5.10:1, dark mode 6.86:1 — both pass WCAG AA. Sam opted to keep current values (AA-passing) for design reasons rather than bump to AAA.
+- [x] Light/dark mode icon swap — Radix UI Sun/Moon SVG paths inlined (no dep added)
+- [ ] Lazy-load offscreen card grids and images → moved to BACKLOG (Lighthouse already 100/100/100/100; complexity-vs-gain ratio not worth it today)
+- [x] Re-run `next build`: artifact sizes unchanged from baseline (1.1 MB static, 219 KB largest JS chunk). Lighthouse re-check: Sam to confirm scores still 100 across the board (no perf-affecting changes were made — only a11y additions).
 - [ ] Light/dark mode icon swap (replace current Sun/Moon glyphs with picks Sam likes more)
 - [ ] Lazy-load offscreen card grids and images
 - [ ] Re-run bundle analyzer + Lighthouse; compare to baseline; document deltas
