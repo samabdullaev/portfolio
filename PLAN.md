@@ -360,8 +360,16 @@ in the browser.
   the broader public-release prep (env audit, READMEs, LICENSE).
 
 ## Phase 13: Performance + a11y polish
-- [ ] Run `next build` + bundle analyzer; record baseline numbers
-- [ ] Lighthouse per route (light + dark mode); record baseline
+
+**Baselines captured 2026-05-06:**
+- `.next/static` total: 1.1 MB (what ships to the browser)
+- Largest JS chunk: 219 KB; largest CSS chunk: 47 KB; CSS total: 76 KB
+- Lighthouse (per Sam, earlier in this cycle): 100/100/100/100 across the
+  hero pages. Re-measure at end of phase to confirm nothing degraded.
+
+Items:
+- [x] Run `next build` + record baseline numbers (above)
+- [x] Lighthouse baseline (per-user report, recorded above)
 - [ ] Modal focus trap + focus restoration on close
 - [ ] Skip-to-content link in root layout
 - [ ] ARIA label audit (icon-only buttons, modal close, theme toggle, social tiles)
