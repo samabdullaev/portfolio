@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 // Default OG image generated programmatically — appears on every route
 // that doesn't override with its own opengraph-image. Mirrors the SA
 // monogram + name + tagline on a brand-dark background.
-export const alt = "Sam Abdullaev — Frontend Software Engineer";
+export const alt = "Sam Abdullaev | Frontend Software Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

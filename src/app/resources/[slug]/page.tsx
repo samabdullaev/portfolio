@@ -32,7 +32,8 @@ export async function generateMetadata({
   );
   if (!resource) return {};
   return {
-    title: `${resource.title} — Resources — Sam Abdullaev`,
+    // Root layout's title template appends "| Sam Abdullaev".
+    title: `${resource.title} | Resources`,
   };
 }
 

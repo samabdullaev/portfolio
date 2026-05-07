@@ -17,8 +17,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://samabdullaev.com"),
   title: {
-    default: "Sam Abdullaev — Frontend Software Engineer",
-    template: "%s — Sam Abdullaev",
+    default: "Sam Abdullaev | Frontend Software Engineer",
+    template: "%s | Sam Abdullaev",
   },
   description:
     "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK. Projects, blog, travel, certificates, and more.",
@@ -29,13 +29,13 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: "https://samabdullaev.com",
     siteName: "Sam Abdullaev",
-    title: "Sam Abdullaev — Frontend Software Engineer",
+    title: "Sam Abdullaev | Frontend Software Engineer",
     description:
       "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sam Abdullaev — Frontend Software Engineer",
+    title: "Sam Abdullaev | Frontend Software Engineer",
     description:
       "Personal portfolio of Sam Abdullaev — Frontend Software Engineer based in the UK.",
   },

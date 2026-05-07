@@ -26,7 +26,8 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await sanityFetch<{ title: string } | null>(projectTitleBySlugQuery, { slug });
   if (!project) return { title: "Project Not Found" };
-  return { title: `${project.title} — Sam Abdullaev` };
+  // Title template in root layout (`%s | Sam Abdullaev`) appends the suffix.
+  return { title: project.title };
 }
 
 const PROJECT_LINK_CLASSES =

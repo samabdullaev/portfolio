@@ -28,7 +28,8 @@ export async function generateMetadata({
   );
   if (!review) return {};
   return {
-    title: `${review.year} Yearly Review — Sam Abdullaev`,
+    // Root layout's title template appends "| Sam Abdullaev".
+    title: `${review.year} Yearly Review`,
   };
 }
 
