@@ -62,3 +62,9 @@ pnpm-lock.yaml
 
 # claude code local state
 /.claude/
+
+# personal working docs — not for the public repo
+/BACKLOG.md
+/CLAUDE.md
+/PLAN.md
+/SANITY_STRUCTURE.md
