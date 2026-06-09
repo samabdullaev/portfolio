@@ -68,6 +68,7 @@ export default async function ProjectsPage({
                   title={project.title}
                   subtitle={project.description}
                   thumbnail={project.thumbnail?.asset?.url}
+                  cta="View project"
                 />
               ))}
             </CardGrid>

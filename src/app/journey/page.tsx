@@ -82,6 +82,7 @@ export default async function JourneyPage({
                 title={entry.title}
                 thumbnail={entry.thumbnail?.asset?.url}
                 external
+                cta="View on LinkedIn"
               />
             ))}
           </CardGrid>

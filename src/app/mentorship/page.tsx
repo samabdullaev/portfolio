@@ -36,6 +36,7 @@ export default async function MentorshipPage() {
             meta={formatLongDate(a.date)}
             thumbnail={a.thumbnail?.asset?.url}
             external
+            cta="Read on Publink"
           />
         ))}
       </CardGrid>

@@ -28,6 +28,7 @@ export default async function TravelPage() {
             href={`/travel/${d.slug.current}`}
             title={`${d.title}${d.flag ? ` ${d.flag}` : ""}`}
             thumbnail={d.thumbnail?.asset?.url}
+            cta="View destination"
           />
         ))}
       </CardGrid>

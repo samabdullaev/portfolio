@@ -62,6 +62,7 @@ export default async function BlogPage({
                 meta={formatLongDate(article.date)}
                 thumbnail={article.thumbnail?.asset?.url}
                 external
+                cta="Read on Medium"
               />
             ))}
           </CardGrid>

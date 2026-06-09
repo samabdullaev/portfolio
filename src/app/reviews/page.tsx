@@ -25,6 +25,7 @@ export default async function ReviewsPage() {
             href={`/reviews/${r.slug.current}`}
             title={String(r.year)}
             thumbnail={r.thumbnail.asset.url}
+            cta="View review"
           />
         ))}
       </CardGrid>
