@@ -27,7 +27,7 @@ export function formatMonthYear(iso: string): string {
   return `${MONTHS[m - 1]} ${y}`;
 }
 
-/** "2025-08-11" → "Aug 11, 2025" — for day-precision sources (blog, mentorship). */
+/** "2025-08-11" → "Aug 11, 2025" — for day-precision sources (blog, mentorship, applications). */
 export function formatLongDate(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number);
   return `${MONTHS[m - 1]} ${d}, ${y}`;

@@ -39,6 +39,7 @@ export const dropdowns: NavDropdown[] = [
       { label: "Resources", href: "/resources" },
       { label: "Courses", href: "/courses" },
       { label: "Certificates", href: "/certificates" },
+      { label: "Applications", href: "/applications" },
     ],
   },
 ];
