@@ -50,7 +50,7 @@ export default async function CoursesPage({
         paramName="topic"
       />
 
-      <CoursesContent topics={displayedTopics} />
+      <CoursesContent topics={displayedTopics} filtered={!!activeSlug} />
     </HubPage>
   );
 }
