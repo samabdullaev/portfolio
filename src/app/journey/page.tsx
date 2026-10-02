@@ -61,7 +61,7 @@ export default async function JourneyPage({
   return (
     <HubPage>
       <HubHeader
-        title="My Journey"
+        title="My Journey to Google"
         subtitle="Monthly updates on my professional growth — published on LinkedIn"
       />
 
