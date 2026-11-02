@@ -15,8 +15,6 @@ export const metadata: Metadata = {
     "More about Sam Abdullaev — bio, contributions across the developer community, and personal interests.",
 };
 
-export const revalidate = 3600;
-
 export default async function AboutPage() {
   const data = await sanityFetch<AboutPageData>(aboutPageQuery);
 

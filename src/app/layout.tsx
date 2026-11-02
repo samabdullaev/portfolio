@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 // ISR — every static / SSG page revalidates at most every 60 seconds
 // against Sanity. Edits in Studio surface on the live site within ~60s
 // of the next visit without needing a webhook or a redeploy. Pages can
-// override per-segment (e.g. /about uses 3600 for the bento previews).
+// override per-segment if they need a different window.
 // Fully dynamic pages (/blog, /certificates, /journey, /projects,
 // /resources) ignore this — they always fetch fresh.
 export const revalidate = 60;
